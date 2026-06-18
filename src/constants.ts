@@ -1,0 +1,11 @@
+export const BOOKING_URL = 'https://app.urable.com/form/de36wHWdi8PvYueHdIv5/NpEaEWdx5tDbvPD5GDw8';
+export const URABLE_FORM_URL = 'https://app.urable.com/form/de36wHWdi8PvYueHdIv5/NpEaEWdx5tDbvPD5GDw8';
+export const BUSINESS_NAME = "William's Auto Detailing";
+export const PHONE = '(808) 772-0952';
+export const EMAIL = 'williamautodetailing@gmail.com';
+export const INSTAGRAM_URL = 'https://www.instagram.com/william.autodetailing/';
+export const GOOGLE_REVIEWS_URL = 'https://g.page/r/';
+export const GOOGLE_REVIEW_COUNT = 137;
+export const GOOGLE_RATING = '5.0';
+export const BASE_CITY = 'Doral';
+export const TRAVEL_FEE_MILES = 15;
