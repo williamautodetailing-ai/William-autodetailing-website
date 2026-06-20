@@ -4,6 +4,7 @@ import type { CityData } from '../data/cities';
 import { packages } from '../data/packages';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, TRAVEL_FEE_MILES, BASE_CITY } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
+import useDocumentMeta from '../hooks/useDocumentMeta';
 
 interface CityPageProps {
   city: CityData;
@@ -19,6 +20,12 @@ export default function CityPage({ city }: CityPageProps) {
   const { openModal } = useLeadModal();
   const mainPackages = packages.filter(p => p.id !== 'windshield');
 
+  useDocumentMeta({
+    title: `Mobile Car Detailing in ${city.name}, FL | ${BUSINESS_NAME}`,
+    description: `${city.name} mobile car detailing by ${BUSINESS_NAME}. We come to your home or office. Ceramic coatings, full details, add-ons. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. Serving ${city.name} & surrounding areas.`,
+    canonical: `/areas/${city.slug}`,
+  });
+
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
       {/* Hero */}
@@ -26,9 +33,15 @@ export default function CityPage({ city }: CityPageProps) {
         <div className="absolute inset-0">
           <div className="absolute inset-0 opacity-20">
             <img
-              src="https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=1920"
+              src="/images/optimized/city-hero.webp"
+              srcSet="/images/optimized/city-hero-480.webp 480w, /images/optimized/city-hero-768.webp 768w, /images/optimized/city-hero.webp 1200w"
+              sizes="100vw"
               alt={`Mobile detailing in ${city.name}, FL`}
               className="w-full h-full object-cover"
+              width={1200}
+              height={800}
+              loading="eager"
+              decoding="async"
             />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/80 to-charcoal-950/60" />
