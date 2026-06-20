@@ -637,9 +637,12 @@ function Header() {
             /* @__PURE__ */ jsx(Link, { to: "/", className: "flex items-center", children: /* @__PURE__ */ jsx(
               "img",
               {
-                src: "/images/williams_auto_detailing_logo.png",
+                src: "/images/optimized/williams-logo.webp",
                 alt: "William's Auto Detailing",
-                className: "h-20 md:h-28 w-auto object-contain"
+                className: "h-20 md:h-28 w-auto object-contain",
+                width: 256,
+                height: 256,
+                fetchPriority: "high"
               }
             ) }),
             /* @__PURE__ */ jsxs("nav", { className: "hidden md:flex items-center gap-6", children: [
@@ -770,9 +773,13 @@ function Hero() {
       /* @__PURE__ */ jsx(
         "img",
         {
-          src: "/images/image.png",
+          src: "/images/optimized/hero-porsche.webp",
           alt: "William detailing a Porsche 911 in Miami — William's Auto Detailing",
-          className: "w-full h-full object-cover object-top opacity-55"
+          className: "w-full h-full object-cover object-top opacity-55",
+          width: 1200,
+          height: 1053,
+          fetchPriority: "high",
+          decoding: "async"
         }
       ),
       /* @__PURE__ */ jsx(
@@ -1516,9 +1523,13 @@ function About() {
         /* @__PURE__ */ jsx("div", { className: "aspect-[4/5] rounded-3xl overflow-hidden bg-charcoal-800 border border-charcoal-700 max-w-md mx-auto lg:mx-0", children: /* @__PURE__ */ jsx(
           "img",
           {
-            src: "/images/about-us/audi_r8.png",
+            src: "/images/optimized/about-us/audi-r8.webp",
             alt: "William detailing an Audi R8 in Miami",
-            className: "w-full h-full object-cover object-center"
+            className: "w-full h-full object-cover object-center",
+            width: 900,
+            height: 941,
+            loading: "lazy",
+            decoding: "async"
           }
         ) }),
         /* @__PURE__ */ jsxs("div", { className: "absolute -bottom-6 -right-6 bg-charcoal-800 rounded-2xl p-6 border border-charcoal-700 shadow-xl max-w-xs hidden lg:block", children: [
@@ -1575,9 +1586,13 @@ function Footer() {
         /* @__PURE__ */ jsx(Link, { to: "/", className: "flex items-center mb-4", children: /* @__PURE__ */ jsx(
           "img",
           {
-            src: "/images/williams_auto_detailing_logo.png",
+            src: "/images/optimized/williams-logo.webp",
             alt: "William's Auto Detailing",
-            className: "h-14 w-auto object-contain"
+            className: "h-14 w-auto object-contain",
+            width: 256,
+            height: 256,
+            loading: "lazy",
+            decoding: "async"
           }
         ) }),
         /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm leading-relaxed mb-4", children: "Miami's top-rated mobile auto detailing. We come to you — home, office, or apartment — anywhere in Miami-Dade County." }),
