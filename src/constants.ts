@@ -4,7 +4,8 @@ export const BUSINESS_NAME = "William's Auto Detailing";
 export const PHONE = '(808) 772-0952';
 export const EMAIL = 'williamautodetailing@gmail.com';
 export const INSTAGRAM_URL = 'https://www.instagram.com/william.autodetailing/';
-export const GOOGLE_REVIEWS_URL = 'https://g.page/r/';
+// TODO: Replace with your actual Google Business review link
+export const GOOGLE_REVIEWS_URL = 'https://share.google/fRShWxiSO9ip2K6gK';
 export const GOOGLE_REVIEW_COUNT = 137;
 export const GOOGLE_RATING = '5.0';
 export const BASE_CITY = 'Doral';
