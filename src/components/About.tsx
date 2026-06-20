@@ -23,6 +23,8 @@ export default function About() {
               <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-charcoal-800 border border-charcoal-700 max-w-md mx-auto lg:mx-0">
                 <img
                   src="/images/optimized/about-us/audi-r8.webp"
+                  srcSet="/images/optimized/about-us/audi-r8-480.webp 480w, /images/optimized/about-us/audi-r8-768.webp 768w, /images/optimized/about-us/audi-r8.webp 900w"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   alt="William detailing an Audi R8 in Miami"
                   className="w-full h-full object-cover object-center"
                   width={900}
