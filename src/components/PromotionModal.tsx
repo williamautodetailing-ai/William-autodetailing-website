@@ -12,9 +12,10 @@ export default function PromotionModal() {
   const { openModal } = useLeadModal();
   const location = useLocation();
 
-  // Show popup every time the user lands on the home page
   useEffect(() => {
     if (location.pathname !== '/') return;
+    const dismissed = sessionStorage.getItem('promo_dismissed');
+    if (dismissed) return;
     timerRef.current = setTimeout(() => setOpen(true), 3000);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -32,7 +33,10 @@ export default function PromotionModal() {
     };
   }, [open]);
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    sessionStorage.setItem('promo_dismissed', '1');
+  };
 
   const handleClaim = () => {
     setOpen(false);
@@ -97,6 +101,8 @@ export default function PromotionModal() {
             {/* After */}
             <img
               src="/images/optimized/promotions/engine-bay-after.webp"
+              srcSet="/images/optimized/promotions/engine-bay-after-480.webp 480w, /images/optimized/promotions/engine-bay-after.webp 1024w"
+              sizes="(max-width: 512px) 480px, 1024px"
               alt="Engine bay after cleaning"
               className="absolute inset-0 w-full h-full object-cover"
               draggable={false}
@@ -113,6 +119,8 @@ export default function PromotionModal() {
             >
               <img
                 src="/images/optimized/promotions/engine-bay-before.webp"
+                srcSet="/images/optimized/promotions/engine-bay-before-480.webp 480w, /images/optimized/promotions/engine-bay-before.webp 1024w"
+                sizes="(max-width: 512px) 480px, 1024px"
                 alt="Engine bay before cleaning"
                 className="absolute inset-0 w-full h-full object-cover"
                 draggable={false}
