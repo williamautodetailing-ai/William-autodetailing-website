@@ -6,7 +6,7 @@ const GOOGLE_PHOTOS_URL = 'https://share.google/O09RVjOI5JFSInkKp';
 export default function Gallery() {
   return (
     <section id="gallery" className="section-padding bg-charcoal-950 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-accent/5 rounded-full blur-[120px]" />
+      <div className="decorative-blur absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-accent/5 rounded-full blur-[120px]" />
 
       <div className="container-custom relative z-10">
         <div className="text-center mb-12">
