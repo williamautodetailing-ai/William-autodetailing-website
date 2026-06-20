@@ -46,9 +46,12 @@ export default function Header() {
           <div className="flex items-center justify-between h-24 md:h-32">
             <Link to="/" className="flex items-center">
               <img
-                src="/images/williams_auto_detailing_logo.png"
+                src="/images/optimized/williams-logo.webp"
                 alt="William's Auto Detailing"
                 className="h-20 md:h-28 w-auto object-contain"
+                width={256}
+                height={256}
+                fetchPriority="high"
               />
             </Link>
 
