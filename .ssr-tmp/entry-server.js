@@ -799,8 +799,8 @@ function Hero() {
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/60 to-charcoal-950/20" }),
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-r from-charcoal-950/60 via-transparent to-charcoal-950/40" })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "absolute top-1/4 -left-32 w-64 h-64 bg-accent/20 rounded-full blur-[128px]" }),
-    /* @__PURE__ */ jsx("div", { className: "absolute bottom-1/4 -right-32 w-64 h-64 bg-primary-500/20 rounded-full blur-[128px]" }),
+    /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/4 -left-32 w-64 h-64 bg-accent/20 rounded-full blur-[128px]" }),
+    /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute bottom-1/4 -right-32 w-64 h-64 bg-primary-500/20 rounded-full blur-[128px]" }),
     /* @__PURE__ */ jsx("div", { className: "relative z-10 container-custom text-center px-4 pt-24 md:pt-28", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto", children: [
       /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-8 animate-fade-in", children: [
         /* @__PURE__ */ jsx("span", { className: "flex items-center gap-0.5", children: [...Array(5)].map((_, i) => /* @__PURE__ */ jsx(Star, { className: "w-4 h-4 text-gold fill-gold" }, i)) }),
@@ -860,7 +860,7 @@ const steps = [
 ];
 function HowItWorks() {
   return /* @__PURE__ */ jsxs("section", { id: "how-it-works", className: "py-16 md:py-20 bg-charcoal-950 relative overflow-hidden", children: [
-    /* @__PURE__ */ jsx("div", { className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-[160px]" }),
+    /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-[160px]" }),
     /* @__PURE__ */ jsxs("div", { className: "container-custom relative z-10", children: [
       /* @__PURE__ */ jsxs("div", { className: "text-center mb-10", children: [
         /* @__PURE__ */ jsxs("h2", { className: "font-display text-3xl md:text-4xl font-bold text-white mb-3", children: [
@@ -1263,7 +1263,7 @@ function Services() {
 const GOOGLE_PHOTOS_URL = "https://share.google/O09RVjOI5JFSInkKp";
 function Gallery() {
   return /* @__PURE__ */ jsxs("section", { id: "gallery", className: "section-padding bg-charcoal-950 relative overflow-hidden", children: [
-    /* @__PURE__ */ jsx("div", { className: "absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-accent/5 rounded-full blur-[120px]" }),
+    /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-accent/5 rounded-full blur-[120px]" }),
     /* @__PURE__ */ jsxs("div", { className: "container-custom relative z-10", children: [
       /* @__PURE__ */ jsxs("div", { className: "text-center mb-12", children: [
         /* @__PURE__ */ jsxs("h2", { className: "font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4", children: [
@@ -1839,7 +1839,7 @@ function CeramicCoatingPage() {
         ) }),
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/75 to-charcoal-950/50" })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: "absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/10 rounded-full blur-[150px]" }),
+      /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/10 rounded-full blur-[150px]" }),
       /* @__PURE__ */ jsxs("div", { className: "relative z-10 container-custom text-center py-20", children: [
         /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-accent/30 mb-8", children: [
           /* @__PURE__ */ jsx(Shield, { className: "w-4 h-4 text-accent" }),
@@ -2477,10 +2477,15 @@ const addons = [
 ];
 function AddOnsPage() {
   const { openModal } = useLeadModal();
+  useDocumentMeta({
+    title: `Add-On Services — Engine Bay, Headlights & More | ${BUSINESS_NAME}`,
+    description: "Specialty add-on detailing services in Miami. Engine bay cleaning, headlight restoration, odor elimination, pet hair removal, clay bar & more. Book standalone or with any package.",
+    canonical: "/add-ons"
+  });
   return /* @__PURE__ */ jsxs("div", { className: "bg-charcoal-950 text-white pt-24 md:pt-32", children: [
     /* @__PURE__ */ jsxs("section", { className: "relative py-20 md:py-28 overflow-hidden", children: [
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.08),transparent_65%)]" }),
-      /* @__PURE__ */ jsx("div", { className: "absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/8 rounded-full blur-[180px]" }),
+      /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/8 rounded-full blur-[180px]" }),
       /* @__PURE__ */ jsxs("div", { className: "relative z-10 container-custom text-center", children: [
         /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-8", children: [
           /* @__PURE__ */ jsx("span", { className: "w-2 h-2 rounded-full bg-accent" }),
@@ -2777,7 +2782,7 @@ function CityPage({ city }) {
         ) }),
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/80 to-charcoal-950/60" })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: "absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-accent/10 rounded-full blur-[150px]" }),
+      /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-accent/10 rounded-full blur-[150px]" }),
       /* @__PURE__ */ jsxs("div", { className: "relative z-10 container-custom text-center", children: [
         /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-6", children: [
           /* @__PURE__ */ jsx(MapPin, { className: "w-4 h-4 text-accent" }),
