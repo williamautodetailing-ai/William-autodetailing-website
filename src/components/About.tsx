@@ -22,9 +22,13 @@ export default function About() {
             <div className="relative">
               <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-charcoal-800 border border-charcoal-700 max-w-md mx-auto lg:mx-0">
                 <img
-                  src="/images/about-us/audi_r8.png"
+                  src="/images/optimized/about-us/audi-r8.webp"
                   alt="William detailing an Audi R8 in Miami"
                   className="w-full h-full object-cover object-center"
+                  width={900}
+                  height={941}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 
