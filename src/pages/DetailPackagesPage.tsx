@@ -3,6 +3,7 @@ import { Check, Minus, Clock, Star, Sparkles, ChevronDown, ChevronUp, Car, Users
 import { packages, detailComparisonRows } from '../data/packages';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
+import useDocumentMeta from '../hooks/useDocumentMeta';
 
 const detailPackages = packages.filter((p) => !p.isCeramic);
 
@@ -69,14 +70,31 @@ function groupRows<T extends { group?: string }>(rows: T[]): GroupedRows<T> {
   return groups;
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
 export default function DetailPackagesPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [mobilePkgIdx, setMobilePkgIdx] = useState(1);
   const { openModal } = useLeadModal();
   const groups = groupRows(detailComparisonRows);
 
+  useDocumentMeta({
+    title: `Detail Packages — Mobile Car Detailing Miami | ${BUSINESS_NAME}`,
+    description: `Compare our 3 mobile car detailing packages — Signature, Pristine & Perfect Detail. Interior & exterior included. Professional products, eco-friendly, fully insured. We come to you in Miami-Dade.`,
+    canonical: '/detail-packages',
+  });
+
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       {/* Hero */}
       <section className="relative py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_60%_50%,rgba(59,130,246,0.12),transparent_65%)]" />
