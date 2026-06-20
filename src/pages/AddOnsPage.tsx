@@ -2,16 +2,23 @@ import { Clock, AlertCircle } from 'lucide-react';
 import { addons } from '../data/addons';
 import { useLeadModal } from '../context/LeadModalContext';
 import { BUSINESS_NAME } from '../constants';
+import useDocumentMeta from '../hooks/useDocumentMeta';
 
 export default function AddOnsPage() {
   const { openModal } = useLeadModal();
+
+  useDocumentMeta({
+    title: `Add-On Services — Engine Bay, Headlights & More | ${BUSINESS_NAME}`,
+    description: 'Specialty add-on detailing services in Miami. Engine bay cleaning, headlight restoration, odor elimination, pet hair removal, clay bar & more. Book standalone or with any package.',
+    canonical: '/add-ons',
+  });
 
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
       {/* Hero */}
       <section className="relative py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.08),transparent_65%)]" />
-        <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/8 rounded-full blur-[180px]" />
+        <div className="decorative-blur absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/8 rounded-full blur-[180px]" />
 
         <div className="relative z-10 container-custom text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-8">
