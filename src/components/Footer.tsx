@@ -14,9 +14,13 @@ export default function Footer() {
           <div>
             <Link to="/" className="flex items-center mb-4">
               <img
-                src="/images/williams_auto_detailing_logo.png"
+                src="/images/optimized/williams-logo.webp"
                 alt="William's Auto Detailing"
                 className="h-14 w-auto object-contain"
+                width={256}
+                height={256}
+                loading="lazy"
+                decoding="async"
               />
             </Link>
             <p className="text-charcoal-400 text-sm leading-relaxed mb-4">
