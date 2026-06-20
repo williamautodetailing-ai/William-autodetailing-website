@@ -1,0 +1,32 @@
+/*
+  # Harden `leads` RLS — remove always-true write policies
+
+  ## Why
+  The security advisor flagged three "RLS Policy Always True" warnings on
+  `public.leads`:
+    - insert_leads  (INSERT, anon)          — WITH CHECK (true)
+    - update_leads  (UPDATE, authenticated) — USING (true) WITH CHECK (true)
+    - delete_leads  (DELETE, authenticated) — USING (true)
+
+  None of these are needed by the application:
+    - The public lead form does NOT write with the anon key. It POSTs to the
+      `notify-lead` Edge Function, which inserts using the SERVICE ROLE key and
+      bypasses RLS. So `insert_leads` (anon) is dead weight that let anyone with
+      the public anon key spam rows straight into the table.
+    - There is no in-app admin UI that updates or deletes leads, so
+      `update_leads` / `delete_leads` are unused. The owner manages leads in the
+      Supabase dashboard, which uses the service role and bypasses RLS anyway.
+
+  ## What this does
+  Drops the three always-true write policies. RLS stays ENABLED, so the anon and
+  authenticated roles now have NO write access through the API — exactly what we
+  want. The lead form is unaffected (service-role edge function).
+
+  The `select_leads` (SELECT, authenticated) policy is intentionally left in
+  place: it was not flagged, and a logged-in owner reading the leads list is the
+  intended behavior.
+*/
+
+DROP POLICY IF EXISTS "insert_leads" ON leads;
+DROP POLICY IF EXISTS "update_leads" ON leads;
+DROP POLICY IF EXISTS "delete_leads" ON leads;
