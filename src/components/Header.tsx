@@ -51,7 +51,7 @@ export default function Header() {
                 className="h-20 md:h-28 w-auto object-contain"
                 width={256}
                 height={256}
-                fetchPriority="high"
+                fetchpriority="high"
               />
             </Link>
 
