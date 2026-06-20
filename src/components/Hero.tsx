@@ -11,24 +11,24 @@ export default function Hero() {
       <div className="absolute inset-0 bg-charcoal-950">
         <img
           src="/images/optimized/hero-porsche.webp"
+          srcSet="/images/optimized/hero-porsche-480.webp 480w, /images/optimized/hero-porsche-768.webp 768w, /images/optimized/hero-porsche.webp 1200w"
+          sizes="100vw"
           alt="William detailing a Porsche 911 in Miami — William's Auto Detailing"
           className="w-full h-full object-cover object-top opacity-55"
           width={1200}
           height={1053}
-          fetchPriority="high"
+          fetchpriority="high"
           decoding="async"
         />
 
-        {/* Address blur — covers "3311" in top-right of image */}
+        {/* Address cover — solid overlay instead of backdrop-filter for mobile GPU perf */}
         <div
-          className="absolute rounded-sm"
+          className="absolute rounded-sm bg-charcoal-950/90"
           style={{
             top: '3%',
             right: '9%',
             width: '12%',
             height: '7%',
-            backdropFilter: 'blur(14px)',
-            WebkitBackdropFilter: 'blur(14px)',
           }}
         />
 
