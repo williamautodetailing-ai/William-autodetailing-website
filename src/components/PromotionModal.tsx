@@ -24,29 +24,10 @@ export default function PromotionModal() {
   // Prefetch images immediately on mount so they're cached before the modal opens
   useEffect(() => {
     if (location.pathname !== '/') return;
+    if (window.innerWidth < 768) return; // skip on mobile
     const dismissed = sessionStorage.getItem('promo_dismissed');
     if (dismissed) return;
-
-    let loaded = 0;
-    const onLoad = () => {
-      loaded += 1;
-      if (loaded === 2) setImagesReady(true);
-    };
-
-    const after = new Image();
-    after.onload = onLoad;
-    after.onerror = onLoad; // don't block modal on error
-    after.src = AFTER_SRC;
-
-    const before = new Image();
-    before.onload = onLoad;
-    before.onerror = onLoad;
-    before.src = BEFORE_SRC;
-
-    // Show modal after 3s OR once both images are loaded, whichever is later
-    // but cap the wait at 6s so a slow connection doesn't delay forever
     timerRef.current = setTimeout(() => setOpen(true), 3000);
-
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
