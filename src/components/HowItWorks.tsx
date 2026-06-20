@@ -21,7 +21,7 @@ const steps = [
 export default function HowItWorks() {
   return (
     <section id="how-it-works" className="py-16 md:py-20 bg-charcoal-950 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-[160px]" />
+      <div className="decorative-blur absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-[160px]" />
 
       <div className="container-custom relative z-10">
         <div className="text-center mb-10">
