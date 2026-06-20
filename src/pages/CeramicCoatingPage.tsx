@@ -3,6 +3,7 @@ import { Check, Minus, Clock, Shield, Droplets, Sun, Zap, Star, ChevronDown, Che
 import { packages, ceramicComparisonRows } from '../data/packages';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
+import useDocumentMeta from '../hooks/useDocumentMeta';
 
 type GroupedRows<T> = { name: string; rows: T[] }[];
 function groupRows<T extends { group?: string }>(rows: T[]): GroupedRows<T> {
@@ -62,10 +63,26 @@ const faqs = [
   },
 ];
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
 export default function CeramicCoatingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [mobilePkgIdx, setMobilePkgIdx] = useState(0);
   const { openModal } = useLeadModal();
+
+  useDocumentMeta({
+    title: `Ceramic Coating Miami — 2–5 Year Paint Protection | ${BUSINESS_NAME}`,
+    description: `Professional ceramic coating in Miami-Dade. 2–5 year hydrophobic paint protection with full prep included. UV defense, mirror finish, self-cleaning surface. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. We come to you.`,
+    canonical: '/ceramic-coating',
+  });
 
   const ceramicPackages = packages.filter(p => p.isCeramic);
   const groups = groupRows(ceramicComparisonRows);
@@ -74,14 +91,21 @@ export default function CeramicCoatingPage() {
 
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       {/* Hero */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 opacity-25">
             <img
-              src="https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&w=1920"
-              alt="Ceramic coated car"
+              src="/images/optimized/ceramic-hero.webp"
+              srcSet="/images/optimized/ceramic-hero-480.webp 480w, /images/optimized/ceramic-hero-768.webp 768w, /images/optimized/ceramic-hero.webp 1200w"
+              sizes="100vw"
+              alt="Ceramic coated car with mirror finish"
               className="w-full h-full object-cover"
+              width={1200}
+              height={800}
+              loading="eager"
+              decoding="async"
             />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/75 to-charcoal-950/50" />
