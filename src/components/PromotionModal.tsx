@@ -96,10 +96,14 @@ export default function PromotionModal() {
           >
             {/* After */}
             <img
-              src="/images/promotions/image.png"
+              src="/images/optimized/promotions/engine-bay-after.webp"
               alt="Engine bay after cleaning"
               className="absolute inset-0 w-full h-full object-cover"
               draggable={false}
+              width={1024}
+              height={682}
+              loading="lazy"
+              decoding="async"
             />
 
             {/* Before */}
@@ -108,10 +112,14 @@ export default function PromotionModal() {
               style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
             >
               <img
-                src="/images/beforeenginebay.png"
+                src="/images/optimized/promotions/engine-bay-before.webp"
                 alt="Engine bay before cleaning"
                 className="absolute inset-0 w-full h-full object-cover"
                 draggable={false}
+                width={1024}
+                height={664}
+                loading="lazy"
+                decoding="async"
               />
             </div>
 
