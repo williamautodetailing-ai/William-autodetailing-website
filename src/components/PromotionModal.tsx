@@ -1,186 +1,142 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { X, Gift, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
-import { useLeadModal } from '../context/LeadModalContext';
+import { useState, useEffect } from 'react';
+import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 
-const AFTER_SRC = '/images/optimized/promotions/engine-bay-after.webp';
-const BEFORE_SRC = '/images/optimized/promotions/engine-bay-before.webp';
+const testimonials = [
+  {
+    name: 'Jessica Hernandez',
+    role: 'Doral, FL',
+    initials: 'JH',
+    rating: 5,
+    timeAgo: '19 weeks ago',
+    quote: "Will is AMAZING and his work follows. I reached out on a Thursday and by Friday morning my car was clean. His attention to detail is excellent! If you are looking at other mobile car services, look no further. I promise you won't be disappointed with his work and the outcome of your vehicle! Thank you again, Will! My car looks brand new!",
+  },
+  {
+    name: 'Jonathan Hawat',
+    role: 'Local Guide',
+    initials: 'JH',
+    rating: 5,
+    timeAgo: '9 weeks ago',
+    quote: "I needed a wash and was from out of state. Messaged him we communicated, got straight to business and the job was done. Came out amazing. Trustworthy, Communication, service all 5 stars and definitely recommend. Thank you again",
+  },
+  {
+    name: 'Carlos Lucero',
+    role: 'Miami, FL',
+    initials: 'CL',
+    rating: 5,
+    timeAgo: '24 weeks ago',
+    quote: "William's Auto Detailing did an absolutely outstanding job on my BMW — it honestly looks better than when I first got it. The attention to detail was next level; the paint, wheels, and interior all look flawless. William was professional, punctual, and communicated clearly throughout the process. You can tell he truly takes pride in his work. The convenience of mobile detailing made it even better. I've already scheduled future maintenance and highly recommend him to anyone looking for top-tier detailing.",
+  },
+  {
+    name: 'Steven',
+    role: 'Local Guide · Miami, FL',
+    initials: 'S',
+    rating: 5,
+    timeAgo: '16 weeks ago',
+    quote: "Best auto detailing in Miami, great customer service and very professional throughout the whole process. He did a paint correction and ceramic on my car and it came out looking brand new with all the really bad swirl marks gone after. Highly recommend if you want your cars paint looking like it just came off the showroom floor.",
+  },
+  {
+    name: 'Danny Hernandez',
+    role: 'Miami, FL',
+    initials: 'DH',
+    rating: 5,
+    timeAgo: '13 weeks ago',
+    quote: "William's Auto Detailing came out to me for mobile detailing in Miami and did an amazing job detailing my car inside and out. The convenience of having everything done at my location made the experience super easy and stress-free. I had my brand new Tesla Model 3 ceramic coated with their 2–3 year coating package and it came out absolutely perfect. The paint looks incredibly glossy and smooth, and you can really tell they pay attention to every detail. They took the time to explain the ceramic coating process and how to properly maintain it so it lasts. The quality of work and professionalism were top tier, so I've already signed up for their monthly maintenance plan to keep the car looking this good. If you're looking for high-quality mobile detailing in Miami or ceramic coating, I highly recommend William's Auto Detailing.",
+  },
+];
 
-function prefetchImage(src: string) {
-  const img = new Image();
-  img.src = src;
-}
+const avatarColors: Record<string, string> = {
+  JH: 'from-blue-500 to-blue-700',
+  CL: 'from-emerald-500 to-emerald-700',
+  S: 'from-violet-500 to-violet-700',
+  DH: 'from-orange-500 to-orange-700',
+};
 
-export default function PromotionModal() {
-  const [open, setOpen] = useState(false);
-  const [imagesReady, setImagesReady] = useState(false);
-  const [sliderPos, setSliderPos] = useState(50);
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const dragging = useRef(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { openModal } = useLeadModal();
-  const location = useLocation();
+export default function Testimonials() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Prefetch images immediately on mount so they're cached before the modal opens
   useEffect(() => {
-    if (location.pathname !== '/') return;
-    if (window.innerWidth < 768) return; // skip on mobile
-    const dismissed = sessionStorage.getItem('promo_dismissed');
-    if (dismissed) return;
-    timerRef.current = setTimeout(() => setOpen(true), 3000);
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [location.pathname]);
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % testimonials.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose(); };
-    document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
-  }, [open]);
-
-  const handleClose = () => {
-    setOpen(false);
-    sessionStorage.setItem('promo_dismissed', '1');
+  const goTo = (index: number) => {
+    setActiveIndex(index);
+    setIsAutoPlaying(false);
   };
 
-  const handleClaim = () => {
-    setOpen(false);
-    openModal();
-  };
+  const next = () => { setActiveIndex((prev) => (prev + 1) % testimonials.length); setIsAutoPlaying(false); };
+  const prev = () => { setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length); setIsAutoPlaying(false); };
 
-  const updateSlider = useCallback((clientX: number) => {
-    if (!sliderRef.current) return;
-    const rect = sliderRef.current.getBoundingClientRect();
-    setSliderPos(Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100)));
-  }, []);
-
-  if (!open) return null;
+  const active = testimonials[activeIndex];
+  const colorClass = avatarColors[active.initials] ?? 'from-accent to-primary-500';
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-4">
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-charcoal-950/85" onClick={handleClose} />
+    <section id="testimonials" className="section-padding bg-charcoal-900 relative overflow-hidden">
+      <div className="decorative-blur absolute top-0 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-[150px]" />
 
-      {/* Modal — slides up from bottom on mobile, centered on desktop */}
-      <div className="relative bg-charcoal-900 border border-charcoal-700 sm:rounded-3xl rounded-t-3xl shadow-2xl w-full sm:max-w-lg overflow-hidden animate-fade-in-up">
-        {/* Close */}
-        <button
-          onClick={handleClose}
-          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-charcoal-800 border border-charcoal-700 text-charcoal-400 hover:text-white hover:border-charcoal-500 transition-colors"
-          aria-label="Close promotion"
-        >
-          <X className="w-4 h-4" />
-        </button>
-
-        {/* Drag handle for mobile */}
-        <div className="flex justify-center pt-3 pb-1 sm:hidden">
-          <div className="w-10 h-1 rounded-full bg-charcoal-600" />
-        </div>
-
-        {/* Header */}
-        <div className="bg-gradient-to-r from-accent/15 via-primary-500/10 to-transparent border-b border-charcoal-700 px-5 pt-3 sm:pt-6 pb-4 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent/15 border border-accent/30 rounded-full mb-2">
-            <Gift className="w-3.5 h-3.5 text-accent" />
-            <span className="text-accent text-xs font-bold tracking-widest uppercase">Limited Time Offer</span>
-          </div>
-          <h2 className="font-display text-xl sm:text-3xl font-bold text-white leading-tight mb-1">
-            FREE Engine Bay Cleaning
+      <div className="container-custom relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+            What Our <span className="gradient-text">Customers Say</span>
           </h2>
-          <p className="text-charcoal-300 text-sm">
-            With any <span className="text-white font-semibold">Full Detail Package</span>
-            <span className="text-charcoal-500 mx-2">·</span>
-            Ends August 31st
-          </p>
-        </div>
-
-        {/* Before / After Slider */}
-        <div className="px-5 pt-4">
-          <p className="text-charcoal-500 text-xs text-center mb-2 font-medium tracking-widest uppercase">
-            Drag to Compare
-          </p>
-          <div
-            ref={sliderRef}
-            className="relative aspect-video rounded-xl overflow-hidden cursor-ew-resize select-none border border-charcoal-700 bg-charcoal-800"
-            onMouseDown={(e) => { dragging.current = true; updateSlider(e.clientX); }}
-            onMouseMove={(e) => { if (dragging.current) updateSlider(e.clientX); }}
-            onMouseUp={() => { dragging.current = false; }}
-            onMouseLeave={() => { dragging.current = false; }}
-            onTouchStart={(e) => { e.preventDefault(); updateSlider(e.touches[0].clientX); }}
-            onTouchMove={(e) => { e.preventDefault(); updateSlider(e.touches[0].clientX); }}
-          >
-            {!imagesReady && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-6 h-6 rounded-full border-2 border-accent border-t-transparent animate-spin" />
-              </div>
-            )}
-
-            {/* After */}
-            <img
-              src={AFTER_SRC}
-              alt="Engine bay after cleaning"
-              className="absolute inset-0 w-full h-full object-cover"
-              draggable={false}
-              width={1024}
-              height={682}
-              decoding="sync"
-            />
-
-            {/* Before */}
-            <div
-              className="absolute inset-0 overflow-hidden"
-              style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
-            >
-              <img
-                src={BEFORE_SRC}
-                alt="Engine bay before cleaning"
-                className="absolute inset-0 w-full h-full object-cover"
-                draggable={false}
-                width={1024}
-                height={664}
-                decoding="sync"
-              />
-            </div>
-
-            {/* Divider handle */}
-            <div
-              className="absolute top-0 bottom-0 w-0.5 bg-white pointer-events-none"
-              style={{ left: `${sliderPos}%` }}
-            >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center">
-                <ChevronLeft className="w-3.5 h-3.5 text-charcoal-900" />
-                <ChevronRight className="w-3.5 h-3.5 text-charcoal-900" />
-              </div>
-            </div>
-
-            {/* Labels */}
-            <div className="absolute bottom-2 left-2 px-2 py-1 bg-charcoal-950/80 rounded text-xs font-semibold text-charcoal-300 border border-charcoal-700">
-              Before
-            </div>
-            <div className="absolute bottom-2 right-2 px-2 py-1 bg-accent/90 rounded text-xs font-bold text-charcoal-950">
-              After
-            </div>
+          <div className="inline-flex items-center gap-2 text-charcoal-400">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-4 h-4 text-gold fill-gold" />
+            ))}
+            <span className="text-sm">{GOOGLE_RATING} · {GOOGLE_REVIEW_COUNT} Google Reviews</span>
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="px-5 py-5">
-          <button
-            onClick={handleClaim}
-            className="w-full btn-primary text-base py-4 font-bold"
-          >
-            Claim FREE Engine Bay Cleaning Now
-          </button>
-          <p className="text-charcoal-600 text-xs text-center mt-3">
-            No code needed · Just mention the offer when booking
-          </p>
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-center gap-4 mb-8">
+            <button onClick={prev} className="p-3 rounded-full bg-charcoal-800 border border-charcoal-700 text-white hover:border-accent transition-colors" aria-label="Previous">
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button onClick={next} className="p-3 rounded-full bg-charcoal-800 border border-charcoal-700 text-white hover:border-accent transition-colors" aria-label="Next">
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="relative bg-charcoal-800/50 rounded-3xl p-8 md:p-12 border border-charcoal-700 min-h-[280px]">
+            <Quote className="absolute top-6 left-6 w-12 h-12 text-accent/20 rotate-180" />
+
+            <div className="text-center relative z-10">
+              <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${colorClass} flex items-center justify-center mx-auto mb-5`}>
+                <span className="text-white font-bold text-lg">{active.initials}</span>
+              </div>
+
+              <div className="flex justify-center gap-1 mb-4">
+                {[...Array(active.rating)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-gold fill-gold" />
+                ))}
+              </div>
+
+              <blockquote className="text-lg md:text-xl text-white font-medium leading-relaxed mb-6 max-w-3xl mx-auto">
+                "{active.quote}"
+              </blockquote>
+
+              <p className="font-bold text-white">{active.name}</p>
+              <p className="text-charcoal-400 text-sm">{active.role} · {active.timeAgo}</p>
+            </div>
+          </div>
+
+          <div className="flex justify-center gap-2 mt-8">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                className={`h-2 rounded-full transition-all ${i === activeIndex ? 'bg-accent w-6' : 'w-2 bg-charcoal-600 hover:bg-charcoal-500'}`}
+                aria-label={`Review ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
