@@ -642,7 +642,7 @@ function Header() {
                 className: "h-20 md:h-28 w-auto object-contain",
                 width: 256,
                 height: 256,
-                fetchPriority: "high"
+                fetchpriority: "high"
               }
             ) }),
             /* @__PURE__ */ jsxs("nav", { className: "hidden md:flex items-center gap-6", children: [
@@ -761,7 +761,7 @@ const BUSINESS_NAME = "William's Auto Detailing";
 const PHONE = "(808) 772-0952";
 const EMAIL = "williamautodetailing@gmail.com";
 const INSTAGRAM_URL = "https://www.instagram.com/william.autodetailing/";
-const GOOGLE_REVIEWS_URL = "https://g.page/r/";
+const GOOGLE_REVIEWS_URL = "https://share.google/fRShWxiSO9ip2K6gK";
 const GOOGLE_REVIEW_COUNT = 137;
 const GOOGLE_RATING = "5.0";
 const BASE_CITY = "Doral";
@@ -774,25 +774,25 @@ function Hero() {
         "img",
         {
           src: "/images/optimized/hero-porsche.webp",
+          srcSet: "/images/optimized/hero-porsche-480.webp 480w, /images/optimized/hero-porsche-768.webp 768w, /images/optimized/hero-porsche.webp 1200w",
+          sizes: "100vw",
           alt: "William detailing a Porsche 911 in Miami — William's Auto Detailing",
           className: "w-full h-full object-cover object-top opacity-55",
           width: 1200,
           height: 1053,
-          fetchPriority: "high",
+          fetchpriority: "high",
           decoding: "async"
         }
       ),
       /* @__PURE__ */ jsx(
         "div",
         {
-          className: "absolute rounded-sm",
+          className: "absolute rounded-sm bg-charcoal-950/90",
           style: {
             top: "3%",
             right: "9%",
             width: "12%",
-            height: "7%",
-            backdropFilter: "blur(14px)",
-            WebkitBackdropFilter: "blur(14px)"
+            height: "7%"
           }
         }
       ),
@@ -1524,6 +1524,8 @@ function About() {
           "img",
           {
             src: "/images/optimized/about-us/audi-r8.webp",
+            srcSet: "/images/optimized/about-us/audi-r8-480.webp 480w, /images/optimized/about-us/audi-r8-768.webp 768w, /images/optimized/about-us/audi-r8.webp 900w",
+            sizes: "(max-width: 1024px) 100vw, 50vw",
             alt: "William detailing an Audi R8 in Miami",
             className: "w-full h-full object-cover object-center",
             width: 900,
@@ -1707,6 +1709,41 @@ function Footer() {
     ] }) })
   ] }) });
 }
+const SITE_URL = "https://www.williamsautodetailing.com";
+function useDocumentMeta({ title, description, canonical }) {
+  useEffect(() => {
+    document.title = title;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", description);
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", title);
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute("content", description);
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twTitle) twTitle.setAttribute("content", title);
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twDesc) twDesc.setAttribute("content", description);
+    let link = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      const href = canonical.startsWith("http") ? canonical : `${SITE_URL}${canonical}`;
+      if (!link) {
+        link = document.createElement("link");
+        link.rel = "canonical";
+        document.head.appendChild(link);
+      }
+      link.href = href;
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) {
+        ogUrl.setAttribute("content", href);
+      } else {
+        const meta = document.createElement("meta");
+        meta.setAttribute("property", "og:url");
+        meta.setAttribute("content", href);
+        document.head.appendChild(meta);
+      }
+    }
+  }, [title, description, canonical]);
+}
 function groupRows$1(rows) {
   const groups2 = [];
   rows.forEach((row) => {
@@ -1761,22 +1798,43 @@ const faqs$1 = [
     a: "Maintenance is actually easier! Avoid automatic car washes with brushes. Hand washing or touchless washing is best. A maintenance kit is included with our Tier 1 & Tier 2 packages."
   }
 ];
+const faqSchema$1 = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs$1.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a }
+  }))
+};
 function CeramicCoatingPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [mobilePkgIdx, setMobilePkgIdx] = useState(0);
   const { openModal } = useLeadModal();
+  useDocumentMeta({
+    title: `Ceramic Coating Miami — 2–5 Year Paint Protection | ${BUSINESS_NAME}`,
+    description: `Professional ceramic coating in Miami-Dade. 2–5 year hydrophobic paint protection with full prep included. UV defense, mirror finish, self-cleaning surface. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. We come to you.`,
+    canonical: "/ceramic-coating"
+  });
   const ceramicPackages2 = packages.filter((p) => p.isCeramic);
   const groups2 = groupRows$1(ceramicComparisonRows);
   const cols = ceramicPackages2;
   return /* @__PURE__ */ jsxs("div", { className: "bg-charcoal-950 text-white pt-24 md:pt-32", children: [
+    /* @__PURE__ */ jsx("script", { type: "application/ld+json", dangerouslySetInnerHTML: { __html: JSON.stringify(faqSchema$1) } }),
     /* @__PURE__ */ jsxs("section", { className: "relative min-h-[70vh] flex items-center justify-center overflow-hidden", children: [
       /* @__PURE__ */ jsxs("div", { className: "absolute inset-0", children: [
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 opacity-25", children: /* @__PURE__ */ jsx(
           "img",
           {
-            src: "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&w=1920",
-            alt: "Ceramic coated car",
-            className: "w-full h-full object-cover"
+            src: "/images/optimized/ceramic-hero.webp",
+            srcSet: "/images/optimized/ceramic-hero-480.webp 480w, /images/optimized/ceramic-hero-768.webp 768w, /images/optimized/ceramic-hero.webp 1200w",
+            sizes: "100vw",
+            alt: "Ceramic coated car with mirror finish",
+            className: "w-full h-full object-cover",
+            width: 1200,
+            height: 800,
+            loading: "eager",
+            decoding: "async"
           }
         ) }),
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/75 to-charcoal-950/50" })
@@ -2093,12 +2151,27 @@ function groupRows(rows) {
   });
   return groups2;
 }
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a }
+  }))
+};
 function DetailPackagesPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [mobilePkgIdx, setMobilePkgIdx] = useState(1);
   const { openModal } = useLeadModal();
   const groups2 = groupRows(detailComparisonRows);
+  useDocumentMeta({
+    title: `Detail Packages — Mobile Car Detailing Miami | ${BUSINESS_NAME}`,
+    description: `Compare our 3 mobile car detailing packages — Signature, Pristine & Perfect Detail. Interior & exterior included. Professional products, eco-friendly, fully insured. We come to you in Miami-Dade.`,
+    canonical: "/detail-packages"
+  });
   return /* @__PURE__ */ jsxs("div", { className: "bg-charcoal-950 text-white pt-24 md:pt-32", children: [
+    /* @__PURE__ */ jsx("script", { type: "application/ld+json", dangerouslySetInnerHTML: { __html: JSON.stringify(faqSchema) } }),
     /* @__PURE__ */ jsxs("section", { className: "relative py-20 md:py-28 overflow-hidden", children: [
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-[radial-gradient(ellipse_at_60%_50%,rgba(59,130,246,0.12),transparent_65%)]" }),
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,rgba(0,212,255,0.06),transparent_55%)]" }),
@@ -2603,6 +2676,11 @@ const sections = [
   }
 ];
 function PrivacyPolicyPage() {
+  useDocumentMeta({
+    title: `Privacy Policy | ${BUSINESS_NAME}`,
+    description: `Privacy policy for ${BUSINESS_NAME}. Learn how we collect, use, and protect your personal information when you use our mobile detailing services.`,
+    canonical: "/privacy-policy"
+  });
   return /* @__PURE__ */ jsx("div", { className: "min-h-screen bg-charcoal-950 pt-24 md:pt-32 pb-20", children: /* @__PURE__ */ jsxs("div", { className: "container-custom max-w-4xl", children: [
     /* @__PURE__ */ jsxs("div", { className: "mb-12", children: [
       /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/20 rounded-full mb-5", children: [
@@ -2675,15 +2753,26 @@ const testimonials = [
 function CityPage({ city }) {
   const { openModal } = useLeadModal();
   const mainPackages2 = packages.filter((p) => p.id !== "windshield");
+  useDocumentMeta({
+    title: `Mobile Car Detailing in ${city.name}, FL | ${BUSINESS_NAME}`,
+    description: `${city.name} mobile car detailing by ${BUSINESS_NAME}. We come to your home or office. Ceramic coatings, full details, add-ons. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. Serving ${city.name} & surrounding areas.`,
+    canonical: `/areas/${city.slug}`
+  });
   return /* @__PURE__ */ jsxs("div", { className: "bg-charcoal-950 text-white pt-24 md:pt-32", children: [
     /* @__PURE__ */ jsxs("section", { className: "relative py-24 md:py-32 overflow-hidden", children: [
       /* @__PURE__ */ jsxs("div", { className: "absolute inset-0", children: [
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 opacity-20", children: /* @__PURE__ */ jsx(
           "img",
           {
-            src: "https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=1920",
+            src: "/images/optimized/city-hero.webp",
+            srcSet: "/images/optimized/city-hero-480.webp 480w, /images/optimized/city-hero-768.webp 768w, /images/optimized/city-hero.webp 1200w",
+            sizes: "100vw",
             alt: `Mobile detailing in ${city.name}, FL`,
-            className: "w-full h-full object-cover"
+            className: "w-full h-full object-cover",
+            width: 1200,
+            height: 800,
+            loading: "eager",
+            decoding: "async"
           }
         ) }),
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/80 to-charcoal-950/60" })
