@@ -60,6 +60,8 @@ import LeadFormModal from './components/LeadFormModal';
 
 import PromotionModal from './components/PromotionModal';
 
+import useDocumentMeta from './hooks/useDocumentMeta';
+
 
 
 
@@ -148,7 +150,11 @@ function ScrollToTop() {
 
 function HomePage() {
 
-
+  useDocumentMeta({
+    title: "William's Auto Detailing | #1 Mobile Car Detailing in Miami, FL",
+    description: "William's Auto Detailing — Miami's top-rated mobile car detailing. We come to your home, office, or apartment. Signature detail, deep-clean packages, ceramic coating, and add-ons. 5.0 stars · 137+ Google reviews. Serving all of Miami-Dade County.",
+    canonical: '/',
+  });
 
   return (
 
