@@ -36,8 +36,8 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal-950/60 via-transparent to-charcoal-950/40" />
       </div>
 
-      <div className="absolute top-1/4 -left-32 w-64 h-64 bg-accent/20 rounded-full blur-[128px]" />
-      <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-primary-500/20 rounded-full blur-[128px]" />
+      <div className="decorative-blur absolute top-1/4 -left-32 w-64 h-64 bg-accent/20 rounded-full blur-[128px]" />
+      <div className="decorative-blur absolute bottom-1/4 -right-32 w-64 h-64 bg-primary-500/20 rounded-full blur-[128px]" />
 
       <div className="relative z-10 container-custom text-center px-4 pt-24 md:pt-28">
         <div className="max-w-4xl mx-auto">
