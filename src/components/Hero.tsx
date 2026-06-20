@@ -10,17 +10,13 @@ export default function Hero() {
       {/* Hero image */}
       <div className="absolute inset-0 bg-charcoal-950">
         <img
-          <img
-  src="/images/optimized/hero-porsche.webp"
-  alt="William detailing a Porsche 911 in Miami — William's Auto Detailing"
-  className="w-full h-full object-cover object-top opacity-55"
-  width={1200}
-  height={1053}
-  fetchPriority="high"
-  decoding="async"
-/>
+          src="/images/optimized/hero-porsche.webp"
           alt="William detailing a Porsche 911 in Miami — William's Auto Detailing"
           className="w-full h-full object-cover object-top opacity-55"
+          width={1200}
+          height={1053}
+          fetchPriority="high"
+          decoding="async"
         />
 
         {/* Address blur — covers "3311" in top-right of image */}
