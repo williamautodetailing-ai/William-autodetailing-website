@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, CheckCircle, Phone, Loader2 } from 'lucide-react';
+import { X, CheckCircle, Phone, Loader2, CalendarCheck } from 'lucide-react';
 import { useLeadModal } from '../context/LeadModalContext';
 import { packages } from '../data/packages';
 import { addons } from '../data/addons';
@@ -7,6 +7,8 @@ import { PHONE } from '../constants';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
+const URABLE_BOOKING_URL = 'https://app.urable.com/virtual-shop/de36wHWdi8PvYueHdIv5';
 
 type VehicleType = 'sedan' | 'suv';
 type FormState = 'idle' | 'loading' | 'success' | 'error';
@@ -130,6 +132,24 @@ export default function LeadFormModal() {
               <p className="text-charcoal-400 mb-6 max-w-xs leading-relaxed">
                 Thanks! We'll review your request and reach out shortly to confirm your appointment.
               </p>
+
+              {/* Book now CTA */}
+              <div className="w-full max-w-xs px-5 py-5 bg-accent/10 border border-accent/30 rounded-xl mb-6">
+                <p className="text-white font-semibold mb-1">Know what you want?</p>
+                <p className="text-charcoal-400 text-sm mb-4">
+                  Skip the wait and book your spot now.
+                </p>
+                <a
+                  href={URABLE_BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary w-full py-3 flex items-center justify-center gap-2"
+                >
+                  <CalendarCheck className="w-4 h-4" />
+                  Book Your Spot Now
+                </a>
+              </div>
+
               <div className="flex items-center gap-3 px-5 py-3 bg-charcoal-800 border border-charcoal-700 rounded-xl mb-6">
                 <Phone className="w-5 h-5 text-accent flex-shrink-0" />
                 <div className="text-left">
