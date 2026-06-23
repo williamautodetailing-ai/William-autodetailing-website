@@ -1,6 +1,6 @@
 // GoHighLevel Inbound Webhook — paste the URL from your GHL workflow trigger here.
 // GHL: Automation → Workflows → New Workflow → Add Trigger → "Inbound Webhook" → copy URL.
-export const GHL_WEBHOOK_URL = 'PASTE_YOUR_GHL_INBOUND_WEBHOOK_URL_HERE';
+export const GHL_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/fwFAUJw1X0vaZwhtIsR1/webhook-trigger/180b39da-b060-4adf-8ac2-bb7a5a9a9939';
 
 // GoHighLevel Calendar embed — the booking widget shown on the "Lock In Your Spot" step.
 // GHL: Calendars → your calendar → ⋯ → Embed code → copy the iframe src (ends in /widget/booking/<ID>).
