@@ -3,7 +3,7 @@ import {
   Sparkles, Brush, Droplets, Shield, ArrowLeft, ArrowRight,
   Loader2, Gift, Star, ShieldCheck, Check,
 } from 'lucide-react';
-import { PHONE, BUSINESS_NAME, GHL_WEBHOOK_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
+import { BUSINESS_NAME, GHL_WEBHOOK_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { packages, type DetailPackage } from '../data/packages';
 import BookingStep from './BookingStep';
 
@@ -42,11 +42,7 @@ const TIER_PACKAGES = TIERS
 
 type WizardState = 'idle' | 'loading' | 'error';
 
-interface Props {
-  onClose: () => void;
-}
-
-export default function QuoteWizard({ onClose }: Props) {
+export default function QuoteWizard() {
   const [step, setStep] = useState(1);
   const [service, setService] = useState('');
   const [vehicle, setVehicle] = useState('');
