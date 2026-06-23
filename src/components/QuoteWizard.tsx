@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import {
   Sparkles, Brush, Droplets, Shield, ArrowLeft, ArrowRight,
-  Loader2, Gift, Star, ShieldCheck, Check, Phone, PhoneCall,
+  Loader2, Gift, Star, ShieldCheck, Check, Phone, CheckCircle, MessageSquare,
 } from 'lucide-react';
-import { PHONE, BUSINESS_NAME, GHL_WEBHOOK_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
+import { PHONE, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { packages, type DetailPackage } from '../data/packages';
-import BookingStep from './BookingStep';
+import { addons } from '../data/addons';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
@@ -35,6 +35,13 @@ const CONDITIONS = [
   { id: 'Rough condition', desc: "Heavily soiled or neglected. We've seen worse, we can handle it.", dot: 'bg-rose-400' },
 ] as const;
 
+const TIMELINES: { id: string; desc: string; urgent?: boolean }[] = [
+  { id: 'ASAP — this week', desc: "I'm ready to get it done now.", urgent: true },
+  { id: 'Within 2 weeks', desc: 'Soon — just sorting out scheduling.' },
+  { id: 'This month', desc: 'Sometime in the next few weeks.' },
+  { id: 'Just getting a quote', desc: 'Exploring options for now.' },
+];
+
 const PROMO = 'Free Engine Bay Detail with every booking this month';
 
 const pkgById = (id: string) => packages.find(p => p.id === id);
@@ -49,6 +56,8 @@ export default function QuoteWizard() {
   const [vehicle, setVehicle] = useState('');
   const [condition, setCondition] = useState('');
   const [pkgId, setPkgId] = useState('');
+  const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
+  const [timeline, setTimeline] = useState('');
   const [firstName, setFirstName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -57,13 +66,12 @@ export default function QuoteWizard() {
   const [errorMsg, setErrorMsg] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const TOTAL = 5;
+  const TOTAL = 7;
+  const isUrgent = timeline === 'ASAP — this week';
 
   const isCeramic = service.startsWith('Ceramic');
   const vehicleSize = VEHICLES.find(v => v.id === vehicle)?.size;
   const isLuxury = vehicleSize === 'custom';
-  // Ceramic + exotics are closed over the phone, not self-booked.
-  const isConsult = isCeramic || isLuxury;
   const tierPackages = isCeramic ? CERAMIC_TIERS : DETAIL_TIERS;
 
   function priceFor(p: DetailPackage): number | null {
@@ -82,7 +90,6 @@ export default function QuoteWizard() {
   const selectedPkg = tierPackages.find(p => p.id === pkgId);
   const estimate = selectedPkg ? priceFor(selectedPkg) : null;
 
-  // Auto-select the recommended tier when arriving at the estimate step
   useEffect(() => {
     if (step === 4 && !pkgId) setPkgId(recommendedId);
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -94,26 +101,12 @@ export default function QuoteWizard() {
 
   function chooseService(serviceId: string) {
     setService(serviceId);
-    setPkgId(''); // reset tier so the right set/recommendation applies
+    setPkgId('');
     setTimeout(() => setStep(2), 180);
   }
 
-  async function sendLeadEmail() {
-    if (!SUPABASE_URL) return;
-    await fetch(`${SUPABASE_URL}/functions/v1/notify-lead`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
-      body: JSON.stringify({
-        name: firstName,
-        phone,
-        email,
-        vehicle: carModel || vehicle,
-        vehicleType: vehicleSize === 'suv' ? 'suv' : 'sedan',
-        packageInterest: selectedPkg?.name || service,
-        notes: `📞 PHONE CONSULT REQUESTED · Service: ${service} · Vehicle: ${vehicle} · Condition: ${condition}`
-          + `${estimate ? ` · Est: $${estimate}` : ' · Custom quote'}${carModel ? ` · Car: ${carModel}` : ''}`,
-      }),
-    }).catch(() => { /* best effort */ });
+  function toggleAddon(name: string) {
+    setSelectedAddons(prev => prev.includes(name) ? prev.filter(n => n !== name) : [...prev, name]);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -125,87 +118,95 @@ export default function QuoteWizard() {
     setErrorMsg('');
     setState('loading');
 
-    const payload = JSON.stringify({
-      firstName, phone, email, carModel,
-      service, vehicleType: vehicle, condition,
-      package: selectedPkg?.name ?? '',
-      estimate: estimate ?? null,
-      leadType: isConsult ? 'Phone Consult' : 'Instant Booking',
-      requiresCall: isConsult,
-      promo: PROMO,
-      source: `${BUSINESS_NAME} — Website Quote Wizard`,
-      submittedAt: new Date().toISOString(),
-    });
+    const notes = [
+      timeline ? `${isUrgent ? '⏰ URGENT — ' : ''}Timeline: ${timeline}` : '',
+      `Service: ${service}`,
+      `Condition: ${condition}`,
+      `Vehicle: ${vehicle}`,
+      selectedPkg ? `Package: ${selectedPkg.name}${estimate != null ? ` ($${estimate})` : ' (custom quote)'}` : '',
+      selectedAddons.length ? `Add-ons: ${selectedAddons.join(', ')}` : '',
+      carModel ? `Car: ${carModel}` : '',
+    ].filter(Boolean).join(' · ');
 
-    // Always push to GoHighLevel
-    let delivered = false;
     try {
-      const res = await fetch(GHL_WEBHOOK_URL, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload,
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/notify-lead`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+        body: JSON.stringify({
+          name: firstName,
+          phone,
+          email,
+          vehicle: carModel || vehicle,
+          vehicleType: vehicleSize === 'suv' ? 'suv' : 'sedan',
+          packageInterest: selectedPkg?.name || service,
+          notes,
+        }),
       });
-      delivered = res.ok;
-    } catch { /* fall through */ }
-    if (!delivered) {
-      try {
-        await fetch(GHL_WEBHOOK_URL, {
-          method: 'POST', mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' }, body: payload,
-        });
-        delivered = true;
-      } catch { /* ignore */ }
-    }
-
-    // Consult leads also email you directly so you can close over the phone
-    if (isConsult) await sendLeadEmail();
-
-    if (delivered || isConsult) {
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Submission failed');
+      }
       setSubmitted(true);
-    } else {
+    } catch (err) {
       setState('error');
-      setErrorMsg('Something went wrong. Please try again or call us.');
+      setErrorMsg((err as Error).message || 'Something went wrong. Please try again or call us.');
     }
   }
 
   /* ------------------------- After submit --------------------------- */
   if (submitted) {
-    // Phone-consult confirmation (ceramic / exotic) — no self-serve calendar
-    if (isConsult) {
-      return (
-        <div className="flex flex-col items-center justify-center px-6 py-14 text-center">
-          <div className="w-16 h-16 rounded-full bg-accent/15 flex items-center justify-center mb-5">
-            <PhoneCall className="w-8 h-8 text-accent" />
-          </div>
-          <h3 className="text-2xl font-bold text-white mb-3">Got it, {firstName.split(' ')[0]}!</h3>
-          <p className="text-charcoal-400 mb-6 max-w-xs leading-relaxed">
-            {isCeramic ? 'Ceramic coatings' : 'Exotic & luxury details'} are tailored to your paint, so
-            we quote them personally. <span className="text-white font-medium">William will call you shortly</span> to
-            confirm it's the right fit and lock in your price.
-          </p>
-          <div className="flex items-center gap-3 px-5 py-3 bg-charcoal-800 border border-charcoal-700 rounded-xl">
-            <Phone className="w-5 h-5 text-accent flex-shrink-0" />
-            <div className="text-left">
-              <p className="text-charcoal-400 text-xs">Want to talk now?</p>
-              <a href={`tel:${PHONE.replace(/\D/g, '')}`} className="text-white font-semibold hover:text-accent transition-colors">
-                {PHONE}
-              </a>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    // Instant booking — estimate + GHL calendar
     return (
-      <BookingStep
-        firstName={firstName}
-        email={email}
-        phone={phone}
-        packageName={selectedPkg?.name}
-        service={service}
-        vehicle={vehicle}
-        carModel={carModel}
-        estimate={estimate ?? undefined}
-        features={selectedPkg?.features ?? []}
-      />
+      <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
+        <div className="w-16 h-16 rounded-full bg-accent/15 flex items-center justify-center mb-5">
+          <CheckCircle className="w-8 h-8 text-accent" />
+        </div>
+        <h3 className="text-2xl font-bold text-white mb-3">Thanks, {firstName.split(' ')[0]}! 🎉</h3>
+        <p className="text-charcoal-400 mb-6 max-w-xs leading-relaxed">
+          Your request is in. We'll review your details and <span className="text-white font-medium">reach out shortly</span> to
+          confirm your quote and schedule your detail.
+        </p>
+
+        {(selectedPkg || vehicle) && (
+          <div className="flex flex-wrap justify-center gap-2 mb-6">
+            {selectedPkg && (
+              <span className="text-xs font-medium text-accent bg-accent/10 border border-accent/25 px-2.5 py-1 rounded-lg">
+                {selectedPkg.name}{estimate != null ? ` · $${estimate}` : ''}
+              </span>
+            )}
+            {vehicle && <span className="text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg">{vehicle}</span>}
+            {selectedAddons.length > 0 && (
+              <span className="text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg">
+                +{selectedAddons.length} add-on{selectedAddons.length > 1 ? 's' : ''}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Urgent? Book now */}
+        <div className="w-full max-w-xs px-5 py-5 bg-accent/10 border border-accent/30 rounded-xl">
+          <p className="text-white font-semibold mb-1">
+            {isUrgent ? 'Need it this week?' : 'Already know you want to book?'}
+          </p>
+          <p className="text-charcoal-400 text-sm mb-4">
+            Skip the wait — call or text us now and we'll lock in your spot.
+          </p>
+          <div className="flex gap-2">
+            <a
+              href={`tel:${PHONE.replace(/\D/g, '')}`}
+              className="btn-primary flex-1 py-2.5 text-sm flex items-center justify-center gap-1.5"
+            >
+              <Phone className="w-4 h-4" /> Call
+            </a>
+            <a
+              href={`sms:${PHONE.replace(/\D/g, '')}`}
+              className="btn-secondary flex-1 py-2.5 text-sm flex items-center justify-center gap-1.5"
+            >
+              <MessageSquare className="w-4 h-4" /> Text
+            </a>
+          </div>
+          <p className="text-charcoal-500 text-xs mt-3">{PHONE}</p>
+        </div>
+      </div>
     );
   }
 
@@ -350,7 +351,7 @@ export default function QuoteWizard() {
           </div>
         )}
 
-        {/* Step 4 — Estimate / tiers */}
+        {/* Step 4 — Package / estimate */}
         {step === 4 && (
           <div className="animate-fade-in">
             <h3 className="text-xl font-bold text-white text-center mb-1">
@@ -358,7 +359,7 @@ export default function QuoteWizard() {
             </h3>
             <p className="text-charcoal-400 text-sm text-center mb-5">
               {isLuxury
-                ? "Exotic & luxury pricing is custom — pick the level you're after and we'll quote it on a quick call."
+                ? "Exotic & luxury pricing is custom — pick the level you're after and we'll confirm it."
                 : isCeramic
                   ? 'Pick a coating tier. Final ceramic pricing is confirmed after we assess your paint.'
                   : `Based on your ${vehicle.toLowerCase()} in ${condition.toLowerCase()} condition. Pick the level that fits.`}
@@ -387,14 +388,9 @@ export default function QuoteWizard() {
                         <p className="text-charcoal-400 text-xs mt-0.5">{p.tagline}</p>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        {price != null ? (
-                          <>
-                            <p className="text-xl font-bold gradient-text leading-none">${price}{isCeramic ? '+' : ''}</p>
-                            {p.popular && <span className="text-[10px] text-accent font-semibold">Most popular</span>}
-                          </>
-                        ) : (
-                          <p className="text-sm font-bold text-gold leading-tight">Custom<br/>Quote</p>
-                        )}
+                        {price != null
+                          ? <p className="text-xl font-bold gradient-text leading-none">${price}{isCeramic ? '+' : ''}</p>
+                          : <p className="text-sm font-bold text-gold leading-tight">Custom<br/>Quote</p>}
                       </div>
                     </div>
                   </button>
@@ -405,39 +401,110 @@ export default function QuoteWizard() {
               onClick={() => { if (!pkgId) setPkgId(recommendedId); setStep(5); }}
               className="w-full btn-primary py-3.5 mt-5 flex items-center justify-center gap-2"
             >
-              {isConsult ? 'Continue' : `Continue with ${selectedPkg?.name ?? ''}`}
-              {!isConsult && estimate != null ? ` — $${estimate}` : ''}
-              <ArrowRight className="w-4 h-4" />
+              Continue <ArrowRight className="w-4 h-4" />
             </button>
-            <p className="text-charcoal-500 text-xs text-center mt-3">
-              {isConsult ? 'No payment to book · We confirm pricing by phone' : 'Final price confirmed on inspection · No payment to book'}
-            </p>
           </div>
         )}
 
-        {/* Step 5 — Contact */}
+        {/* Step 5 — Add-ons */}
         {step === 5 && (
+          <div className="animate-fade-in">
+            <h3 className="text-xl font-bold text-white text-center mb-1">Any add-ons?</h3>
+            <p className="text-charcoal-400 text-sm text-center mb-5">
+              Optional extras we can include. Tap any that apply — or skip and continue.
+            </p>
+            <div className="space-y-2.5">
+              {addons.map(a => {
+                const active = selectedAddons.includes(a.name);
+                return (
+                  <button
+                    key={a.id}
+                    onClick={() => toggleAddon(a.name)}
+                    className={`w-full flex items-center gap-3.5 text-left px-4 py-3 rounded-xl border transition-all ${
+                      active ? 'border-accent bg-accent/10' : 'border-charcoal-700 bg-charcoal-800 hover:border-charcoal-600'
+                    }`}
+                  >
+                    <span className="flex-1 min-w-0">
+                      <span className="flex items-center gap-2">
+                        <span className="text-white font-semibold text-sm">{a.name}</span>
+                        {a.duration && <span className="text-[10px] text-charcoal-500">{a.duration}</span>}
+                      </span>
+                      <span className="block text-charcoal-400 text-xs mt-0.5 line-clamp-2">{a.description}</span>
+                    </span>
+                    <span className={`w-6 h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 ${active ? 'border-accent bg-accent' : 'border-charcoal-600'}`}>
+                      {active && <Check className="w-4 h-4 text-charcoal-950" />}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <button
+              onClick={() => setStep(6)}
+              className="w-full btn-primary py-3.5 mt-5 flex items-center justify-center gap-2"
+            >
+              {selectedAddons.length ? `Continue with ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}` : 'Skip — Continue'}
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
+        {/* Step 6 — Timeline */}
+        {step === 6 && (
+          <div className="animate-fade-in">
+            <h3 className="text-xl font-bold text-white text-center mb-1">How soon do you need it?</h3>
+            <p className="text-charcoal-400 text-sm text-center mb-5">
+              This helps us prioritize and find you the right slot.
+            </p>
+            <div className="space-y-2.5">
+              {TIMELINES.map(opt => {
+                const active = timeline === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    onClick={() => pick(setTimeline, opt.id)}
+                    className={`w-full flex items-center gap-3.5 text-left px-4 py-3.5 rounded-xl border transition-all ${
+                      active ? 'border-accent bg-accent/10' : 'border-charcoal-700 bg-charcoal-800 hover:border-charcoal-600'
+                    }`}
+                  >
+                    <span className="flex-1 min-w-0">
+                      <span className="flex items-center gap-2">
+                        <span className="text-white font-semibold text-sm">{opt.id}</span>
+                        {opt.urgent && <span className="text-[10px] font-bold uppercase tracking-wide text-accent bg-accent/15 px-1.5 py-0.5 rounded">Fastest</span>}
+                      </span>
+                      <span className="block text-charcoal-400 text-xs mt-0.5">{opt.desc}</span>
+                    </span>
+                    <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ${active ? 'border-accent bg-accent' : 'border-charcoal-600'}`} />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Step 7 — Contact */}
+        {step === 7 && (
           <form onSubmit={handleSubmit} className="animate-fade-in" noValidate>
-            <h3 className="text-xl font-bold text-white text-center mb-1">One Last Step</h3>
+            <h3 className="text-xl font-bold text-white text-center mb-1">Last step — your details</h3>
             <p className="text-charcoal-400 text-sm text-center mb-4">
-              {isConsult
-                ? "Drop your details and William will call to confirm pricing and answer any questions. No spam, ever."
-                : "Enter your name & number to lock in your estimate — we'll text it to you with a link to book. No spam, ever."}
+              Drop your info and we'll reach out to confirm your quote and schedule. No spam, ever.
             </p>
 
             <div className="flex flex-wrap justify-center gap-2 mb-4">
               {selectedPkg && (
                 <span className="text-xs font-medium text-accent bg-accent/10 border border-accent/25 px-2.5 py-1 rounded-lg">
-                  {selectedPkg.name}{!isConsult && estimate != null ? ` · $${estimate}` : ''}
+                  {selectedPkg.name}{estimate != null ? ` · $${estimate}` : ''}
                 </span>
               )}
               {vehicle && <span className="text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg">{vehicle}</span>}
+              {selectedAddons.length > 0 && (
+                <span className="text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg">+{selectedAddons.length} add-on{selectedAddons.length > 1 ? 's' : ''}</span>
+              )}
             </div>
 
             <div className="flex items-center gap-2.5 px-4 py-3 bg-emerald-500/10 border border-emerald-500/25 rounded-xl mb-5">
               <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
               <p className="text-emerald-300 text-xs">
-                <span className="font-semibold">No payment required to book.</span> You pay only after your detail is finished and you've inspected the results.
+                <span className="font-semibold">No payment required.</span> We'll confirm everything before your appointment.
               </p>
             </div>
 
@@ -470,15 +537,9 @@ export default function QuoteWizard() {
 
             <button type="submit" disabled={state === 'loading'}
               className="w-full btn-primary py-3.5 mt-5 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
-              {state === 'loading'
-                ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</>
-                : isConsult
-                  ? <><PhoneCall className="w-4 h-4" /> Request My Quote</>
-                  : <><Check className="w-4 h-4" /> See My Times &amp; Book</>}
+              {state === 'loading' ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</> : <>Get My Quote <ArrowRight className="w-4 h-4" /></>}
             </button>
-            <p className="text-charcoal-500 text-xs text-center mt-3">
-              {isConsult ? "We'll call you to confirm · No spam, ever" : "We'll text your quote + booking link · No spam · Unsubscribe anytime"}
-            </p>
+            <p className="text-charcoal-500 text-xs text-center mt-3">We'll reach out to confirm · No spam, ever</p>
           </form>
         )}
       </div>
