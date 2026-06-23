@@ -88,6 +88,10 @@ const CityPage = lazy(() => import('./pages/CityPage'));
 
 
 
+const ThankYouPage = lazy(() => import('./pages/ThankYouPage'));
+
+
+
 
 
 
@@ -285,6 +289,10 @@ function AppLayout() {
 
 
           <Route path="/areas/:slug" element={<CityRoute />} />
+
+
+
+          <Route path="/thank-you" element={<ThankYouPage />} />
 
 
 
