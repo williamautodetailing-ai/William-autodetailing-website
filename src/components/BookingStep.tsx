@@ -1,25 +1,52 @@
-import { useState } from 'react';
-import { Gift, ChevronDown, ShieldCheck } from 'lucide-react';
-import GhlCalendar from './GhlCalendar';
+import { useEffect, useState } from 'react';
+import { Gift, ChevronDown, Loader2, ShieldCheck } from 'lucide-react';
+import { GHL_CALENDAR_URL } from '../constants';
 
+const SCRIPT_SRC = 'https://link.msgsndr.com/js/form_embed.js';
 const PROMO = 'Free Engine Bay Detail — included with every booking, gone after June 30';
+
+// GHL_CALENDAR_URL may hold a bare URL OR a full <iframe ...> embed snippet.
+// Pull the src out either way.
+function extractSrc(value: string): string {
+  const m = value.match(/src="([^"]+)"/i);
+  return m ? m[1] : value.trim();
+}
 
 interface Props {
   firstName?: string;
   email?: string;
   phone?: string;
-  packageName?: string;   // e.g. "Pristine Detail"
-  service?: string;       // e.g. "Full Detail (Interior + Exterior)"
-  vehicle?: string;       // e.g. "Sedan / Coupe"
-  carModel?: string;      // e.g. "2022 Tesla Model 3"
-  estimate?: number;      // e.g. 300
-  features?: string[];    // "what's included" list (optional)
+  packageName?: string;
+  service?: string;
+  vehicle?: string;
+  carModel?: string;   // accepted for the lead record — not used by the iframe
+  estimate?: number;
+  features?: string[];
 }
 
 export default function BookingStep({
-  firstName, email, phone, packageName, service, vehicle, carModel, estimate, features = [],
+  firstName, email, phone, packageName, service, vehicle, estimate, features = [],
 }: Props) {
+  const [loaded, setLoaded] = useState(false);
   const [showIncluded, setShowIncluded] = useState(false);
+
+  useEffect(() => {
+    if (!document.querySelector(`script[src="${SCRIPT_SRC}"]`)) {
+      const s = document.createElement('script');
+      s.src = SCRIPT_SRC;
+      s.async = true;
+      document.body.appendChild(s);
+    }
+  }, []);
+
+  // Prefill the GHL calendar with the lead's details
+  const base = extractSrc(GHL_CALENDAR_URL);
+  const params = new URLSearchParams();
+  if (firstName) params.set('first_name', firstName);
+  if (email) params.set('email', email);
+  if (phone) params.set('phone', phone);
+  const qs = params.toString();
+  const calendarSrc = qs ? `${base}${base.includes('?') ? '&' : '?'}${qs}` : base;
 
   const firstNameOnly = (firstName || '').split(' ')[0];
 
@@ -94,16 +121,25 @@ export default function BookingStep({
       </h4>
       <p className="text-charcoal-400 text-sm mb-4">Pick a date &amp; time that works — instant confirmation.</p>
 
-      <div className="rounded-xl overflow-hidden border border-charcoal-700 bg-charcoal-800/40">
-        <GhlCalendar
-          firstName={firstName}
-          email={email}
-          phone={phone}
-          service={service}
-          packageName={packageName}
-          vehicle={vehicle}
-          carModel={carModel}
-          estimate={estimate}
+      <div className="relative rounded-xl overflow-hidden border border-charcoal-700 bg-charcoal-800/40">
+        {!loaded && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 py-24 text-charcoal-400">
+            <Loader2 className="w-6 h-6 animate-spin text-accent" />
+            <span className="text-sm">Loading available times…</span>
+          </div>
+        )}
+        <iframe
+          src={calendarSrc}
+          title="Book your appointment"
+          scrolling="no"
+          onLoad={() => setLoaded(true)}
+          style={{
+            width: '100%',
+            minHeight: 640,
+            border: 'none',
+            opacity: loaded ? 1 : 0,
+            transition: 'opacity 0.4s ease',
+          }}
         />
       </div>
 
