@@ -5,14 +5,17 @@ export const GHL_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/fwFAU
 // GoHighLevel CALENDAR booking widget (date/time only — NOT a service menu).
 // GHL: Calendars → open the calendar → Embed/Share → copy the URL ending in /widget/booking/<ID>.
 // ⚠️ A "/widget/service-menu/" URL makes the customer pick a service again — use "/widget/booking/" instead.
-export const GHL_CALENDAR_URL = 'https://api.leadconnectorhq.com/widget/booking/suGWOwXwpkmIArFkxTsf';
+// Fallback calendar (used only if a package has no specific calendar below). Pristine = most popular.
+export const GHL_CALENDAR_URL = 'https://api.leadconnectorhq.com/widget/booking/6CHjp2S7jxqrsyAUp56B';
 
-// OPTIONAL: a different calendar per package. If a package isn't listed here,
-// it falls back to GHL_CALENDAR_URL above. Leave empty to use one calendar for everything.
+// Each package books into its own GHL calendar → the step opens straight on that package's dates.
+// Keys must match the package names in src/data/packages.ts exactly.
 export const GHL_CALENDAR_BY_PACKAGE: Record<string, string> = {
-  // 'Signature Detail':  'https://api.leadconnectorhq.com/widget/booking/XXXX',
-  // 'Pristine Detail':   'https://api.leadconnectorhq.com/widget/booking/YYYY',
-  // 'The Perfect Detail':'https://api.leadconnectorhq.com/widget/booking/ZZZZ',
+  'Signature Detail':       'https://api.leadconnectorhq.com/widget/booking/Jqg0ZKVcTMFPJEqK9SAl',
+  'Pristine Detail':        'https://api.leadconnectorhq.com/widget/booking/6CHjp2S7jxqrsyAUp56B',
+  'The Perfect Detail':     'https://api.leadconnectorhq.com/widget/booking/ahlqBoyzuDZccGBPIlE7',
+  'Tier 1 Ceramic Coating': 'https://api.leadconnectorhq.com/widget/booking/FHHbKTWtkXhC5vbjUmxx',
+  'Tier 2 Ceramic Coating': 'https://api.leadconnectorhq.com/widget/booking/rySvR38QgVGskSUa5X9B',
 };
 
 export const BOOKING_URL = 'https://app.urable.com/form/de36wHWdi8PvYueHdIv5/NpEaEWdx5tDbvPD5GDw8';
