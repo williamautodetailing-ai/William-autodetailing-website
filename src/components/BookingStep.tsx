@@ -48,6 +48,8 @@ export default function BookingStep({
   if (phone) params.set('phone', phone);
   const qs = params.toString();
   const calendarSrc = qs ? `${base}${base.includes('?') ? '&' : '?'}${qs}` : base;
+  const calId = base.split('?')[0].split('/').pop() || 'cal';
+  const frameId = `gcal-${calId}`;
 
   const firstNameOnly = (firstName || '').split(' ')[0];
 
@@ -124,22 +126,22 @@ export default function BookingStep({
 
       <div className="relative rounded-xl overflow-hidden border border-charcoal-700 bg-charcoal-800/40">
         {!loaded && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 py-24 text-charcoal-400">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 py-24 text-charcoal-400 pointer-events-none">
             <Loader2 className="w-6 h-6 animate-spin text-accent" />
             <span className="text-sm">Loading available times…</span>
           </div>
         )}
         <iframe
+          id={frameId}
           src={calendarSrc}
           title="Book your appointment"
-          scrolling="no"
+          scrolling="yes"
           onLoad={() => setLoaded(true)}
           style={{
             width: '100%',
-            minHeight: 640,
+            height: 'min(80vh, 720px)',
             border: 'none',
-            opacity: loaded ? 1 : 0,
-            transition: 'opacity 0.4s ease',
+            display: 'block',
           }}
         />
       </div>
