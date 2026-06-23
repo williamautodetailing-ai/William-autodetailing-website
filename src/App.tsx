@@ -88,6 +88,10 @@ const CityPage = lazy(() => import('./pages/CityPage'));
 
 
 
+const LandingPage = lazy(() => import('./pages/LandingPage'));
+
+
+
 
 
 
@@ -238,6 +242,11 @@ function CityRoute() {
 
 function AppLayout() {
 
+  const location = useLocation();
+
+  const isLanding = location.pathname === '/book';
+
+
 
 
   return (
@@ -252,7 +261,7 @@ function AppLayout() {
 
 
 
-      <Header />
+      {!isLanding && <Header />}
 
 
 
@@ -288,6 +297,10 @@ function AppLayout() {
 
 
 
+          <Route path="/book" element={<LandingPage />} />
+
+
+
           <Route path="*" element={<Navigate to="/" replace />} />
 
 
@@ -300,7 +313,7 @@ function AppLayout() {
 
 
 
-      <Footer />
+      {!isLanding && <Footer />}
 
 
 
