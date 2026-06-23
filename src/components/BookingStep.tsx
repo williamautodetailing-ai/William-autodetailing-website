@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Gift, ChevronDown, Loader2, ShieldCheck } from 'lucide-react';
-import { GHL_CALENDAR_URL } from '../constants';
+import { GHL_CALENDAR_URL, GHL_CALENDAR_BY_PACKAGE } from '../constants';
 
 const SCRIPT_SRC = 'https://link.msgsndr.com/js/form_embed.js';
 const PROMO = 'Free Engine Bay Detail — included with every booking, gone after June 30';
@@ -39,8 +39,9 @@ export default function BookingStep({
     }
   }, []);
 
-  // Prefill the GHL calendar with the lead's details
-  const base = extractSrc(GHL_CALENDAR_URL);
+  // Pick the calendar for the chosen package (or the default one), prefilled with the lead.
+  const embed = (packageName && GHL_CALENDAR_BY_PACKAGE[packageName]) || GHL_CALENDAR_URL;
+  const base = extractSrc(embed);
   const params = new URLSearchParams();
   if (firstName) params.set('first_name', firstName);
   if (email) params.set('email', email);
