@@ -1,6 +1,6 @@
 import { Phone, Star, MapPin, ShieldCheck, Car, Award, Clock, Check, ArrowRight, Instagram } from 'lucide-react';
 import QuoteWizard from '../components/QuoteWizard';
-import useDocumentMeta from '../hooks/useDocumentMeta';
+import SEO from '../components/SEO';
 import {
   BUSINESS_NAME, PHONE, INSTAGRAM_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT,
 } from '../constants';
@@ -28,17 +28,16 @@ const PERKS = [
 ];
 
 export default function LandingPage() {
-  useDocumentMeta({
-    title: `Mobile Detailing Miami — Premium Results in Your Driveway | ${BUSINESS_NAME}`,
-    description: `Miami's top-rated mobile car detailing. We come to your home or office fully equipped. Instant quote, no payment to book. ${GOOGLE_RATING}★ · ${GOOGLE_REVIEW_COUNT}+ reviews.`,
-    canonical: '/book',
-  });
-
   const scrollToQuote = () =>
     document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   return (
     <div className="min-h-screen bg-charcoal-950 text-white">
+      <SEO
+        title={`Mobile Detailing Miami — Premium Results in Your Driveway | ${BUSINESS_NAME}`}
+        description={`Miami's top-rated mobile car detailing. We come to your home or office fully equipped. Instant quote, no payment to book. ${GOOGLE_RATING}★ · ${GOOGLE_REVIEW_COUNT}+ reviews.`}
+        canonical="/book"
+      />
       {/* Minimal top bar — no nav, reduce exits */}
       <header className="absolute top-0 inset-x-0 z-30">
         <div className="container-custom flex items-center justify-between h-20">
