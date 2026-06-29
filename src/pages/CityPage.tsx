@@ -4,7 +4,7 @@ import type { CityData } from '../data/cities';
 import { packages } from '../data/packages';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, TRAVEL_FEE_MILES, BASE_CITY } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
-import useDocumentMeta from '../hooks/useDocumentMeta';
+import SEO from '../components/SEO';
 
 interface CityPageProps {
   city: CityData;
@@ -20,14 +20,14 @@ export default function CityPage({ city }: CityPageProps) {
   const { openModal } = useLeadModal();
   const mainPackages = packages.filter(p => p.id !== 'windshield');
 
-  useDocumentMeta({
-    title: `Mobile Car Detailing in ${city.name}, FL | ${BUSINESS_NAME}`,
-    description: `${city.name} mobile car detailing by ${BUSINESS_NAME}. We come to your home or office. Ceramic coatings, full details, add-ons. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. Serving ${city.name} & surrounding areas.`,
-    canonical: `/areas/${city.slug}`,
-  });
-
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
+      <SEO
+        title={`${city.name} Mobile Detailing, ${city.state} | ${BUSINESS_NAME}`}
+        description={`${city.name} mobile detailing by ${BUSINESS_NAME}. We come to your home or office. Ceramic coatings, full details, add-ons. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. Serving ${city.name} & surrounding areas.`}
+        keywords={`mobile detailing ${city.name}, car detailing ${city.name} FL, ceramic coating ${city.name}, mobile car wash ${city.name}, auto detailing near me`}
+        canonical={`/areas/${city.slug}`}
+      />
       {/* Hero */}
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0">
@@ -55,8 +55,8 @@ export default function CityPage({ city }: CityPageProps) {
           </div>
 
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            Mobile Auto Detailing
-            <span className="block gradient-text">in {city.name}, FL</span>
+            {city.name}
+            <span className="block gradient-text">Mobile Detailing</span>
           </h1>
 
           <p className="text-lg md:text-xl text-charcoal-300 max-w-2xl mx-auto mb-8">
