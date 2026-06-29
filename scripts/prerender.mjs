@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
-const { render, routes } = await import(join(root, '.ssr-tmp/entry-server.js'));
+const { render, routes, ceramicCities } = await import(join(root, '.ssr-tmp/entry-server.js'));
 
 const template = readFileSync(join(root, 'dist/index.html'), 'utf-8');
 
@@ -56,6 +56,17 @@ function getMeta(url) {
       title: `${name} Mobile Detailing, FL | ${BUSINESS}`,
       description: `${name} mobile car detailing by ${BUSINESS}. We come to your home or office. Ceramic coatings, full details, add-ons. ${RATING} stars · ${REVIEWS}+ reviews. Serving ${name} & surrounding areas.`,
     };
+  }
+
+  const ceramicMatch = url.match(/^\/ceramic-coating\/(.+)$/);
+  if (ceramicMatch) {
+    const c = ceramicCities.find((x) => x.citySlug === ceramicMatch[1]);
+    if (c) {
+      return {
+        title: `Ceramic Coating in ${c.name}, FL | ${BUSINESS}`,
+        description: c.metaDescription,
+      };
+    }
   }
 
   return pageMeta['/'];
