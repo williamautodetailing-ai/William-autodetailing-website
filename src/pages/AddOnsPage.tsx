@@ -2,19 +2,18 @@ import { Clock, AlertCircle } from 'lucide-react';
 import { addons } from '../data/addons';
 import { useLeadModal } from '../context/LeadModalContext';
 import { BUSINESS_NAME } from '../constants';
-import useDocumentMeta from '../hooks/useDocumentMeta';
+import SEO from '../components/SEO';
 
 export default function AddOnsPage() {
   const { openModal } = useLeadModal();
 
-  useDocumentMeta({
-    title: `Add-On Services — Engine Bay, Headlights & More | ${BUSINESS_NAME}`,
-    description: 'Specialty add-on detailing services in Miami. Engine bay cleaning, headlight restoration, odor elimination, pet hair removal, clay bar & more. Book standalone or with any package.',
-    canonical: '/add-ons',
-  });
-
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
+      <SEO
+        title={`Add-On Services — Engine Bay, Headlights & More | ${BUSINESS_NAME}`}
+        description="Specialty add-on detailing services in Miami. Engine bay cleaning, headlight restoration, odor elimination, pet hair removal, clay bar & more. Book standalone or with any package."
+        canonical="/add-ons"
+      />
       {/* Hero */}
       <section className="relative py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.08),transparent_65%)]" />
