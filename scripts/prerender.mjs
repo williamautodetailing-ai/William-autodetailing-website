@@ -12,7 +12,7 @@ const template = readFileSync(join(root, 'dist/index.html'), 'utf-8');
 const SITE_URL = 'https://www.williamsautodetailing.com';
 const BUSINESS = "William's Auto Detailing";
 const RATING = '5.0';
-const REVIEWS = '139';
+const REVIEWS = '137';
 
 const pageMeta = {
   '/': {
@@ -38,10 +38,12 @@ const pageMeta = {
 };
 
 const cityNames = {
-  'doral': 'Doral', 'miami': 'Miami', 'medley': 'Medley', 'kendall': 'Kendall',
-  'tamiami': 'Tamiami', 'sweetwater': 'Sweetwater', 'west-miami': 'West Miami',
-  'miami-beach': 'Miami Beach', 'south-miami': 'South Miami', 'coral-gables': 'Coral Gables',
-  'hialeah-gardens': 'Hialeah Gardens', 'olympia-heights': 'Olympia Heights',
+  'doral-mobile-detailing': 'Doral', 'miami-mobile-detailing': 'Miami',
+  'medley-mobile-detailing': 'Medley', 'kendall-mobile-detailing': 'Kendall',
+  'tamiami-mobile-detailing': 'Tamiami', 'sweetwater-mobile-detailing': 'Sweetwater',
+  'west-miami-mobile-detailing': 'West Miami', 'miami-beach-mobile-detailing': 'Miami Beach',
+  'south-miami-mobile-detailing': 'South Miami', 'coral-gables-mobile-detailing': 'Coral Gables',
+  'hialeah-gardens-mobile-detailing': 'Hialeah Gardens', 'olympia-heights-mobile-detailing': 'Olympia Heights',
 };
 
 function getMeta(url) {
