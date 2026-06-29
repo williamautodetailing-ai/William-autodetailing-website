@@ -1,7 +1,7 @@
 import { Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BUSINESS_NAME, EMAIL, PHONE } from '../constants';
-import useDocumentMeta from '../hooks/useDocumentMeta';
+import SEO from '../components/SEO';
 
 const LAST_UPDATED = 'June 17, 2026';
 
@@ -134,14 +134,13 @@ const sections = [
 ];
 
 export default function PrivacyPolicyPage() {
-  useDocumentMeta({
-    title: `Privacy Policy | ${BUSINESS_NAME}`,
-    description: `Privacy policy for ${BUSINESS_NAME}. Learn how we collect, use, and protect your personal information when you use our mobile detailing services.`,
-    canonical: '/privacy-policy',
-  });
-
   return (
     <div className="min-h-screen bg-charcoal-950 pt-24 md:pt-32 pb-20">
+      <SEO
+        title={`Privacy Policy | ${BUSINESS_NAME}`}
+        description={`Privacy policy for ${BUSINESS_NAME}. Learn how we collect, use, and protect your personal information when you use our mobile detailing services.`}
+        canonical="/privacy-policy"
+      />
       <div className="container-custom max-w-4xl">
         {/* Header */}
         <div className="mb-12">
