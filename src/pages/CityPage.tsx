@@ -2,6 +2,7 @@ import { MapPin, Star, Check, Shield, Droplets } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { CityData } from '../data/cities';
 import { packages } from '../data/packages';
+import { ceramicCities } from '../data/ceramicCities';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, TRAVEL_FEE_MILES, BASE_CITY } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
 import SEO from '../components/SEO';
@@ -19,6 +20,7 @@ const testimonials = [
 export default function CityPage({ city }: CityPageProps) {
   const { openModal } = useLeadModal();
   const mainPackages = packages.filter(p => p.id !== 'windshield');
+  const ceramicCity = ceramicCities.find((c) => c.name === city.name);
 
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
@@ -246,8 +248,11 @@ export default function CityPage({ city }: CityPageProps) {
             <button onClick={() => openModal()} className="btn-primary text-lg px-10 py-4">
               Book Now in {city.name}
             </button>
-            <Link to="/ceramic-coating" className="btn-secondary text-lg px-8 py-4">
-              Ceramic Coating
+            <Link
+              to={ceramicCity ? `/ceramic-coating/${ceramicCity.citySlug}` : '/ceramic-coating'}
+              className="btn-secondary text-lg px-8 py-4"
+            >
+              {ceramicCity ? `Ceramic Coating in ${city.name}` : 'Ceramic Coating'}
             </Link>
           </div>
         </div>
