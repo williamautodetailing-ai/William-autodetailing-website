@@ -9,7 +9,7 @@ const { render, routes } = await import(join(root, '.ssr-tmp/entry-server.js'));
 
 const template = readFileSync(join(root, 'dist/index.html'), 'utf-8');
 
-const SITE_URL = 'https://www.williamsautodetailing.com';
+const SITE_URL = 'https://williamautodetailing.net';
 const BUSINESS = "William's Auto Detailing";
 const RATING = '5.0';
 const REVIEWS = '137';
