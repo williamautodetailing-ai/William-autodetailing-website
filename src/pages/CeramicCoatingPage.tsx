@@ -3,7 +3,7 @@ import { Check, Minus, Clock, Shield, Droplets, Sun, Zap, Star, ChevronDown, Che
 import { packages, ceramicComparisonRows } from '../data/packages';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
-import useDocumentMeta from '../hooks/useDocumentMeta';
+import SEO from '../components/SEO';
 
 type GroupedRows<T> = { name: string; rows: T[] }[];
 function groupRows<T extends { group?: string }>(rows: T[]): GroupedRows<T> {
@@ -78,12 +78,6 @@ export default function CeramicCoatingPage() {
   const [mobilePkgIdx, setMobilePkgIdx] = useState(0);
   const { openModal } = useLeadModal();
 
-  useDocumentMeta({
-    title: `Ceramic Coating Miami — 2–5 Year Paint Protection | ${BUSINESS_NAME}`,
-    description: `Professional ceramic coating in Miami-Dade. 2–5 year hydrophobic paint protection with full prep included. UV defense, mirror finish, self-cleaning surface. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. We come to you.`,
-    canonical: '/ceramic-coating',
-  });
-
   const ceramicPackages = packages.filter(p => p.isCeramic);
   const groups = groupRows(ceramicComparisonRows);
   // column order: Tier 1, Tier 2, Windshield
@@ -91,6 +85,11 @@ export default function CeramicCoatingPage() {
 
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
+      <SEO
+        title={`Ceramic Coating Miami — 2–5 Year Paint Protection | ${BUSINESS_NAME}`}
+        description={`Professional ceramic coating in Miami-Dade. 2–5 year hydrophobic paint protection with full prep included. UV defense, mirror finish, self-cleaning surface. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. We come to you.`}
+        canonical="/ceramic-coating"
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       {/* Hero */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
