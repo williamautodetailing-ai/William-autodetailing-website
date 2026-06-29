@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const SITE_URL = 'https://www.williamsautodetailing.com';
+const SITE_URL = 'https://williamautodetailing.net';
 const DEFAULT_OG_IMAGE = `${SITE_URL}/images/optimized/hero-porsche.webp`;
 
 interface SEOProps {
