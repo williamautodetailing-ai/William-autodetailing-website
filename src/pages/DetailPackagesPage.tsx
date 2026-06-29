@@ -3,7 +3,7 @@ import { Check, Minus, Clock, Star, Sparkles, ChevronDown, ChevronUp, Car, Users
 import { packages, detailComparisonRows } from '../data/packages';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
-import useDocumentMeta from '../hooks/useDocumentMeta';
+import SEO from '../components/SEO';
 
 const detailPackages = packages.filter((p) => !p.isCeramic);
 
@@ -86,14 +86,13 @@ export default function DetailPackagesPage() {
   const { openModal } = useLeadModal();
   const groups = groupRows(detailComparisonRows);
 
-  useDocumentMeta({
-    title: `Detail Packages — Mobile Car Detailing Miami | ${BUSINESS_NAME}`,
-    description: `Compare our 3 mobile car detailing packages — Signature, Pristine & Perfect Detail. Interior & exterior included. Professional products, eco-friendly, fully insured. We come to you in Miami-Dade.`,
-    canonical: '/detail-packages',
-  });
-
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
+      <SEO
+        title={`Detail Packages — Mobile Car Detailing Miami | ${BUSINESS_NAME}`}
+        description="Compare our 3 mobile car detailing packages — Signature, Pristine & Perfect Detail. Interior & exterior included. Professional products, eco-friendly, fully insured. We come to you in Miami-Dade."
+        canonical="/detail-packages"
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       {/* Hero */}
       <section className="relative py-20 md:py-28 overflow-hidden">
