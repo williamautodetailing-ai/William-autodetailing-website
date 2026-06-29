@@ -1,7 +1,7 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { renderToString } from "react-dom/server";
 import { useLocation, Link, StaticRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
-import { forwardRef, createElement, createContext, useState, useContext, useEffect } from "react";
+import { forwardRef, createElement, createContext, useState, useContext, useEffect, useRef } from "react";
 /**
  * @license lucide-react v0.344.0 - ISC
  *
@@ -76,45 +76,9 @@ const AlertCircle = createLucideIcon("AlertCircle", [
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const ArrowLeft = createLucideIcon("ArrowLeft", [
-  ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
-  ["path", { d: "M19 12H5", key: "x3x0zl" }]
-]);
-/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const ArrowRight = createLucideIcon("ArrowRight", [
-  ["path", { d: "M5 12h14", key: "1ays0h" }],
-  ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
-]);
-/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
 const Award = createLucideIcon("Award", [
   ["circle", { cx: "12", cy: "8", r: "6", key: "1vp47v" }],
   ["path", { d: "M15.477 12.89 17 22l-5-3-5 3 1.523-9.11", key: "em7aur" }]
-]);
-/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const Brush = createLucideIcon("Brush", [
-  ["path", { d: "m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08", key: "1styjt" }],
-  [
-    "path",
-    {
-      d: "M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z",
-      key: "z0l1mu"
-    }
-  ]
 ]);
 /**
  * @license lucide-react v0.344.0 - ISC
@@ -262,24 +226,6 @@ const ExternalLink = createLucideIcon("ExternalLink", [
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const Gift = createLucideIcon("Gift", [
-  ["rect", { x: "3", y: "8", width: "18", height: "4", rx: "1", key: "bkv52" }],
-  ["path", { d: "M12 8v13", key: "1c76mn" }],
-  ["path", { d: "M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7", key: "6wjy6b" }],
-  [
-    "path",
-    {
-      d: "M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5",
-      key: "1ihvrl"
-    }
-  ]
-]);
-/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
 const HelpCircle = createLucideIcon("HelpCircle", [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3", key: "1u773s" }],
@@ -358,15 +304,6 @@ const Menu = createLucideIcon("Menu", [
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const MessageSquare = createLucideIcon("MessageSquare", [
-  ["path", { d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z", key: "1lielz" }]
-]);
-/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
 const Minus = createLucideIcon("Minus", [["path", { d: "M5 12h14", key: "1ays0h" }]]);
 /**
  * @license lucide-react v0.344.0 - ISC
@@ -404,22 +341,6 @@ const Quote = createLucideIcon("Quote", [
       key: "10za9r"
     }
   ]
-]);
-/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const ShieldCheck = createLucideIcon("ShieldCheck", [
-  [
-    "path",
-    {
-      d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
-      key: "oel41y"
-    }
-  ],
-  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ]);
 /**
  * @license lucide-react v0.344.0 - ISC
@@ -535,7 +456,7 @@ const Zap = createLucideIcon("Zap", [
 const cityPages = [
   {
     name: "Doral",
-    slug: "doral-mobile-detailing",
+    slug: "doral",
     state: "FL",
     county: "Miami-Dade",
     description: "Doral is our home base — we're right in your neighborhood and can arrive fast with no travel fee. Whether you're near CityPlace Doral, the Trump Doral resort, or in one of the beautiful residential communities, we bring professional mobile detailing directly to you.",
@@ -545,7 +466,7 @@ const cityPages = [
   },
   {
     name: "Miami",
-    slug: "miami-mobile-detailing",
+    slug: "miami",
     state: "FL",
     county: "Miami-Dade",
     description: "Miami's fast-paced lifestyle deserves a detailing service that comes to you. From Brickell to Wynwood, Little Havana to Overtown, we serve all of Miami with our premium mobile detailing unit. Keep your vehicle looking as vibrant as the city itself.",
@@ -555,7 +476,7 @@ const cityPages = [
   },
   {
     name: "Medley",
-    slug: "medley-mobile-detailing",
+    slug: "medley",
     state: "FL",
     county: "Miami-Dade",
     description: "Medley's industrial and residential communities deserve vehicles that look their best. Our mobile detailing service brings professional-grade cleaning right to your door, saving you time without compromising on quality.",
@@ -564,7 +485,7 @@ const cityPages = [
   },
   {
     name: "Kendall",
-    slug: "kendall-mobile-detailing",
+    slug: "kendall",
     state: "FL",
     county: "Miami-Dade",
     description: "Kendall residents trust William's Auto Detailing for premium mobile car care. From The Falls to Dadeland and everywhere in between, we service all of Kendall. Our team comes to your home or workplace for maximum convenience.",
@@ -574,7 +495,7 @@ const cityPages = [
   },
   {
     name: "Tamiami",
-    slug: "tamiami-mobile-detailing",
+    slug: "tamiami",
     state: "FL",
     county: "Miami-Dade",
     description: "Tamiami residents can enjoy showroom-quality detailing without leaving home. Our mobile unit handles everything on-site — from a quick signature detail to a full ceramic coating package. Convenient, professional, and competitively priced.",
@@ -583,7 +504,7 @@ const cityPages = [
   },
   {
     name: "Sweetwater",
-    slug: "sweetwater-mobile-detailing",
+    slug: "sweetwater",
     state: "FL",
     county: "Miami-Dade",
     description: "Sweetwater is one of our most-served areas. Whether you're near FIU, in a residential neighborhood, or parked at work, we'll come to you. Our eco-friendly products and professional techniques deliver results that stand out.",
@@ -593,7 +514,7 @@ const cityPages = [
   },
   {
     name: "West Miami",
-    slug: "west-miami-mobile-detailing",
+    slug: "west-miami",
     state: "FL",
     county: "Miami-Dade",
     description: "West Miami's tight-knit community deserves top-tier mobile detailing. We service your home driveway, apartment parking, or office lot with the same precision and care. Our ceramic coatings are especially popular in West Miami for long-lasting protection in Florida's tough climate.",
@@ -602,7 +523,7 @@ const cityPages = [
   },
   {
     name: "Miami Beach",
-    slug: "miami-beach-mobile-detailing",
+    slug: "miami-beach",
     state: "FL",
     county: "Miami-Dade",
     description: "Salt air, UV rays, and constant sun take a toll on Miami Beach vehicles. Our ceramic coating packages are the ultimate defense against Florida's harsh coastal environment. We come to you anywhere on the Beach — South Beach, Mid Beach, North Beach.",
@@ -612,7 +533,7 @@ const cityPages = [
   },
   {
     name: "South Miami",
-    slug: "south-miami-mobile-detailing",
+    slug: "south-miami",
     state: "FL",
     county: "Miami-Dade",
     description: "South Miami homeowners and businesses trust William's Auto Detailing for reliable, high-quality mobile car care. We serve the entire South Miami area including residential neighborhoods and commercial districts with our fully-equipped mobile unit.",
@@ -622,7 +543,7 @@ const cityPages = [
   },
   {
     name: "Coral Gables",
-    slug: "coral-gables-mobile-detailing",
+    slug: "coral-gables",
     state: "FL",
     county: "Miami-Dade",
     description: "Coral Gables is known for luxury, beauty, and high standards — and so are we. Our premium mobile detailing service is the perfect match for Coral Gables vehicles. From the Miracle Mile to Coconut Grove's border, we serve the entire City Beautiful.",
@@ -632,7 +553,7 @@ const cityPages = [
   },
   {
     name: "Hialeah Gardens",
-    slug: "hialeah-gardens-mobile-detailing",
+    slug: "hialeah-gardens",
     state: "FL",
     county: "Miami-Dade",
     description: "Hialeah Gardens residents get the same professional-grade detailing service that Miami's most discerning car owners rely on. Our mobile unit comes fully equipped — no water or power hookups needed from you.",
@@ -641,7 +562,7 @@ const cityPages = [
   },
   {
     name: "Olympia Heights",
-    slug: "olympia-heights-mobile-detailing",
+    slug: "olympia-heights",
     state: "FL",
     county: "Miami-Dade",
     description: "Olympia Heights is a vibrant residential community in Miami-Dade, and we're proud to serve it. Our mobile detailing team arrives at your address, fully prepared to deliver the same 5-star quality that has earned us 137 Google reviews.",
@@ -716,12 +637,9 @@ function Header() {
             /* @__PURE__ */ jsx(Link, { to: "/", className: "flex items-center", children: /* @__PURE__ */ jsx(
               "img",
               {
-                src: "/images/optimized/williams-logo.webp",
+                src: "/images/williams_auto_detailing_logo.png",
                 alt: "William's Auto Detailing",
-                className: "h-20 md:h-28 w-auto object-contain",
-                width: 256,
-                height: 256,
-                fetchpriority: "high"
+                className: "h-20 md:h-28 w-auto object-contain"
               }
             ) }),
             /* @__PURE__ */ jsxs("nav", { className: "hidden md:flex items-center gap-6", children: [
@@ -840,7 +758,7 @@ const BUSINESS_NAME = "William's Auto Detailing";
 const PHONE = "(808) 772-0952";
 const EMAIL = "williamautodetailing@gmail.com";
 const INSTAGRAM_URL = "https://www.instagram.com/william.autodetailing/";
-const GOOGLE_REVIEWS_URL = "https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID_HERE";
+const GOOGLE_REVIEWS_URL = "https://g.page/r/";
 const GOOGLE_REVIEW_COUNT = 137;
 const GOOGLE_RATING = "5.0";
 const BASE_CITY = "Doral";
@@ -852,34 +770,30 @@ function Hero() {
       /* @__PURE__ */ jsx(
         "img",
         {
-          src: "/images/optimized/hero-porsche.webp",
-          srcSet: "/images/optimized/hero-porsche-480.webp 480w, /images/optimized/hero-porsche-768.webp 768w, /images/optimized/hero-porsche.webp 1200w",
-          sizes: "100vw",
+          src: "/images/image.png",
           alt: "William detailing a Porsche 911 in Miami — William's Auto Detailing",
-          className: "w-full h-full object-cover object-top opacity-55",
-          width: 1200,
-          height: 1053,
-          fetchpriority: "high",
-          decoding: "async"
+          className: "w-full h-full object-cover object-top opacity-55"
         }
       ),
       /* @__PURE__ */ jsx(
         "div",
         {
-          className: "absolute rounded-sm bg-charcoal-950/90",
+          className: "absolute rounded-sm",
           style: {
             top: "3%",
             right: "9%",
             width: "12%",
-            height: "7%"
+            height: "7%",
+            backdropFilter: "blur(14px)",
+            WebkitBackdropFilter: "blur(14px)"
           }
         }
       ),
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/60 to-charcoal-950/20" }),
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-r from-charcoal-950/60 via-transparent to-charcoal-950/40" })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/4 -left-32 w-64 h-64 bg-accent/20 rounded-full blur-[128px]" }),
-    /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute bottom-1/4 -right-32 w-64 h-64 bg-primary-500/20 rounded-full blur-[128px]" }),
+    /* @__PURE__ */ jsx("div", { className: "absolute top-1/4 -left-32 w-64 h-64 bg-accent/20 rounded-full blur-[128px]" }),
+    /* @__PURE__ */ jsx("div", { className: "absolute bottom-1/4 -right-32 w-64 h-64 bg-primary-500/20 rounded-full blur-[128px]" }),
     /* @__PURE__ */ jsx("div", { className: "relative z-10 container-custom text-center px-4 pt-24 md:pt-28", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto", children: [
       /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-8 animate-fade-in", children: [
         /* @__PURE__ */ jsx("span", { className: "flex items-center gap-0.5", children: [...Array(5)].map((_, i) => /* @__PURE__ */ jsx(Star, { className: "w-4 h-4 text-gold fill-gold" }, i)) }),
@@ -939,7 +853,7 @@ const steps = [
 ];
 function HowItWorks() {
   return /* @__PURE__ */ jsxs("section", { id: "how-it-works", className: "py-16 md:py-20 bg-charcoal-950 relative overflow-hidden", children: [
-    /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-[160px]" }),
+    /* @__PURE__ */ jsx("div", { className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-[160px]" }),
     /* @__PURE__ */ jsxs("div", { className: "container-custom relative z-10", children: [
       /* @__PURE__ */ jsxs("div", { className: "text-center mb-10", children: [
         /* @__PURE__ */ jsxs("h2", { className: "font-display text-3xl md:text-4xl font-bold text-white mb-3", children: [
@@ -1342,7 +1256,7 @@ function Services() {
 const GOOGLE_PHOTOS_URL = "https://share.google/O09RVjOI5JFSInkKp";
 function Gallery() {
   return /* @__PURE__ */ jsxs("section", { id: "gallery", className: "section-padding bg-charcoal-950 relative overflow-hidden", children: [
-    /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-accent/5 rounded-full blur-[120px]" }),
+    /* @__PURE__ */ jsx("div", { className: "absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-accent/5 rounded-full blur-[120px]" }),
     /* @__PURE__ */ jsxs("div", { className: "container-custom relative z-10", children: [
       /* @__PURE__ */ jsxs("div", { className: "text-center mb-12", children: [
         /* @__PURE__ */ jsxs("h2", { className: "font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4", children: [
@@ -1602,15 +1516,9 @@ function About() {
         /* @__PURE__ */ jsx("div", { className: "aspect-[4/5] rounded-3xl overflow-hidden bg-charcoal-800 border border-charcoal-700 max-w-md mx-auto lg:mx-0", children: /* @__PURE__ */ jsx(
           "img",
           {
-            src: "/images/optimized/about-us/audi-r8.webp",
-            srcSet: "/images/optimized/about-us/audi-r8-480.webp 480w, /images/optimized/about-us/audi-r8-768.webp 768w, /images/optimized/about-us/audi-r8.webp 900w",
-            sizes: "(max-width: 1024px) 100vw, 50vw",
+            src: "/images/about-us/audi_r8.png",
             alt: "William detailing an Audi R8 in Miami",
-            className: "w-full h-full object-cover object-center",
-            width: 900,
-            height: 941,
-            loading: "lazy",
-            decoding: "async"
+            className: "w-full h-full object-cover object-center"
           }
         ) }),
         /* @__PURE__ */ jsxs("div", { className: "absolute -bottom-6 -right-6 bg-charcoal-800 rounded-2xl p-6 border border-charcoal-700 shadow-xl max-w-xs hidden lg:block", children: [
@@ -1667,13 +1575,9 @@ function Footer() {
         /* @__PURE__ */ jsx(Link, { to: "/", className: "flex items-center mb-4", children: /* @__PURE__ */ jsx(
           "img",
           {
-            src: "/images/optimized/williams-logo.webp",
+            src: "/images/williams_auto_detailing_logo.png",
             alt: "William's Auto Detailing",
-            className: "h-14 w-auto object-contain",
-            width: 256,
-            height: 256,
-            loading: "lazy",
-            decoding: "async"
+            className: "h-14 w-auto object-contain"
           }
         ) }),
         /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm leading-relaxed mb-4", children: "Miami's top-rated mobile auto detailing. We come to you — home, office, or apartment — anywhere in Miami-Dade County." }),
@@ -1788,46 +1692,6 @@ function Footer() {
     ] }) })
   ] }) });
 }
-const SITE_URL = "https://www.williamsautodetailing.com";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/images/optimized/hero-porsche.webp`;
-function SEO({ title, description, keywords, canonical, image }) {
-  useEffect(() => {
-    document.title = title;
-    const setMeta = (name, content, isProperty = false) => {
-      const selector = isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`;
-      let el = document.querySelector(selector);
-      if (!el) {
-        el = document.createElement("meta");
-        if (isProperty) el.setAttribute("property", name);
-        else el.setAttribute("name", name);
-        document.head.appendChild(el);
-      }
-      el.content = content;
-    };
-    const ogImage = image || DEFAULT_OG_IMAGE;
-    setMeta("description", description);
-    if (keywords) setMeta("keywords", keywords);
-    setMeta("robots", "index, follow");
-    setMeta("og:title", title, true);
-    setMeta("og:description", description, true);
-    setMeta("og:image", ogImage, true);
-    setMeta("twitter:title", title);
-    setMeta("twitter:description", description);
-    setMeta("twitter:image", ogImage);
-    if (canonical) {
-      const href = canonical.startsWith("http") ? canonical : `${SITE_URL}${canonical}`;
-      let link = document.querySelector('link[rel="canonical"]');
-      if (!link) {
-        link = document.createElement("link");
-        link.rel = "canonical";
-        document.head.appendChild(link);
-      }
-      link.href = href;
-      setMeta("og:url", href, true);
-    }
-  }, [title, description, keywords, canonical, image]);
-  return null;
-}
 function groupRows$1(rows) {
   const groups2 = [];
   rows.forEach((row) => {
@@ -1882,15 +1746,6 @@ const faqs$1 = [
     a: "Maintenance is actually easier! Avoid automatic car washes with brushes. Hand washing or touchless washing is best. A maintenance kit is included with our Tier 1 & Tier 2 packages."
   }
 ];
-const faqSchema$1 = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs$1.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a }
-  }))
-};
 function CeramicCoatingPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [mobilePkgIdx, setMobilePkgIdx] = useState(0);
@@ -1899,34 +1754,19 @@ function CeramicCoatingPage() {
   const groups2 = groupRows$1(ceramicComparisonRows);
   const cols = ceramicPackages2;
   return /* @__PURE__ */ jsxs("div", { className: "bg-charcoal-950 text-white pt-24 md:pt-32", children: [
-    /* @__PURE__ */ jsx(
-      SEO,
-      {
-        title: `Ceramic Coating Miami — 2–5 Year Paint Protection | ${BUSINESS_NAME}`,
-        description: `Professional ceramic coating in Miami-Dade. 2–5 year hydrophobic paint protection with full prep included. UV defense, mirror finish, self-cleaning surface. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. We come to you.`,
-        canonical: "/ceramic-coating"
-      }
-    ),
-    /* @__PURE__ */ jsx("script", { type: "application/ld+json", dangerouslySetInnerHTML: { __html: JSON.stringify(faqSchema$1) } }),
     /* @__PURE__ */ jsxs("section", { className: "relative min-h-[70vh] flex items-center justify-center overflow-hidden", children: [
       /* @__PURE__ */ jsxs("div", { className: "absolute inset-0", children: [
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 opacity-25", children: /* @__PURE__ */ jsx(
           "img",
           {
-            src: "/images/optimized/ceramic-hero.webp",
-            srcSet: "/images/optimized/ceramic-hero-480.webp 480w, /images/optimized/ceramic-hero-768.webp 768w, /images/optimized/ceramic-hero.webp 1200w",
-            sizes: "100vw",
-            alt: "Ceramic coated car with mirror finish",
-            className: "w-full h-full object-cover",
-            width: 1200,
-            height: 800,
-            loading: "eager",
-            decoding: "async"
+            src: "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&w=1920",
+            alt: "Ceramic coated car",
+            className: "w-full h-full object-cover"
           }
         ) }),
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/75 to-charcoal-950/50" })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/10 rounded-full blur-[150px]" }),
+      /* @__PURE__ */ jsx("div", { className: "absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/10 rounded-full blur-[150px]" }),
       /* @__PURE__ */ jsxs("div", { className: "relative z-10 container-custom text-center py-20", children: [
         /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-accent/30 mb-8", children: [
           /* @__PURE__ */ jsx(Shield, { className: "w-4 h-4 text-accent" }),
@@ -2238,30 +2078,12 @@ function groupRows(rows) {
   });
   return groups2;
 }
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a }
-  }))
-};
 function DetailPackagesPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [mobilePkgIdx, setMobilePkgIdx] = useState(1);
   const { openModal } = useLeadModal();
   const groups2 = groupRows(detailComparisonRows);
   return /* @__PURE__ */ jsxs("div", { className: "bg-charcoal-950 text-white pt-24 md:pt-32", children: [
-    /* @__PURE__ */ jsx(
-      SEO,
-      {
-        title: `Detail Packages — Mobile Car Detailing Miami | ${BUSINESS_NAME}`,
-        description: "Compare our 3 mobile car detailing packages — Signature, Pristine & Perfect Detail. Interior & exterior included. Professional products, eco-friendly, fully insured. We come to you in Miami-Dade.",
-        canonical: "/detail-packages"
-      }
-    ),
-    /* @__PURE__ */ jsx("script", { type: "application/ld+json", dangerouslySetInnerHTML: { __html: JSON.stringify(faqSchema) } }),
     /* @__PURE__ */ jsxs("section", { className: "relative py-20 md:py-28 overflow-hidden", children: [
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-[radial-gradient(ellipse_at_60%_50%,rgba(59,130,246,0.12),transparent_65%)]" }),
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,rgba(0,212,255,0.06),transparent_55%)]" }),
@@ -2568,17 +2390,9 @@ const addons = [
 function AddOnsPage() {
   const { openModal } = useLeadModal();
   return /* @__PURE__ */ jsxs("div", { className: "bg-charcoal-950 text-white pt-24 md:pt-32", children: [
-    /* @__PURE__ */ jsx(
-      SEO,
-      {
-        title: `Add-On Services — Engine Bay, Headlights & More | ${BUSINESS_NAME}`,
-        description: "Specialty add-on detailing services in Miami. Engine bay cleaning, headlight restoration, odor elimination, pet hair removal, clay bar & more. Book standalone or with any package.",
-        canonical: "/add-ons"
-      }
-    ),
     /* @__PURE__ */ jsxs("section", { className: "relative py-20 md:py-28 overflow-hidden", children: [
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.08),transparent_65%)]" }),
-      /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/8 rounded-full blur-[180px]" }),
+      /* @__PURE__ */ jsx("div", { className: "absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/8 rounded-full blur-[180px]" }),
       /* @__PURE__ */ jsxs("div", { className: "relative z-10 container-custom text-center", children: [
         /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-8", children: [
           /* @__PURE__ */ jsx("span", { className: "w-2 h-2 rounded-full bg-accent" }),
@@ -2774,79 +2588,69 @@ const sections = [
   }
 ];
 function PrivacyPolicyPage() {
-  return /* @__PURE__ */ jsxs("div", { className: "min-h-screen bg-charcoal-950 pt-24 md:pt-32 pb-20", children: [
-    /* @__PURE__ */ jsx(
-      SEO,
-      {
-        title: `Privacy Policy | ${BUSINESS_NAME}`,
-        description: `Privacy policy for ${BUSINESS_NAME}. Learn how we collect, use, and protect your personal information when you use our mobile detailing services.`,
-        canonical: "/privacy-policy"
-      }
-    ),
-    /* @__PURE__ */ jsxs("div", { className: "container-custom max-w-4xl", children: [
-      /* @__PURE__ */ jsxs("div", { className: "mb-12", children: [
-        /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/20 rounded-full mb-5", children: [
-          /* @__PURE__ */ jsx(Shield, { className: "w-3.5 h-3.5 text-accent" }),
-          /* @__PURE__ */ jsx("span", { className: "text-accent text-xs font-bold tracking-widest uppercase", children: "Legal" })
-        ] }),
-        /* @__PURE__ */ jsx("h1", { className: "font-display text-4xl md:text-5xl font-bold text-white mb-4", children: "Privacy Policy" }),
-        /* @__PURE__ */ jsxs("p", { className: "text-charcoal-400 text-sm", children: [
-          "Last updated: ",
-          /* @__PURE__ */ jsx("span", { className: "text-charcoal-300", children: LAST_UPDATED })
-        ] }),
-        /* @__PURE__ */ jsxs("p", { className: "text-charcoal-400 mt-4 leading-relaxed max-w-2xl", children: [
-          BUSINESS_NAME,
-          ' ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our mobile auto detailing services.'
-        ] })
+  return /* @__PURE__ */ jsx("div", { className: "min-h-screen bg-charcoal-950 pt-24 md:pt-32 pb-20", children: /* @__PURE__ */ jsxs("div", { className: "container-custom max-w-4xl", children: [
+    /* @__PURE__ */ jsxs("div", { className: "mb-12", children: [
+      /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/20 rounded-full mb-5", children: [
+        /* @__PURE__ */ jsx(Shield, { className: "w-3.5 h-3.5 text-accent" }),
+        /* @__PURE__ */ jsx("span", { className: "text-accent text-xs font-bold tracking-widest uppercase", children: "Legal" })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: "border-t border-charcoal-800 mb-12" }),
-      /* @__PURE__ */ jsx("div", { className: "space-y-10", children: sections.map((section, i) => /* @__PURE__ */ jsxs("div", { className: "scroll-mt-32", id: `section-${i}`, children: [
-        /* @__PURE__ */ jsxs("h2", { className: "font-display text-xl md:text-2xl font-bold text-white mb-5 flex items-start gap-3", children: [
-          /* @__PURE__ */ jsx("span", { className: "flex-shrink-0 w-7 h-7 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-accent text-xs font-bold mt-0.5", children: i + 1 }),
-          section.title
-        ] }),
-        /* @__PURE__ */ jsx("div", { className: "pl-10 space-y-4", children: section.content.map((block, j) => /* @__PURE__ */ jsxs("div", { children: [
-          block.subtitle && /* @__PURE__ */ jsx("h3", { className: "text-white font-semibold mb-2", children: block.subtitle }),
-          block.body && /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 leading-relaxed", children: block.body }),
-          "list" in block && block.list && /* @__PURE__ */ jsx("ul", { className: "mt-3 space-y-2", children: block.list.map((item, k) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-2.5 text-charcoal-400", children: [
-            /* @__PURE__ */ jsx("span", { className: "w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0 mt-2" }),
-            /* @__PURE__ */ jsx("span", { className: "leading-relaxed", children: item })
-          ] }, k)) }),
-          "contact" in block && block.contact && /* @__PURE__ */ jsxs("div", { className: "mt-4 bg-charcoal-900 border border-charcoal-700 rounded-2xl p-5 space-y-3", children: [
-            /* @__PURE__ */ jsxs("div", { children: [
-              /* @__PURE__ */ jsx("p", { className: "text-white font-semibold", children: BUSINESS_NAME }),
-              /* @__PURE__ */ jsx("p", { className: "text-charcoal-500 text-sm", children: "Miami-Dade County, Florida" })
-            ] }),
-            /* @__PURE__ */ jsx(
-              "a",
-              {
-                href: `mailto:${EMAIL}`,
-                className: "flex items-center gap-2 text-accent hover:text-accent-light transition-colors text-sm",
-                children: EMAIL
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              "a",
-              {
-                href: `tel:${PHONE.replace(/\D/g, "")}`,
-                className: "flex items-center gap-2 text-accent hover:text-accent-light transition-colors text-sm",
-                children: PHONE
-              }
-            )
-          ] })
-        ] }, j)) }),
-        i < sections.length - 1 && /* @__PURE__ */ jsx("div", { className: "border-t border-charcoal-800/60 mt-10" })
-      ] }, section.title)) }),
-      /* @__PURE__ */ jsx("div", { className: "mt-16 pt-8 border-t border-charcoal-800", children: /* @__PURE__ */ jsx(
-        Link,
-        {
-          to: "/",
-          className: "inline-flex items-center gap-2 text-charcoal-400 hover:text-accent transition-colors text-sm",
-          children: "← Back to Home"
-        }
-      ) })
-    ] })
-  ] });
+      /* @__PURE__ */ jsx("h1", { className: "font-display text-4xl md:text-5xl font-bold text-white mb-4", children: "Privacy Policy" }),
+      /* @__PURE__ */ jsxs("p", { className: "text-charcoal-400 text-sm", children: [
+        "Last updated: ",
+        /* @__PURE__ */ jsx("span", { className: "text-charcoal-300", children: LAST_UPDATED })
+      ] }),
+      /* @__PURE__ */ jsxs("p", { className: "text-charcoal-400 mt-4 leading-relaxed max-w-2xl", children: [
+        BUSINESS_NAME,
+        ' ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our mobile auto detailing services.'
+      ] })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "border-t border-charcoal-800 mb-12" }),
+    /* @__PURE__ */ jsx("div", { className: "space-y-10", children: sections.map((section, i) => /* @__PURE__ */ jsxs("div", { className: "scroll-mt-32", id: `section-${i}`, children: [
+      /* @__PURE__ */ jsxs("h2", { className: "font-display text-xl md:text-2xl font-bold text-white mb-5 flex items-start gap-3", children: [
+        /* @__PURE__ */ jsx("span", { className: "flex-shrink-0 w-7 h-7 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-accent text-xs font-bold mt-0.5", children: i + 1 }),
+        section.title
+      ] }),
+      /* @__PURE__ */ jsx("div", { className: "pl-10 space-y-4", children: section.content.map((block, j) => /* @__PURE__ */ jsxs("div", { children: [
+        block.subtitle && /* @__PURE__ */ jsx("h3", { className: "text-white font-semibold mb-2", children: block.subtitle }),
+        block.body && /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 leading-relaxed", children: block.body }),
+        "list" in block && block.list && /* @__PURE__ */ jsx("ul", { className: "mt-3 space-y-2", children: block.list.map((item, k) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-2.5 text-charcoal-400", children: [
+          /* @__PURE__ */ jsx("span", { className: "w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0 mt-2" }),
+          /* @__PURE__ */ jsx("span", { className: "leading-relaxed", children: item })
+        ] }, k)) }),
+        "contact" in block && block.contact && /* @__PURE__ */ jsxs("div", { className: "mt-4 bg-charcoal-900 border border-charcoal-700 rounded-2xl p-5 space-y-3", children: [
+          /* @__PURE__ */ jsxs("div", { children: [
+            /* @__PURE__ */ jsx("p", { className: "text-white font-semibold", children: BUSINESS_NAME }),
+            /* @__PURE__ */ jsx("p", { className: "text-charcoal-500 text-sm", children: "Miami-Dade County, Florida" })
+          ] }),
+          /* @__PURE__ */ jsx(
+            "a",
+            {
+              href: `mailto:${EMAIL}`,
+              className: "flex items-center gap-2 text-accent hover:text-accent-light transition-colors text-sm",
+              children: EMAIL
+            }
+          ),
+          /* @__PURE__ */ jsx(
+            "a",
+            {
+              href: `tel:${PHONE.replace(/\D/g, "")}`,
+              className: "flex items-center gap-2 text-accent hover:text-accent-light transition-colors text-sm",
+              children: PHONE
+            }
+          )
+        ] })
+      ] }, j)) }),
+      i < sections.length - 1 && /* @__PURE__ */ jsx("div", { className: "border-t border-charcoal-800/60 mt-10" })
+    ] }, section.title)) }),
+    /* @__PURE__ */ jsx("div", { className: "mt-16 pt-8 border-t border-charcoal-800", children: /* @__PURE__ */ jsx(
+      Link,
+      {
+        to: "/",
+        className: "inline-flex items-center gap-2 text-charcoal-400 hover:text-accent transition-colors text-sm",
+        children: "← Back to Home"
+      }
+    ) })
+  ] }) });
 }
 const testimonials = [
   { name: "Carlos M.", quote: "William did an amazing job on my car. Came right to my house — zero hassle.", rating: 5 },
@@ -2857,34 +2661,19 @@ function CityPage({ city }) {
   const { openModal } = useLeadModal();
   const mainPackages2 = packages.filter((p) => p.id !== "windshield");
   return /* @__PURE__ */ jsxs("div", { className: "bg-charcoal-950 text-white pt-24 md:pt-32", children: [
-    /* @__PURE__ */ jsx(
-      SEO,
-      {
-        title: `${city.name} Mobile Detailing, ${city.state} | ${BUSINESS_NAME}`,
-        description: `${city.name} mobile detailing by ${BUSINESS_NAME}. We come to your home or office. Ceramic coatings, full details, add-ons. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. Serving ${city.name} & surrounding areas.`,
-        keywords: `mobile detailing ${city.name}, car detailing ${city.name} FL, ceramic coating ${city.name}, mobile car wash ${city.name}, auto detailing near me`,
-        canonical: `/areas/${city.slug}`
-      }
-    ),
     /* @__PURE__ */ jsxs("section", { className: "relative py-24 md:py-32 overflow-hidden", children: [
       /* @__PURE__ */ jsxs("div", { className: "absolute inset-0", children: [
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 opacity-20", children: /* @__PURE__ */ jsx(
           "img",
           {
-            src: "/images/optimized/city-hero.webp",
-            srcSet: "/images/optimized/city-hero-480.webp 480w, /images/optimized/city-hero-768.webp 768w, /images/optimized/city-hero.webp 1200w",
-            sizes: "100vw",
+            src: "https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=1920",
             alt: `Mobile detailing in ${city.name}, FL`,
-            className: "w-full h-full object-cover",
-            width: 1200,
-            height: 800,
-            loading: "eager",
-            decoding: "async"
+            className: "w-full h-full object-cover"
           }
         ) }),
         /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/80 to-charcoal-950/60" })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: "decorative-blur absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-accent/10 rounded-full blur-[150px]" }),
+      /* @__PURE__ */ jsx("div", { className: "absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-accent/10 rounded-full blur-[150px]" }),
       /* @__PURE__ */ jsxs("div", { className: "relative z-10 container-custom text-center", children: [
         /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-6", children: [
           /* @__PURE__ */ jsx(MapPin, { className: "w-4 h-4 text-accent" }),
@@ -2895,8 +2684,12 @@ function CityPage({ city }) {
           ] })
         ] }),
         /* @__PURE__ */ jsxs("h1", { className: "font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6", children: [
-          city.name,
-          /* @__PURE__ */ jsx("span", { className: "block gradient-text", children: "Mobile Detailing" })
+          "Mobile Auto Detailing",
+          /* @__PURE__ */ jsxs("span", { className: "block gradient-text", children: [
+            "in ",
+            city.name,
+            ", FL"
+          ] })
         ] }),
         /* @__PURE__ */ jsxs("p", { className: "text-lg md:text-xl text-charcoal-300 max-w-2xl mx-auto mb-8", children: [
           BUSINESS_NAME,
@@ -3061,520 +2854,39 @@ function CityPage({ city }) {
 }
 const SUPABASE_URL = "https://aymrgilqdlxugxdawnqi.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5bXJnaWxxZGx4dWd4ZGF3bnFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NTYyODcsImV4cCI6MjA5NzIzMjI4N30.ydbyLHpNh0qbN9KomnKb0DBiKSF4S_6kTTgnePDit3k";
-const SERVICES = [
-  { id: "Full Detail", label: "Full Detail", desc: "Complete reset inside and out. Most popular service.", icon: Sparkles, popular: true },
-  { id: "Interior Detail", label: "Interior Detail", desc: "Deep clean of every surface inside.", icon: Brush },
-  { id: "Exterior Detail", label: "Exterior Detail", desc: "Hand wash, clay bar, iron decon, and wax protection.", icon: Droplets },
-  { id: "Ceramic / Paint Correction", label: "Ceramic Coating / Paint Correction", desc: "Remove swirls and scratches, or protect the paint for years.", icon: Shield }
-];
-const VEHICLES = [
-  { id: "Sedan / Coupe", desc: "Camry, Civic, Charger, Mustang, etc.", emoji: "🚗", size: "sedan" },
-  { id: "SUV / Truck", desc: "RAV4, Tahoe, F-150, Silverado, etc.", emoji: "🚙", size: "suv" },
-  { id: "Luxury / Exotic", desc: "Ferrari, Lamborghini, etc.", emoji: "🏎️", size: "custom" }
-];
-const CONDITIONS = [
-  { id: "Well maintained", desc: "Mostly clean, just needs a proper refresh.", dot: "bg-emerald-400" },
-  { id: "Some buildup", desc: "Dirt, dust, or stains have accumulated. Needs real attention.", dot: "bg-yellow-400" },
-  { id: "Overdue", desc: "Hasn't been detailed in a while. Time to reset it.", dot: "bg-orange-400" },
-  { id: "Rough condition", desc: "Heavily soiled or neglected. We've seen worse, we can handle it.", dot: "bg-rose-400" }
-];
-const TIMELINES = [
-  { id: "ASAP — this week", desc: "I'm ready to get it done now.", urgent: true },
-  { id: "Within 2 weeks", desc: "Soon — just sorting out scheduling." },
-  { id: "This month", desc: "Sometime in the next few weeks." },
-  { id: "Just getting a quote", desc: "Exploring options for now." }
-];
-const PROMO = "Free Engine Bay Detail with every booking this month";
-const pkgById = (id) => packages.find((p) => p.id === id);
-const DETAIL_TIERS = ["signature", "pristine", "perfect"].map(pkgById).filter(Boolean);
-const CERAMIC_TIERS = ["ceramic-t1", "ceramic-t2"].map(pkgById).filter(Boolean);
-function QuoteWizard() {
-  var _a;
-  const [step, setStep] = useState(1);
-  const [service, setService] = useState("");
-  const [vehicle, setVehicle] = useState("");
-  const [condition, setCondition] = useState("");
-  const [pkgId, setPkgId] = useState("");
-  const [selectedAddons, setSelectedAddons] = useState([]);
-  const [timeline, setTimeline] = useState("");
-  const [firstName, setFirstName] = useState("");
+function LeadFormModal() {
+  const { isOpen, defaultPackage, closeModal } = useLeadModal();
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [carModel, setCarModel] = useState("");
-  const [state, setState] = useState("idle");
+  const [vehicle, setVehicle] = useState("");
+  const [vehicleType, setVehicleType] = useState("sedan");
+  const [packageInterest, setPackageInterest] = useState("");
+  const [notes, setNotes] = useState("");
+  const [formState, setFormState] = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const TOTAL = 7;
-  const isUrgent = timeline === "ASAP — this week";
-  const isCeramic = service.startsWith("Ceramic");
-  const vehicleSize = (_a = VEHICLES.find((v) => v.id === vehicle)) == null ? void 0 : _a.size;
-  const isLuxury = vehicleSize === "custom";
-  const tierPackages = isCeramic ? CERAMIC_TIERS : DETAIL_TIERS;
-  function priceFor(p) {
-    if (vehicleSize === "suv") return p.pricing.suv ?? p.pricing.sedan;
-    if (vehicleSize === "sedan") return p.pricing.sedan;
-    return null;
-  }
-  const recommendedId = (() => {
-    if (isCeramic) return "ceramic-t1";
-    if (condition === "Rough condition" || condition === "Overdue") return "perfect";
-    if (service === "Full Detail" || condition === "Some buildup") return "pristine";
-    return "signature";
-  })();
-  const selectedPkg = tierPackages.find((p) => p.id === pkgId);
-  const estimate = selectedPkg ? priceFor(selectedPkg) : null;
+  const firstInputRef = useRef(null);
   useEffect(() => {
-    if (step === 4 && !pkgId) setPkgId(recommendedId);
-  }, [step]);
-  function pick(setter, value) {
-    setter(value);
-    setTimeout(() => setStep((s) => Math.min(s + 1, TOTAL)), 180);
-  }
-  function chooseService(serviceId) {
-    setService(serviceId);
-    setPkgId("");
-    setTimeout(() => setStep(2), 180);
-  }
-  function toggleAddon(name) {
-    setSelectedAddons((prev) => prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]);
-  }
-  async function handleSubmit(e) {
-    e.preventDefault();
-    if (!firstName.trim() || !phone.trim() || !email.trim()) {
-      setErrorMsg("Please fill in your name, phone, and email.");
-      return;
+    if (isOpen) {
+      setPackageInterest(defaultPackage);
+      setFormState("idle");
+      setErrorMsg("");
+      setTimeout(() => {
+        var _a;
+        return (_a = firstInputRef.current) == null ? void 0 : _a.focus();
+      }, 100);
+    } else {
+      setName("");
+      setPhone("");
+      setEmail("");
+      setVehicle("");
+      setVehicleType("sedan");
+      setPackageInterest("");
+      setNotes("");
+      setFormState("idle");
+      setErrorMsg("");
     }
-    setErrorMsg("");
-    setState("loading");
-    const notes = [
-      timeline ? `${isUrgent ? "⏰ URGENT — " : ""}Timeline: ${timeline}` : "",
-      `Service: ${service}`,
-      `Condition: ${condition}`,
-      `Vehicle: ${vehicle}`,
-      selectedPkg ? `Package: ${selectedPkg.name}${estimate != null ? ` ($${estimate})` : " (custom quote)"}` : "",
-      selectedAddons.length ? `Add-ons: ${selectedAddons.join(", ")}` : "",
-      carModel ? `Car: ${carModel}` : ""
-    ].filter(Boolean).join(" · ");
-    try {
-      const res = await fetch(`${SUPABASE_URL}/functions/v1/notify-lead`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
-        body: JSON.stringify({
-          name: firstName,
-          phone,
-          email,
-          vehicle: carModel || vehicle,
-          vehicleType: vehicleSize === "suv" ? "suv" : "sedan",
-          packageInterest: (selectedPkg == null ? void 0 : selectedPkg.name) || service,
-          notes
-        })
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || "Submission failed");
-      }
-      setSubmitted(true);
-    } catch (err) {
-      setState("error");
-      setErrorMsg(err.message || "Something went wrong. Please try again or call us.");
-    }
-  }
-  if (submitted) {
-    return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center px-6 py-12 text-center", children: [
-      /* @__PURE__ */ jsx("div", { className: "w-16 h-16 rounded-full bg-accent/15 flex items-center justify-center mb-5", children: /* @__PURE__ */ jsx(CheckCircle, { className: "w-8 h-8 text-accent" }) }),
-      /* @__PURE__ */ jsxs("h3", { className: "text-2xl font-bold text-white mb-3", children: [
-        "Thanks, ",
-        firstName.split(" ")[0],
-        "! 🎉"
-      ] }),
-      /* @__PURE__ */ jsxs("p", { className: "text-charcoal-400 mb-6 max-w-xs leading-relaxed", children: [
-        "Your request is in. We'll review your details and ",
-        /* @__PURE__ */ jsx("span", { className: "text-white font-medium", children: "reach out shortly" }),
-        " to confirm your quote and schedule your detail."
-      ] }),
-      (selectedPkg || vehicle) && /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap justify-center gap-2 mb-6", children: [
-        selectedPkg && /* @__PURE__ */ jsxs("span", { className: "text-xs font-medium text-accent bg-accent/10 border border-accent/25 px-2.5 py-1 rounded-lg", children: [
-          selectedPkg.name,
-          estimate != null ? ` · $${estimate}` : ""
-        ] }),
-        vehicle && /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg", children: vehicle }),
-        selectedAddons.length > 0 && /* @__PURE__ */ jsxs("span", { className: "text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg", children: [
-          "+",
-          selectedAddons.length,
-          " add-on",
-          selectedAddons.length > 1 ? "s" : ""
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxs("div", { className: "w-full max-w-xs px-5 py-5 bg-accent/10 border border-accent/30 rounded-xl", children: [
-        /* @__PURE__ */ jsx("p", { className: "text-white font-semibold mb-1", children: isUrgent ? "Need it this week?" : "Already know you want to book?" }),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm mb-4", children: "Skip the wait — call or text us now and we'll lock in your spot." }),
-        /* @__PURE__ */ jsxs("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ jsxs(
-            "a",
-            {
-              href: `tel:${PHONE.replace(/\D/g, "")}`,
-              className: "btn-primary flex-1 py-2.5 text-sm flex items-center justify-center gap-1.5",
-              children: [
-                /* @__PURE__ */ jsx(Phone, { className: "w-4 h-4" }),
-                " Call"
-              ]
-            }
-          ),
-          /* @__PURE__ */ jsxs(
-            "a",
-            {
-              href: `sms:${PHONE.replace(/\D/g, "")}`,
-              className: "btn-secondary flex-1 py-2.5 text-sm flex items-center justify-center gap-1.5",
-              children: [
-                /* @__PURE__ */ jsx(MessageSquare, { className: "w-4 h-4" }),
-                " Text"
-              ]
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-500 text-xs mt-3", children: PHONE })
-      ] })
-    ] });
-  }
-  return /* @__PURE__ */ jsxs("div", { className: "flex flex-col", children: [
-    /* @__PURE__ */ jsxs("div", { className: "px-5 sm:px-6 pt-4 space-y-2.5", children: [
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2.5 px-4 py-2.5 bg-gradient-to-r from-accent/15 to-transparent border border-accent/30 rounded-xl", children: [
-        /* @__PURE__ */ jsx(Gift, { className: "w-4 h-4 text-accent flex-shrink-0" }),
-        /* @__PURE__ */ jsx("p", { className: "text-sm text-white font-medium", children: PROMO })
-      ] }),
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-center gap-2 text-charcoal-400 text-xs", children: [
-        /* @__PURE__ */ jsx("span", { className: "flex items-center gap-0.5", children: [...Array(5)].map((_, i) => /* @__PURE__ */ jsx(Star, { className: "w-3.5 h-3.5 text-gold fill-gold" }, i)) }),
-        /* @__PURE__ */ jsx("span", { className: "font-semibold text-charcoal-200", children: GOOGLE_RATING }),
-        /* @__PURE__ */ jsx("span", { className: "text-charcoal-600", children: "·" }),
-        /* @__PURE__ */ jsxs("span", { children: [
-          GOOGLE_REVIEW_COUNT,
-          " Reviews"
-        ] }),
-        /* @__PURE__ */ jsx("span", { className: "text-charcoal-600", children: "·" }),
-        /* @__PURE__ */ jsx("span", { children: "No Payment to Book" })
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxs("div", { className: "px-5 sm:px-6 pt-5", children: [
-      /* @__PURE__ */ jsx("div", { className: "flex items-center gap-1.5 mb-2", children: Array.from({ length: TOTAL }).map((_, i) => /* @__PURE__ */ jsx("div", { className: `h-1 flex-1 rounded-full transition-colors ${i < step ? "bg-accent" : "bg-charcoal-700"}` }, i)) }),
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between", children: [
-        /* @__PURE__ */ jsxs("p", { className: "text-charcoal-500 text-xs font-semibold tracking-widest uppercase", children: [
-          "Step ",
-          step,
-          " of ",
-          TOTAL
-        ] }),
-        step > 1 && state !== "loading" && /* @__PURE__ */ jsxs(
-          "button",
-          {
-            onClick: () => setStep((s) => Math.max(s - 1, 1)),
-            className: "flex items-center gap-1 text-charcoal-400 hover:text-accent text-xs font-medium transition-colors",
-            children: [
-              /* @__PURE__ */ jsx(ArrowLeft, { className: "w-3.5 h-3.5" }),
-              " Back"
-            ]
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxs("div", { className: "px-5 sm:px-6 py-5", children: [
-      step === 1 && /* @__PURE__ */ jsxs("div", { className: "animate-fade-in", children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold text-white text-center mb-1", children: "What do you need?" }),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm text-center mb-5", children: "Not sure which to pick? Choose the closest one and we'll dial it in when we reach out." }),
-        /* @__PURE__ */ jsx("div", { className: "space-y-2.5", children: SERVICES.map((opt) => {
-          const Icon = opt.icon;
-          const active = service === opt.id;
-          return /* @__PURE__ */ jsxs(
-            "button",
-            {
-              onClick: () => chooseService(opt.id),
-              className: `w-full flex items-center gap-3.5 text-left px-4 py-3.5 rounded-xl border transition-all ${active ? "border-accent bg-accent/10" : "border-charcoal-700 bg-charcoal-800 hover:border-charcoal-600"}`,
-              children: [
-                /* @__PURE__ */ jsx("span", { className: `flex items-center justify-center w-10 h-10 rounded-lg flex-shrink-0 ${active ? "bg-accent/20" : "bg-charcoal-900"}`, children: /* @__PURE__ */ jsx(Icon, { className: `w-5 h-5 ${active ? "text-accent" : "text-charcoal-300"}` }) }),
-                /* @__PURE__ */ jsxs("span", { className: "flex-1 min-w-0", children: [
-                  /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-2", children: [
-                    /* @__PURE__ */ jsx("span", { className: "text-white font-semibold text-sm", children: opt.label }),
-                    opt.popular && /* @__PURE__ */ jsx("span", { className: "text-[10px] font-bold uppercase tracking-wide text-accent bg-accent/15 px-1.5 py-0.5 rounded", children: "Popular" })
-                  ] }),
-                  /* @__PURE__ */ jsx("span", { className: "block text-charcoal-400 text-xs mt-0.5", children: opt.desc })
-                ] }),
-                /* @__PURE__ */ jsx("span", { className: `w-5 h-5 rounded-full border-2 flex-shrink-0 ${active ? "border-accent bg-accent" : "border-charcoal-600"}` })
-              ]
-            },
-            opt.id
-          );
-        }) })
-      ] }),
-      step === 2 && /* @__PURE__ */ jsxs("div", { className: "animate-fade-in", children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold text-white text-center mb-1", children: "What's your vehicle?" }),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm text-center mb-5", children: "Pricing adjusts by size. This helps us give you an accurate number, not a ballpark." }),
-        /* @__PURE__ */ jsx("div", { className: "space-y-2.5", children: VEHICLES.map((opt) => {
-          const active = vehicle === opt.id;
-          return /* @__PURE__ */ jsxs(
-            "button",
-            {
-              onClick: () => pick(setVehicle, opt.id),
-              className: `w-full flex items-center gap-3.5 text-left px-4 py-3.5 rounded-xl border transition-all ${active ? "border-accent bg-accent/10" : "border-charcoal-700 bg-charcoal-800 hover:border-charcoal-600"}`,
-              children: [
-                /* @__PURE__ */ jsx("span", { className: "text-2xl flex-shrink-0", children: opt.emoji }),
-                /* @__PURE__ */ jsxs("span", { className: "flex-1 min-w-0", children: [
-                  /* @__PURE__ */ jsx("span", { className: "block text-white font-semibold text-sm", children: opt.id }),
-                  /* @__PURE__ */ jsx("span", { className: "block text-charcoal-400 text-xs mt-0.5", children: opt.desc })
-                ] }),
-                /* @__PURE__ */ jsx("span", { className: `w-5 h-5 rounded-full border-2 flex-shrink-0 ${active ? "border-accent bg-accent" : "border-charcoal-600"}` })
-              ]
-            },
-            opt.id
-          );
-        }) })
-      ] }),
-      step === 3 && /* @__PURE__ */ jsxs("div", { className: "animate-fade-in", children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold text-white text-center mb-1", children: "How's the condition?" }),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm text-center mb-5", children: "No judgment here. This just helps us quote you accurately and set the right expectations." }),
-        /* @__PURE__ */ jsx("div", { className: "space-y-2.5", children: CONDITIONS.map((opt) => {
-          const active = condition === opt.id;
-          return /* @__PURE__ */ jsxs(
-            "button",
-            {
-              onClick: () => pick(setCondition, opt.id),
-              className: `w-full flex items-center gap-3.5 text-left px-4 py-3.5 rounded-xl border transition-all ${active ? "border-accent bg-accent/10" : "border-charcoal-700 bg-charcoal-800 hover:border-charcoal-600"}`,
-              children: [
-                /* @__PURE__ */ jsx("span", { className: `w-3 h-3 rounded-full flex-shrink-0 ${opt.dot}` }),
-                /* @__PURE__ */ jsxs("span", { className: "flex-1 min-w-0", children: [
-                  /* @__PURE__ */ jsx("span", { className: "block text-white font-semibold text-sm", children: opt.id }),
-                  /* @__PURE__ */ jsx("span", { className: "block text-charcoal-400 text-xs mt-0.5", children: opt.desc })
-                ] }),
-                /* @__PURE__ */ jsx("span", { className: `w-5 h-5 rounded-full border-2 flex-shrink-0 ${active ? "border-accent bg-accent" : "border-charcoal-600"}` })
-              ]
-            },
-            opt.id
-          );
-        }) })
-      ] }),
-      step === 4 && /* @__PURE__ */ jsxs("div", { className: "animate-fade-in", children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold text-white text-center mb-1", children: isCeramic ? "Choose your protection" : "Your instant estimate" }),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm text-center mb-5", children: isLuxury ? "Exotic & luxury pricing is custom — pick the level you're after and we'll confirm it." : isCeramic ? "Pick a coating tier. Final ceramic pricing is confirmed after we assess your paint." : `Based on your ${vehicle.toLowerCase()} in ${condition.toLowerCase()} condition. Pick the level that fits.` }),
-        /* @__PURE__ */ jsx("div", { className: "space-y-3", children: tierPackages.map((p) => {
-          const active = pkgId === p.id;
-          const recommended = p.id === recommendedId;
-          const price = priceFor(p);
-          return /* @__PURE__ */ jsxs(
-            "button",
-            {
-              onClick: () => setPkgId(p.id),
-              className: `w-full text-left px-4 py-4 rounded-xl border transition-all relative ${active ? "border-accent bg-accent/10" : "border-charcoal-700 bg-charcoal-800 hover:border-charcoal-600"}`,
-              children: [
-                recommended && /* @__PURE__ */ jsx("span", { className: "absolute -top-2 right-4 text-[10px] font-bold uppercase tracking-wide text-charcoal-950 bg-gold px-2 py-0.5 rounded-full", children: "Recommended" }),
-                /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between gap-3", children: [
-                  /* @__PURE__ */ jsxs("div", { className: "min-w-0", children: [
-                    /* @__PURE__ */ jsx("p", { className: "text-white font-bold text-sm", children: p.name }),
-                    /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-xs mt-0.5", children: p.tagline })
-                  ] }),
-                  /* @__PURE__ */ jsx("div", { className: "text-right flex-shrink-0", children: price != null ? /* @__PURE__ */ jsxs("p", { className: "text-xl font-bold gradient-text leading-none", children: [
-                    "$",
-                    price,
-                    isCeramic ? "+" : ""
-                  ] }) : /* @__PURE__ */ jsxs("p", { className: "text-sm font-bold text-gold leading-tight", children: [
-                    "Custom",
-                    /* @__PURE__ */ jsx("br", {}),
-                    "Quote"
-                  ] }) })
-                ] })
-              ]
-            },
-            p.id
-          );
-        }) }),
-        /* @__PURE__ */ jsxs(
-          "button",
-          {
-            onClick: () => {
-              if (!pkgId) setPkgId(recommendedId);
-              setStep(5);
-            },
-            className: "w-full btn-primary py-3.5 mt-5 flex items-center justify-center gap-2",
-            children: [
-              "Continue ",
-              /* @__PURE__ */ jsx(ArrowRight, { className: "w-4 h-4" })
-            ]
-          }
-        )
-      ] }),
-      step === 5 && /* @__PURE__ */ jsxs("div", { className: "animate-fade-in", children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold text-white text-center mb-1", children: "Any add-ons?" }),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm text-center mb-5", children: "Optional extras we can include. Tap any that apply — or skip and continue." }),
-        /* @__PURE__ */ jsx("div", { className: "space-y-2.5", children: addons.map((a) => {
-          const active = selectedAddons.includes(a.name);
-          return /* @__PURE__ */ jsxs(
-            "button",
-            {
-              onClick: () => toggleAddon(a.name),
-              className: `w-full flex items-center gap-3.5 text-left px-4 py-3 rounded-xl border transition-all ${active ? "border-accent bg-accent/10" : "border-charcoal-700 bg-charcoal-800 hover:border-charcoal-600"}`,
-              children: [
-                /* @__PURE__ */ jsxs("span", { className: "flex-1 min-w-0", children: [
-                  /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-2", children: [
-                    /* @__PURE__ */ jsx("span", { className: "text-white font-semibold text-sm", children: a.name }),
-                    a.duration && /* @__PURE__ */ jsx("span", { className: "text-[10px] text-charcoal-500", children: a.duration })
-                  ] }),
-                  /* @__PURE__ */ jsx("span", { className: "block text-charcoal-400 text-xs mt-0.5 line-clamp-2", children: a.description })
-                ] }),
-                /* @__PURE__ */ jsx("span", { className: `w-6 h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 ${active ? "border-accent bg-accent" : "border-charcoal-600"}`, children: active && /* @__PURE__ */ jsx(Check, { className: "w-4 h-4 text-charcoal-950" }) })
-              ]
-            },
-            a.id
-          );
-        }) }),
-        /* @__PURE__ */ jsxs(
-          "button",
-          {
-            onClick: () => setStep(6),
-            className: "w-full btn-primary py-3.5 mt-5 flex items-center justify-center gap-2",
-            children: [
-              selectedAddons.length ? `Continue with ${selectedAddons.length} add-on${selectedAddons.length > 1 ? "s" : ""}` : "Skip — Continue",
-              /* @__PURE__ */ jsx(ArrowRight, { className: "w-4 h-4" })
-            ]
-          }
-        )
-      ] }),
-      step === 6 && /* @__PURE__ */ jsxs("div", { className: "animate-fade-in", children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold text-white text-center mb-1", children: "How soon do you need it?" }),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm text-center mb-5", children: "This helps us prioritize and find you the right slot." }),
-        /* @__PURE__ */ jsx("div", { className: "space-y-2.5", children: TIMELINES.map((opt) => {
-          const active = timeline === opt.id;
-          return /* @__PURE__ */ jsxs(
-            "button",
-            {
-              onClick: () => pick(setTimeline, opt.id),
-              className: `w-full flex items-center gap-3.5 text-left px-4 py-3.5 rounded-xl border transition-all ${active ? "border-accent bg-accent/10" : "border-charcoal-700 bg-charcoal-800 hover:border-charcoal-600"}`,
-              children: [
-                /* @__PURE__ */ jsxs("span", { className: "flex-1 min-w-0", children: [
-                  /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-2", children: [
-                    /* @__PURE__ */ jsx("span", { className: "text-white font-semibold text-sm", children: opt.id }),
-                    opt.urgent && /* @__PURE__ */ jsx("span", { className: "text-[10px] font-bold uppercase tracking-wide text-accent bg-accent/15 px-1.5 py-0.5 rounded", children: "Fastest" })
-                  ] }),
-                  /* @__PURE__ */ jsx("span", { className: "block text-charcoal-400 text-xs mt-0.5", children: opt.desc })
-                ] }),
-                /* @__PURE__ */ jsx("span", { className: `w-5 h-5 rounded-full border-2 flex-shrink-0 ${active ? "border-accent bg-accent" : "border-charcoal-600"}` })
-              ]
-            },
-            opt.id
-          );
-        }) })
-      ] }),
-      step === 7 && /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, className: "animate-fade-in", noValidate: true, children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold text-white text-center mb-1", children: "Last step — your details" }),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm text-center mb-4", children: "Drop your info and we'll reach out to confirm your quote and schedule. No spam, ever." }),
-        /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap justify-center gap-2 mb-4", children: [
-          selectedPkg && /* @__PURE__ */ jsxs("span", { className: "text-xs font-medium text-accent bg-accent/10 border border-accent/25 px-2.5 py-1 rounded-lg", children: [
-            selectedPkg.name,
-            estimate != null ? ` · $${estimate}` : ""
-          ] }),
-          vehicle && /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg", children: vehicle }),
-          selectedAddons.length > 0 && /* @__PURE__ */ jsxs("span", { className: "text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg", children: [
-            "+",
-            selectedAddons.length,
-            " add-on",
-            selectedAddons.length > 1 ? "s" : ""
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2.5 px-4 py-3 bg-emerald-500/10 border border-emerald-500/25 rounded-xl mb-5", children: [
-          /* @__PURE__ */ jsx(ShieldCheck, { className: "w-4 h-4 text-emerald-400 flex-shrink-0" }),
-          /* @__PURE__ */ jsxs("p", { className: "text-emerald-300 text-xs", children: [
-            /* @__PURE__ */ jsx("span", { className: "font-semibold", children: "No payment required." }),
-            " We'll confirm everything before your appointment."
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
-          /* @__PURE__ */ jsxs("div", { children: [
-            /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
-              "First Name ",
-              /* @__PURE__ */ jsx("span", { className: "text-accent", children: "*" })
-            ] }),
-            /* @__PURE__ */ jsx(
-              "input",
-              {
-                type: "text",
-                value: firstName,
-                onChange: (e) => setFirstName(e.target.value),
-                placeholder: "Your first name",
-                className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm",
-                required: true
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxs("div", { children: [
-            /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
-              "Phone ",
-              /* @__PURE__ */ jsx("span", { className: "text-accent", children: "*" })
-            ] }),
-            /* @__PURE__ */ jsx(
-              "input",
-              {
-                type: "tel",
-                value: phone,
-                onChange: (e) => setPhone(e.target.value),
-                placeholder: "(786) 555-1234",
-                className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm",
-                required: true
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxs("div", { children: [
-            /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
-              "Email ",
-              /* @__PURE__ */ jsx("span", { className: "text-accent", children: "*" })
-            ] }),
-            /* @__PURE__ */ jsx(
-              "input",
-              {
-                type: "email",
-                value: email,
-                onChange: (e) => setEmail(e.target.value),
-                placeholder: "you@email.com",
-                className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm",
-                required: true
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxs("div", { children: [
-            /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
-              "Car Make/Model ",
-              /* @__PURE__ */ jsx("span", { className: "text-charcoal-500 font-normal", children: "(optional)" })
-            ] }),
-            /* @__PURE__ */ jsx(
-              "input",
-              {
-                type: "text",
-                value: carModel,
-                onChange: (e) => setCarModel(e.target.value),
-                placeholder: "e.g. 2022 White Tesla Model 3",
-                className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm"
-              }
-            )
-          ] })
-        ] }),
-        errorMsg && /* @__PURE__ */ jsx("p", { className: "text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 mt-4", children: errorMsg }),
-        /* @__PURE__ */ jsx(
-          "button",
-          {
-            type: "submit",
-            disabled: state === "loading",
-            className: "w-full btn-primary py-3.5 mt-5 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed",
-            children: state === "loading" ? /* @__PURE__ */ jsxs(Fragment, { children: [
-              /* @__PURE__ */ jsx(Loader2, { className: "w-4 h-4 animate-spin" }),
-              " Sending…"
-            ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
-              "Get My Quote ",
-              /* @__PURE__ */ jsx(ArrowRight, { className: "w-4 h-4" })
-            ] })
-          }
-        ),
-        /* @__PURE__ */ jsx("p", { className: "text-charcoal-500 text-xs text-center mt-3", children: "We'll reach out to confirm · No spam, ever" })
-      ] })
-    ] })
-  ] });
-}
-function LeadFormModal() {
-  const { isOpen, closeModal } = useLeadModal();
+  }, [isOpen, defaultPackage]);
   useEffect(() => {
     function onKey(e) {
       if (e.key === "Escape") closeModal();
@@ -3588,48 +2900,225 @@ function LeadFormModal() {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!name.trim() || !phone.trim() || !email.trim() || !vehicle.trim() || !packageInterest) {
+      setErrorMsg("Please fill in all required fields.");
+      return;
+    }
+    setErrorMsg("");
+    setFormState("loading");
+    try {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/notify-lead`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+        },
+        body: JSON.stringify({ name, phone, email, vehicle, vehicleType, packageInterest, notes })
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Submission failed");
+      }
+      setFormState("success");
+    } catch (err) {
+      setFormState("error");
+      setErrorMsg(err.message || "Something went wrong. Please try again.");
+    }
+  }
   if (!isOpen) return null;
   return /* @__PURE__ */ jsxs(
     "div",
     {
-      className: "fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4",
+      className: "fixed inset-0 z-[100] flex items-center justify-center p-4",
       role: "dialog",
       "aria-modal": "true",
-      "aria-label": "Get your price",
+      "aria-label": "Request a quote",
       children: [
-        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-black/75 backdrop-blur-sm", onClick: closeModal }),
-        /* @__PURE__ */ jsxs("div", { className: "relative w-full max-w-lg bg-charcoal-900 border border-charcoal-700 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden animate-fade-in-up max-h-[94vh] flex flex-col", children: [
-          /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-4 px-5 sm:px-6 py-4 border-b border-charcoal-800 flex-shrink-0 bg-gradient-to-r from-charcoal-900 to-charcoal-800", children: [
-            /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-3 min-w-0", children: [
-              /* @__PURE__ */ jsx(
-                "img",
-                {
-                  src: "/images/optimized/williams-logo.webp",
-                  alt: "William's Auto Detailing",
-                  className: "h-10 w-auto object-contain flex-shrink-0",
-                  width: 64,
-                  height: 64
-                }
-              ),
-              /* @__PURE__ */ jsxs("div", { className: "min-w-0", children: [
-                /* @__PURE__ */ jsx("p", { className: "text-accent text-[10px] font-bold tracking-widest uppercase", children: "Free Estimate" }),
-                /* @__PURE__ */ jsxs("h2", { className: "text-base sm:text-lg font-bold text-white leading-tight truncate", children: [
-                  "Get Your Price ",
-                  /* @__PURE__ */ jsx("span", { className: "gradient-text", children: "Instantly" })
-                ] })
+        /* @__PURE__ */ jsx(
+          "div",
+          {
+            className: "absolute inset-0 bg-black/75 backdrop-blur-sm",
+            onClick: closeModal
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { className: "relative w-full max-w-lg bg-charcoal-900 border border-charcoal-700 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden animate-fade-in-up max-h-[90vh] flex flex-col", children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between px-6 py-5 border-b border-charcoal-800 flex-shrink-0", children: [
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold text-white", children: "Request a Quote" }),
+              /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-sm mt-0.5", children: "We'll confirm within a few hours" })
+            ] }),
+            /* @__PURE__ */ jsx(
+              "button",
+              {
+                onClick: closeModal,
+                className: "p-2 rounded-lg text-charcoal-400 hover:text-white hover:bg-charcoal-800 transition-colors",
+                "aria-label": "Close",
+                children: /* @__PURE__ */ jsx(X, { className: "w-5 h-5" })
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsx("div", { className: "overflow-y-auto flex-1", children: formState === "success" ? /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center px-6 py-14 text-center", children: [
+            /* @__PURE__ */ jsx("div", { className: "w-16 h-16 rounded-full bg-accent/15 flex items-center justify-center mb-5", children: /* @__PURE__ */ jsx(CheckCircle, { className: "w-8 h-8 text-accent" }) }),
+            /* @__PURE__ */ jsx("h3", { className: "text-2xl font-bold text-white mb-3", children: "We Got Your Request!" }),
+            /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 mb-6 max-w-xs leading-relaxed", children: "Thanks! We'll review your request and reach out shortly to confirm your appointment." }),
+            /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-3 px-5 py-3 bg-charcoal-800 border border-charcoal-700 rounded-xl mb-6", children: [
+              /* @__PURE__ */ jsx(Phone, { className: "w-5 h-5 text-accent flex-shrink-0" }),
+              /* @__PURE__ */ jsxs("div", { className: "text-left", children: [
+                /* @__PURE__ */ jsx("p", { className: "text-charcoal-400 text-xs", children: "Need to reach us now?" }),
+                /* @__PURE__ */ jsx("a", { href: `tel:${PHONE.replace(/\D/g, "")}`, className: "text-white font-semibold hover:text-accent transition-colors", children: PHONE })
               ] })
             ] }),
             /* @__PURE__ */ jsx(
               "button",
               {
                 onClick: closeModal,
-                className: "p-2 rounded-lg text-charcoal-400 hover:text-white hover:bg-charcoal-800 transition-colors flex-shrink-0",
-                "aria-label": "Close",
-                children: /* @__PURE__ */ jsx(X, { className: "w-5 h-5" })
+                className: "btn-secondary px-8 py-2.5",
+                children: "Close"
               }
             )
-          ] }),
-          /* @__PURE__ */ jsx("div", { className: "overflow-y-auto flex-1 custom-scrollbar", children: /* @__PURE__ */ jsx(QuoteWizard, {}) })
+          ] }) : /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, className: "px-6 py-6 space-y-5", noValidate: true, children: [
+            /* @__PURE__ */ jsxs("div", { className: "grid sm:grid-cols-2 gap-4", children: [
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
+                  "Full Name ",
+                  /* @__PURE__ */ jsx("span", { className: "text-accent", children: "*" })
+                ] }),
+                /* @__PURE__ */ jsx(
+                  "input",
+                  {
+                    ref: firstInputRef,
+                    type: "text",
+                    value: name,
+                    onChange: (e) => setName(e.target.value),
+                    placeholder: "John Smith",
+                    className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm",
+                    required: true
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
+                  "Phone ",
+                  /* @__PURE__ */ jsx("span", { className: "text-accent", children: "*" })
+                ] }),
+                /* @__PURE__ */ jsx(
+                  "input",
+                  {
+                    type: "tel",
+                    value: phone,
+                    onChange: (e) => setPhone(e.target.value),
+                    placeholder: "(305) 555-0100",
+                    className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm",
+                    required: true
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
+                "Email ",
+                /* @__PURE__ */ jsx("span", { className: "text-accent", children: "*" })
+              ] }),
+              /* @__PURE__ */ jsx(
+                "input",
+                {
+                  type: "email",
+                  value: email,
+                  onChange: (e) => setEmail(e.target.value),
+                  placeholder: "john@example.com",
+                  className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm",
+                  required: true
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
+                "Vehicle ",
+                /* @__PURE__ */ jsx("span", { className: "text-accent", children: "*" })
+              ] }),
+              /* @__PURE__ */ jsx(
+                "input",
+                {
+                  type: "text",
+                  value: vehicle,
+                  onChange: (e) => setVehicle(e.target.value),
+                  placeholder: "2022 Toyota Camry",
+                  className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm",
+                  required: true
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-2", children: [
+                "Vehicle Type ",
+                /* @__PURE__ */ jsx("span", { className: "text-accent", children: "*" })
+              ] }),
+              /* @__PURE__ */ jsx("div", { className: "flex gap-2", children: [["sedan", "Coupe / Sedan"], ["suv", "SUV / Truck / Crossover"]].map(([val, label]) => /* @__PURE__ */ jsx(
+                "button",
+                {
+                  type: "button",
+                  onClick: () => setVehicleType(val),
+                  className: `flex-1 py-2.5 rounded-lg text-sm font-medium transition-all border ${vehicleType === val ? "bg-accent text-charcoal-950 border-accent" : "bg-charcoal-800 text-charcoal-400 border-charcoal-700 hover:text-white hover:border-charcoal-600"}`,
+                  children: label
+                },
+                val
+              )) })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
+                "Package Interest ",
+                /* @__PURE__ */ jsx("span", { className: "text-accent", children: "*" })
+              ] }),
+              /* @__PURE__ */ jsxs(
+                "select",
+                {
+                  value: packageInterest,
+                  onChange: (e) => setPackageInterest(e.target.value),
+                  className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-accent transition-colors text-sm appearance-none cursor-pointer",
+                  required: true,
+                  children: [
+                    /* @__PURE__ */ jsx("option", { value: "", disabled: true, children: "Select a service..." }),
+                    /* @__PURE__ */ jsx("optgroup", { label: "Detailing Packages", children: packages.filter((p) => !p.isCeramic).map((pkg) => /* @__PURE__ */ jsx("option", { value: pkg.name, children: pkg.name }, pkg.id)) }),
+                    /* @__PURE__ */ jsx("optgroup", { label: "Ceramic Coatings", children: packages.filter((p) => p.isCeramic).map((pkg) => /* @__PURE__ */ jsx("option", { value: pkg.name, children: pkg.name }, pkg.id)) }),
+                    /* @__PURE__ */ jsx("optgroup", { label: "Add-On Services", children: addons.map((addon) => /* @__PURE__ */ jsx("option", { value: addon.name, children: addon.name }, addon.id)) }),
+                    /* @__PURE__ */ jsx("option", { value: "Not sure yet", children: "Not sure yet — I need a recommendation" })
+                  ]
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsxs("label", { className: "block text-sm font-medium text-charcoal-300 mb-1.5", children: [
+                "Notes ",
+                /* @__PURE__ */ jsx("span", { className: "text-charcoal-500 font-normal", children: "(optional)" })
+              ] }),
+              /* @__PURE__ */ jsx(
+                "textarea",
+                {
+                  value: notes,
+                  onChange: (e) => setNotes(e.target.value),
+                  placeholder: "Paint condition, specific concerns, preferred date/time...",
+                  rows: 3,
+                  className: "w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm resize-none"
+                }
+              )
+            ] }),
+            errorMsg && /* @__PURE__ */ jsx("p", { className: "text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3", children: errorMsg }),
+            /* @__PURE__ */ jsx(
+              "button",
+              {
+                type: "submit",
+                disabled: formState === "loading",
+                className: "w-full btn-primary py-3.5 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed",
+                children: formState === "loading" ? /* @__PURE__ */ jsxs(Fragment, { children: [
+                  /* @__PURE__ */ jsx(Loader2, { className: "w-4 h-4 animate-spin" }),
+                  "Sending..."
+                ] }) : "Send Request"
+              }
+            ),
+            /* @__PURE__ */ jsx("p", { className: "text-charcoal-500 text-xs text-center", children: "No hidden fees · We'll contact you to confirm details" })
+          ] }) })
         ] })
       ]
     }
