@@ -47,6 +47,7 @@ import Footer from './components/Footer';
 
 
 import { cityPages } from './data/cities';
+import { ceramicCities } from './data/ceramicCities';
 
 
 
@@ -85,6 +86,10 @@ const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 
 
 const CityPage = lazy(() => import('./pages/CityPage'));
+
+
+
+const CeramicCityPage = lazy(() => import('./pages/CeramicCityPage'));
 
 
 
@@ -233,6 +238,15 @@ function CityRoute() {
 
 
 
+function CeramicCityRoute() {
+  const { slug } = useParams<{ slug: string }>();
+  const content = ceramicCities.find((c) => c.citySlug === slug);
+  if (!content) return <Navigate to="/ceramic-coating" replace />;
+  return <CeramicCityPage content={content} />;
+}
+
+
+
 
 
 
@@ -275,6 +289,10 @@ function AppLayout() {
 
 
           <Route path="/ceramic-coating" element={<CeramicCoatingPage />} />
+
+
+
+          <Route path="/ceramic-coating/:slug" element={<CeramicCityRoute />} />
 
 
 
