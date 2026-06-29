@@ -12,7 +12,7 @@ const template = readFileSync(join(root, 'dist/index.html'), 'utf-8');
 const SITE_URL = 'https://www.williamsautodetailing.com';
 const BUSINESS = "William's Auto Detailing";
 const RATING = '5.0';
-const REVIEWS = '137';
+const REVIEWS = '139';
 
 const pageMeta = {
   '/': {
@@ -51,7 +51,7 @@ function getMeta(url) {
   if (cityMatch && cityNames[cityMatch[1]]) {
     const name = cityNames[cityMatch[1]];
     return {
-      title: `Mobile Car Detailing in ${name}, FL | ${BUSINESS}`,
+      title: `${name} Mobile Detailing, FL | ${BUSINESS}`,
       description: `${name} mobile car detailing by ${BUSINESS}. We come to your home or office. Ceramic coatings, full details, add-ons. ${RATING} stars · ${REVIEWS}+ reviews. Serving ${name} & surrounding areas.`,
     };
   }
