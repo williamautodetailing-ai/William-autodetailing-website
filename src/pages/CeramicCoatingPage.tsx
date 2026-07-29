@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Check, Minus, Clock, Shield, Droplets, Sun, Zap, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Check, Minus, Clock, Shield, Droplets, Sun, Zap, Star, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
 import { packages, ceramicComparisonRows } from '../data/packages';
+import { ceramicCities } from '../data/ceramicCities';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
 import SEO from '../components/SEO';
@@ -43,7 +45,7 @@ const benefits = [
 const faqs = [
   {
     q: 'How long does ceramic coating last?',
-    a: 'Our Tier 1 package provides 2–3 years of protection, while Tier 2 lasts 4–5 years. Proper maintenance significantly extends longevity.',
+    a: 'Our Tier 1 package provides 2–3 years of protection, while Tier 2 is our Gyeon-certified coating, rated for 5 years and backed by a 10-year manufacturer warranty. Proper maintenance significantly extends longevity.',
   },
   {
     q: 'Does my car need to be prepped before coating?',
@@ -452,6 +454,32 @@ export default function CeramicCoatingPage() {
                   </div>
                 )}
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Ceramic coating by area */}
+      <section className="py-16 bg-charcoal-950 border-t border-charcoal-800">
+        <div className="container-custom">
+          <div className="text-center mb-8">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-3">
+              Ceramic Coating <span className="gradient-text">Near You</span>
+            </h2>
+            <p className="text-charcoal-400 max-w-xl mx-auto">
+              We bring professional ceramic coating to driveways and offices across Miami-Dade. Find your area:
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+            {ceramicCities.map((c) => (
+              <Link
+                key={c.citySlug}
+                to={`/ceramic-coating/${c.citySlug}`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-charcoal-800 border border-charcoal-700 rounded-full text-sm text-charcoal-300 hover:border-accent/40 hover:text-white transition-colors"
+              >
+                <MapPin className="w-3.5 h-3.5 text-accent" />
+                Ceramic Coating in {c.name}
+              </Link>
             ))}
           </div>
         </div>
