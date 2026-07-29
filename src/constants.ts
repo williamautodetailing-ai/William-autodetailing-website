@@ -15,7 +15,7 @@ export const GHL_CALENDAR_BY_PACKAGE: Record<string, string> = {
   'Pristine Detail':        'https://api.leadconnectorhq.com/widget/booking/6CHjp2S7jxqrsyAUp56B',
   'The Perfect Detail':     'https://api.leadconnectorhq.com/widget/booking/ahlqBoyzuDZccGBPIlE7',
   'Tier 1 Ceramic Coating': 'https://api.leadconnectorhq.com/widget/booking/FHHbKTWtkXhC5vbjUmxx',
-  'Tier 2 Ceramic Coating': 'https://api.leadconnectorhq.com/widget/booking/rySvR38QgVGskSUa5X9B',
+  'Tier 2 Gyeon Certified Coating': 'https://api.leadconnectorhq.com/widget/booking/rySvR38QgVGskSUa5X9B',
 };
 
 export const BOOKING_URL = 'https://app.urable.com/form/de36wHWdi8PvYueHdIv5/NpEaEWdx5tDbvPD5GDw8';
@@ -26,7 +26,7 @@ export const EMAIL = 'williamautodetailing@gmail.com';
 export const INSTAGRAM_URL = 'https://www.instagram.com/william.autodetailing/';
 // TODO: Replace with your actual Google Business review link
 export const GOOGLE_REVIEWS_URL = 'https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID_HERE';
-export const GOOGLE_REVIEW_COUNT = 137;
+export const GOOGLE_REVIEW_COUNT = 160;
 export const GOOGLE_RATING = '5.0';
 export const BASE_CITY = 'Doral';
 export const TRAVEL_FEE_MILES = 15;
