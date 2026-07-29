@@ -1,288 +1,323 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { MapPin, Star, Check, Shield, Droplets, Sun, Zap, ChevronDown, ChevronUp } from 'lucide-react';
-import type { CeramicCityContent } from '../data/ceramicCities';
-import { cityPages } from '../data/cities';
-import { packages } from '../data/packages';
-import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, TRAVEL_FEE_MILES, BASE_CITY } from '../constants';
-import { useLeadModal } from '../context/LeadModalContext';
-import SEO from '../components/SEO';
+// Per-city ceramic coating landing pages (/ceramic-coating/<citySlug>).
+// Each entry must carry GENUINELY UNIQUE local copy — these are not doorway
+// pages. Shared factual content (packages, prep process) lives in the template;
+// the unique local angle + FAQs live here. Landmarks / nearby areas are pulled
+// from src/data/cities.ts by matching `name`, so they stay in one place.
 
-interface CeramicCityPageProps {
-  content: CeramicCityContent;
+export interface CeramicFaq {
+  q: string;
+  a: string;
 }
 
-const benefits = [
+export interface CeramicCityContent {
+  citySlug: string;          // bare slug → URL /ceramic-coating/<citySlug>
+  name: string;              // must match a name in cities.ts
+  metaDescription: string;   // unique <meta description>
+  intro: string;             // hero sub-headline, local
+  localHeading: string;      // "Why ceramic coating in <City>…" section heading
+  localBody: string;         // unique local reasoning (climate, parking, usage)
+  faqs: CeramicFaq[];        // 3 unique FAQs (feed FAQ rich-result schema)
+}
+
+export const ceramicCities: CeramicCityContent[] = [
   {
-    icon: Shield,
-    title: 'Long-Term Protection',
-    description: 'Guards against bird droppings, bug splatter, UV, and contamination for years — not the weeks you get from wax.',
+    citySlug: 'doral',
+    name: 'Doral',
+    metaDescription:
+      "Mobile ceramic coating in Doral, FL. 2–5 year hydrophobic paint protection applied at your home or office — no travel fee in Doral. Full prep included. Book today.",
+    intro:
+      "Doral is our home base, so we can bring a full ceramic coating service straight to your driveway, condo, or office lot — with no travel fee.",
+    localHeading: 'Why ceramic coating makes sense in Doral',
+    localBody:
+      "Doral runs on its cars — sales reps, business owners, and commuters whose vehicles sit in open office lots near CityPlace Doral and Downtown Doral all day. That means hours of direct sun, sprinkler overspray in the master-planned communities, and water spots that bake into the clear coat. A ceramic coating shrugs all of that off: UV-blocking protection so paint doesn't fade, and a hydrophobic surface so sprinkler minerals and rain rinse away instead of etching in.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in Doral?',
+        a: "Yes — Doral is our home base. We come fully equipped to your home, condo, or office anywhere in Doral, and there's no travel fee.",
+      },
+      {
+        q: 'Will ceramic coating stop the water spots from sprinklers in my community?',
+        a: "It dramatically reduces them. The hydrophobic surface keeps sprinkler water from clinging and mineralizing on the paint, and what does land wipes off easily instead of etching in.",
+      },
+      {
+        q: 'How long does the ceramic coating service take in Doral?',
+        a: 'Plan for most of the day — our Tier 1 coating runs about 8 hours including full prep, paint polish, and curing. We do it all on-site at your location in Doral.',
+      },
+    ],
   },
   {
-    icon: Droplets,
-    title: 'Hydrophobic Surface',
-    description: 'Water beads and rolls off, taking dirt with it. Your car stays cleaner longer and washes in minutes.',
+    citySlug: 'miami',
+    name: 'Miami',
+    metaDescription:
+      "Mobile ceramic coating in Miami, FL. Long-lasting hydrophobic paint protection for Brickell, Wynwood & Downtown — applied at your home, garage, or office. Book now.",
+    intro:
+      "From Brickell high-rises to Wynwood lofts, we bring professional ceramic coating to Miami drivers who don't have time to baby their paint.",
+    localHeading: 'Why ceramic coating makes sense in Miami',
+    localBody:
+      "City driving is hard on paint. Between construction dust downtown, street and garage parking with zero shade, and the relentless Miami sun, an uncoated car dulls fast — and finding time to wash it in Brickell traffic is its own battle. Ceramic coating fixes both problems: it locks in gloss and blocks UV oxidation, and its self-cleaning, hydrophobic surface means your car stays looking sharp between washes with far less effort.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in Miami?',
+        a: 'Yes. We serve all of Miami — Brickell, Wynwood, Little Havana, Downtown and beyond — coming to your home, apartment, or office fully self-contained.',
+      },
+      {
+        q: 'Can you coat my car if I only have garage or street parking in Brickell?',
+        a: "Usually yes. We just need a flat, reasonably ventilated spot to work and let the coating cure. Many of our Miami clients have us apply it in their building's garage — just clear it with your building first.",
+      },
+      {
+        q: 'Is ceramic coating worth it with how much my car sits in the sun?',
+        a: "That's exactly when it pays off most. Constant sun is what fades and oxidizes Miami paint — the UV resistance in a ceramic coating is its single biggest benefit here.",
+      },
+    ],
   },
   {
-    icon: Sun,
-    title: 'UV & Heat Resistance',
-    description: "Florida's sun fades paint fast. Ceramic coating blocks UV radiation and prevents oxidation.",
+    citySlug: 'medley',
+    name: 'Medley',
+    metaDescription:
+      "Mobile ceramic coating in Medley, FL. Durable paint protection for work trucks, fleet, and personal vehicles — applied on-site. Fight industrial fallout & brake dust. Book today.",
+    intro:
+      "Medley's mix of industrial yards and residential streets is tough on vehicles — we bring ceramic coating right to your lot or driveway.",
+    localHeading: 'Why ceramic coating makes sense in Medley',
+    localBody:
+      "Work trucks, vans, and fleet vehicles in Medley take a beating: industrial fallout, brake and rail dust, and hard-water residue all bond to bare clear coat and are a nightmare to scrub off. Ceramic coating gives that paint a sacrificial, slick barrier — contaminants sit on top of the coating instead of etching the paint, so a quick rinse brings the finish back. For a vehicle that earns its keep, multi-year protection beats waxing every couple of months.",
+    faqs: [
+      {
+        q: 'Do you ceramic coat work trucks and fleet vehicles in Medley?',
+        a: 'Absolutely. We coat everything from personal cars to work trucks and small fleets on-site in Medley. Ask us about multi-vehicle scheduling.',
+      },
+      {
+        q: 'Will ceramic coating help with industrial fallout and brake dust?',
+        a: "Yes — that's one of its biggest wins here. Contaminants bond to the coating instead of the paint, so they rinse off far more easily and don't permanently stain the finish.",
+      },
+      {
+        q: 'Do you need power or water hookups at my Medley location?',
+        a: 'No. Our unit is fully self-contained — we bring our own water and power, so we can work at an industrial lot or a home driveway without any hookups from you.',
+      },
+    ],
   },
   {
-    icon: Zap,
-    title: 'Enhanced Gloss & Clarity',
-    description: 'Adds incredible depth and a mirror-like shine, making your paint look better than the day you bought it.',
+    citySlug: 'kendall',
+    name: 'Kendall',
+    metaDescription:
+      "Mobile ceramic coating in Kendall, FL. Protect family SUVs from tree sap, lovebugs & sun with 2–5 year hydrophobic coating — applied at your home. Serving The Falls & Dadeland. Book now.",
+    intro:
+      "Kendall families trust us with their daily SUVs and commuters — we bring ceramic coating to your driveway, from The Falls to Dadeland.",
+    localHeading: 'Why ceramic coating makes sense in Kendall',
+    localBody:
+      "Kendall life is hard on a family car: tree-lined streets drop sap and pollen, lovebug season splatters the front end twice a year, and school-run and grocery miles add up fast. Tree sap and bug acids will permanently etch unprotected clear coat. A ceramic coating keeps them sitting on the surface so they wipe away cleanly, and it makes the inevitable hand wash quicker — which matters when your car is also the family hauler.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in Kendall?',
+        a: 'Yes — we serve all of Kendall, from The Falls and Dadeland to the surrounding neighborhoods, coming right to your home or workplace.',
+      },
+      {
+        q: 'Will ceramic coating protect against tree sap and lovebugs?',
+        a: "It helps a lot. Sap and bug splatter bond to the coating rather than the paint, so they're far easier to remove and won't etch in if you clean them within a reasonable time.",
+      },
+      {
+        q: 'Is ceramic coating safe for my SUV or minivan?',
+        a: 'Completely. We coat vehicles of every size — pricing just scales with the vehicle. Larger SUVs and vans are some of the best candidates because they have so much paint exposed to the elements.',
+      },
+    ],
+  },
+  {
+    citySlug: 'tamiami',
+    name: 'Tamiami',
+    metaDescription:
+      "Mobile ceramic coating in Tamiami, FL. Hydrophobic paint protection against dust, pollen & full-sun exposure — applied at your home. Full prep & polish included. Book today.",
+    intro:
+      "Out toward the Trail, full sun and fine dust are constant — we bring showroom-grade ceramic coating to your Tamiami driveway.",
+    localHeading: 'Why ceramic coating makes sense in Tamiami',
+    localBody:
+      "Tamiami sits on the western edge of the county, where open skies mean unfiltered sun and breezes carry fine dust and pollen off the surrounding land. That combination dulls paint quickly and leaves a gritty film that scratches the clear coat every time it's wiped. Ceramic coating answers both: strong UV resistance to keep color from fading, and a slick hydrophobic surface so dust and pollen rinse off instead of grinding in.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in Tamiami?',
+        a: 'Yes. We come to your home anywhere in Tamiami fully equipped — no need to drive across the county to a shop.',
+      },
+      {
+        q: 'Will ceramic coating help with all the dust and pollen out here?',
+        a: 'It does. The hydrophobic surface keeps dust and pollen from sticking, so a light rinse clears it — and it stops that gritty film from scratching your clear coat during washes.',
+      },
+      {
+        q: 'How do I keep the coating performing in full sun?',
+        a: 'Just rinse or hand wash regularly and avoid brush car washes. The coating handles the UV; keeping contaminants from sitting on it for weeks keeps it beading like new.',
+      },
+    ],
+  },
+  {
+    citySlug: 'sweetwater',
+    name: 'Sweetwater',
+    metaDescription:
+      "Mobile ceramic coating in Sweetwater, FL. Low-maintenance paint protection for students & commuters near FIU — applied at your apartment or home. Book your coating today.",
+    intro:
+      "Near FIU and Dolphin Mall, most cars live in apartment lots with no shade — we bring ceramic coating to you in Sweetwater.",
+    localHeading: 'Why ceramic coating makes sense in Sweetwater',
+    localBody:
+      "Sweetwater is full of students and commuters whose cars sit all day in open apartment and campus lots near FIU — no garage, no shade, and not a lot of free time for washing. That's the exact scenario ceramic coating is built for: it blocks the UV that fades paint in uncovered parking, and its self-cleaning surface keeps the car looking good between the occasional wash. Less time on upkeep, better resale when you move on.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in Sweetwater?',
+        a: 'Yes — we serve all of Sweetwater, including the FIU area, and come straight to your apartment, home, or workplace.',
+      },
+      {
+        q: 'I park in an apartment lot near FIU with no garage. Is ceramic coating still worth it?',
+        a: "Especially then. Uncovered parking is where UV damage and fading happen fastest, so the sun protection from a coating delivers the most value for cars that live outside.",
+      },
+      {
+        q: 'Does ceramic coating really save me time on washing?',
+        a: 'Yes. Dirt and water bead off a coated surface, so washes are faster and less frequent — handy when your schedule is packed.',
+      },
+    ],
+  },
+  {
+    citySlug: 'west-miami',
+    name: 'West Miami',
+    metaDescription:
+      "Mobile ceramic coating in West Miami, FL. Popular long-term paint protection for a tough climate — applied in your driveway. 2–5 year hydrophobic coating. Book now.",
+    intro:
+      "Ceramic coating is one of our most-requested services in West Miami — and we apply it right in your driveway.",
+    localHeading: 'Why ceramic coating makes sense in West Miami',
+    localBody:
+      "West Miami homeowners tend to take pride in their cars and keep them for the long haul — which is exactly why ceramic coating is so popular here. South Florida's punishing mix of UV, humidity, and afternoon downpours wears down ordinary wax in weeks. A professional ceramic coating locks in protection for years instead, defending against oxidation and water spotting while keeping that deep, glossy finish that makes a well-kept car stand out on the block.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in West Miami?',
+        a: 'Yes — and it\'s one of our most-booked services here. We come to your West Miami home driveway, apartment, or office, fully self-contained.',
+      },
+      {
+        q: 'How is ceramic coating better than waxing for our climate?',
+        a: "Wax lasts weeks in Florida's heat and humidity; a ceramic coating lasts years. It bonds to the clear coat for far stronger, longer UV and water-spot protection.",
+      },
+      {
+        q: 'Will ceramic coating help my car hold its value?',
+        a: 'Yes. By preventing fading, oxidation, and etching, the coating keeps the paint looking newer for longer — a real plus if you keep cars long-term, as many West Miami owners do.',
+      },
+    ],
+  },
+  {
+    citySlug: 'miami-beach',
+    name: 'Miami Beach',
+    metaDescription:
+      "Mobile ceramic coating in Miami Beach, FL. The best defense against salt air, coastal UV & sand — applied at your condo or home. 2–5 year hydrophobic protection. Book today.",
+    intro:
+      "Salt air and relentless coastal sun are brutal on Miami Beach vehicles — ceramic coating is the strongest defense, and we come to you.",
+    localHeading: 'Why ceramic coating makes sense on Miami Beach',
+    localBody:
+      "Nowhere in our service area punishes paint like the Beach. Salt-laden ocean air accelerates oxidation, blowing sand micro-scratches the clear coat, and the unobstructed sun over South Beach, Mid Beach, and North Beach fades color fast. Ceramic coating is purpose-built for this: a hard, chemically resistant layer that shields paint from salt and UV, with a hydrophobic surface that keeps salt residue and sand from bonding — so a simple rinse keeps your finish protected between details.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating on Miami Beach?',
+        a: 'Yes — we come to you anywhere on the Beach: South Beach, Mid Beach, North Beach, and the islands. We just need a spot to work and let the coating cure.',
+      },
+      {
+        q: 'Does ceramic coating really protect against salt air and sand?',
+        a: "It's the best protection short of keeping the car in a sealed garage. The coating blocks salt and UV from attacking the clear coat, and its slick surface stops salt and sand from bonding to the paint.",
+      },
+      {
+        q: 'I live in a Miami Beach condo — can you still coat my car?',
+        a: 'In most cases yes. Many clients have us apply it in their building garage. Just confirm with your condo association, and we handle the rest on-site.',
+      },
+    ],
+  },
+  {
+    citySlug: 'south-miami',
+    name: 'South Miami',
+    metaDescription:
+      "Mobile ceramic coating in South Miami, FL. Protect paint from heavy tree canopy, sap & bird droppings — applied at your home. 2–5 year hydrophobic coating. Book now.",
+    intro:
+      "South Miami's leafy streets are beautiful — and rough on paint. We bring ceramic coating to your home near Sunset Drive and beyond.",
+    localHeading: 'Why ceramic coating makes sense in South Miami',
+    localBody:
+      "The mature tree canopy that makes South Miami so green is also a constant assault on your clear coat: dripping sap, falling pollen, and bird droppings that turn acidic and etch paint within hours in the heat. Ceramic coating creates a smooth, sacrificial barrier so these contaminants sit on top of the coating instead of biting into the paint — making sap and droppings far easier to wipe away before they leave a permanent mark.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in South Miami?',
+        a: 'Yes — we serve the entire South Miami area, including the neighborhoods around Sunset Drive and downtown, coming right to your home or office.',
+      },
+      {
+        q: 'Will ceramic coating protect against tree sap and bird droppings?',
+        a: "Significantly. Both bond to the coating rather than the paint, so they're easier to remove and far less likely to etch — as long as you clean them off within a reasonable time.",
+      },
+      {
+        q: 'Should I still wipe off bird droppings quickly even with a coating?',
+        a: 'Yes. The coating buys you time and prevents most etching, but acidic droppings are best removed promptly. With a coating, that cleanup is quick and leaves no stain.',
+      },
+    ],
+  },
+  {
+    citySlug: 'coral-gables',
+    name: 'Coral Gables',
+    metaDescription:
+      "Mobile ceramic coating in Coral Gables, FL. Preserve a luxury finish against canopy sap & sun — applied at your home. Premium 2–5 year hydrophobic protection. Book today.",
+    intro:
+      "Coral Gables sets a high bar, and so do we. We bring premium ceramic coating to the City Beautiful, from Miracle Mile to the University area.",
+    localHeading: 'Why ceramic coating makes sense in Coral Gables',
+    localBody:
+      "The Gables is defined by its grand banyan and oak canopy — and that canopy drips sap and pollen onto some of the nicest cars in Miami-Dade. Combine that with intense sun and the occasional acidic rain, and a luxury finish can dull or spot quickly. Ceramic coating preserves that showroom look: it locks in depth and gloss, resists UV fading, and keeps sap and contaminants from etching the clear coat — protection worthy of the vehicles and the standards Coral Gables is known for.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in Coral Gables?',
+        a: 'Yes — we serve the entire Coral Gables area, from Miracle Mile to the University of Miami border, and come to your home or office with everything we need.',
+      },
+      {
+        q: 'Will ceramic coating protect my car from the banyan and oak sap?',
+        a: 'It helps considerably. Sap bonds to the coating instead of the paint, so it wipes off cleanly and is far less likely to leave an etched mark on the clear coat.',
+      },
+      {
+        q: 'Is ceramic coating a good choice for a luxury or exotic car?',
+        a: 'It\'s ideal. High-end finishes benefit most from the added depth, gloss, and long-term UV and contaminant protection. We tailor prep and coating tier to the vehicle.',
+      },
+    ],
+  },
+  {
+    citySlug: 'hialeah-gardens',
+    name: 'Hialeah Gardens',
+    metaDescription:
+      "Mobile ceramic coating in Hialeah Gardens, FL. Years of paint protection that beats repeat waxing — applied at your home, no hookups needed. Book your coating today.",
+    intro:
+      "Hialeah Gardens drivers work hard, and so do their cars. We bring multi-year ceramic protection right to your door — no hookups needed.",
+    localHeading: 'Why ceramic coating makes sense in Hialeah Gardens',
+    localBody:
+      "For a hard-working daily driver, the math on ceramic coating is simple: instead of re-waxing every few weeks in South Florida's heat — and watching hard-water spots and sun take their toll anyway — you get years of protection in one application. The coating's UV resistance keeps paint from fading in open parking, and its hydrophobic surface keeps mineral spotting and grime from sticking, so upkeep is a quick rinse rather than a weekend project.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in Hialeah Gardens?',
+        a: 'Yes — we come to your home or workplace anywhere in Hialeah Gardens, fully self-contained with our own water and power.',
+      },
+      {
+        q: 'Is ceramic coating cheaper than waxing over time?',
+        a: 'Over a few years, often yes. One ceramic coating replaces dozens of wax jobs and protects far better against UV and water spots in the meantime.',
+      },
+      {
+        q: 'Do you need anything from me to apply the coating?',
+        a: "Just a flat place to park and work. We bring everything — water, power, and all materials — so there are no hookups or prep needed on your end.",
+      },
+    ],
+  },
+  {
+    citySlug: 'olympia-heights',
+    name: 'Olympia Heights',
+    metaDescription:
+      "Mobile ceramic coating in Olympia Heights, FL. Keep daily-driver paint glossy and protected from sun — applied at your home. 5-star rated, 2–5 year coating. Book now.",
+    intro:
+      "Olympia Heights is a quiet residential community where most cars live on the street in full sun — exactly where ceramic coating shines.",
+    localHeading: 'Why ceramic coating makes sense in Olympia Heights',
+    localBody:
+      "In Olympia Heights, daily drivers spend most of their lives parked outside in unrelenting sun, with afternoon storms leaving water spots behind. Both quietly age a car's paint — fading color and etching the clear coat. Ceramic coating protects against exactly that, with serious UV resistance and a hydrophobic surface that sheds rain before it can spot. It's the easiest way to keep a daily driver looking new and holding its value for years.",
+    faqs: [
+      {
+        q: 'Do you apply ceramic coating in Olympia Heights?',
+        a: 'Yes — we serve Olympia Heights and the surrounding Westchester-area neighborhoods, coming right to your home with everything we need.',
+      },
+      {
+        q: 'My car is parked on the street all day — does ceramic coating help?',
+        a: 'That\'s the perfect use case. Street-parked cars get the most sun, and UV protection is where a ceramic coating delivers the most value.',
+      },
+      {
+        q: 'How long will the ceramic coating last?',
+        a: 'Our Tier 1 coating protects for 2–3 years, and our Tier 2 Gyeon certified coating is rated for 5 years with a 10-year manufacturer warranty. With simple maintenance washing, you get the full lifespan even on a daily driver.',
+      },
+    ],
   },
 ];
-
-export default function CeramicCityPage({ content }: CeramicCityPageProps) {
-  const { openModal } = useLeadModal();
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const city = cityPages.find((c) => c.name === content.name);
-  const state = city?.state ?? 'FL';
-  const ceramicPackages = packages.filter((p) => p.isCeramic);
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: content.faqs.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
-  };
-
-  return (
-    <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
-      <SEO
-        title={`Ceramic Coating in ${content.name}, ${state} | ${BUSINESS_NAME}`}
-        description={content.metaDescription}
-        keywords={`ceramic coating ${content.name}, ceramic coating ${content.name} FL, mobile ceramic coating ${content.name}, paint protection ${content.name}, car ceramic coating near me`}
-        canonical={`/ceramic-coating/${content.citySlug}`}
-      />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-
-      {/* Hero */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 opacity-25">
-            <img
-              src="/images/optimized/ceramic-hero.webp"
-              srcSet="/images/optimized/ceramic-hero-480.webp 480w, /images/optimized/ceramic-hero-768.webp 768w, /images/optimized/ceramic-hero.webp 1200w"
-              sizes="100vw"
-              alt={`Ceramic coating in ${content.name}, ${state}`}
-              className="w-full h-full object-cover"
-              width={1200}
-              height={800}
-              loading="eager"
-              decoding="async"
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/80 to-charcoal-950/60" />
-        </div>
-        <div className="decorative-blur absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-accent/10 rounded-full blur-[150px]" />
-
-        <div className="relative z-10 container-custom text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-6">
-            <MapPin className="w-4 h-4 text-accent" />
-            <span className="text-charcoal-200 text-sm font-medium">{content.name}, {state}</span>
-          </div>
-
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            Ceramic Coating
-            <span className="block gradient-text">in {content.name}, {state}</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-charcoal-300 max-w-2xl mx-auto mb-8">
-            {content.intro}
-          </p>
-
-          <div className="flex items-center justify-center gap-2 mb-10">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 text-gold fill-gold" />
-            ))}
-            <span className="text-charcoal-300 text-sm ml-1">
-              {GOOGLE_RATING} · {GOOGLE_REVIEW_COUNT} Google Reviews
-            </span>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button onClick={() => openModal('Tier 1 Ceramic Coating')} className="btn-primary text-lg px-8 py-4">
-              Get a Ceramic Quote
-            </button>
-            <a href="#packages" className="btn-secondary text-lg px-8 py-4">
-              View Packages
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Local angle */}
-      <section className="py-16 bg-charcoal-900">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-6">
-                {content.localHeading}
-              </h2>
-              <p className="text-charcoal-300 text-lg leading-relaxed mb-6">
-                {content.localBody}
-              </p>
-
-              {city?.travelFee === false && (
-                <div className="flex items-start gap-3 bg-charcoal-800/50 rounded-xl p-4 border border-charcoal-700 mb-6">
-                  <Check className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                  <p className="text-charcoal-300 text-sm">
-                    <strong className="text-white">{content.name} is within our no-travel-fee zone.</strong>{' '}
-                    A travel fee only applies for locations more than {TRAVEL_FEE_MILES} miles from {BASE_CITY}.
-                  </p>
-                </div>
-              )}
-
-              {city?.landmarks && city.landmarks.length > 0 && (
-                <div>
-                  <p className="text-charcoal-500 text-sm font-semibold uppercase tracking-wider mb-3">Serving Near</p>
-                  <div className="flex flex-wrap gap-2">
-                    {city.landmarks.map((lm) => (
-                      <span key={lm} className="px-3 py-1.5 bg-charcoal-800 border border-charcoal-700 rounded-full text-sm text-charcoal-300">
-                        {lm}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              {benefits.map((item) => (
-                <div key={item.title} className="bg-charcoal-800/50 border border-charcoal-700 rounded-xl p-5 hover:border-accent/40 transition-colors">
-                  <item.icon className="w-7 h-7 text-accent mb-3" />
-                  <h4 className="font-bold text-white text-sm mb-1">{item.title}</h4>
-                  <p className="text-charcoal-400 text-xs">{item.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Packages */}
-      <section id="packages" className="section-padding bg-charcoal-950 relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.04),transparent_70%)]" />
-        <div className="container-custom relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-              Ceramic Packages in <span className="gradient-text">{content.name}</span>
-            </h2>
-            <p className="text-charcoal-400 mb-8">Full prep, paint polish, and coating — applied on-site at your address in {content.name}.</p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
-            {ceramicPackages.map((pkg) => (
-              <div
-                key={pkg.id}
-                className="rounded-2xl p-6 flex flex-col bg-charcoal-800/50 border border-charcoal-700 transition-all hover:scale-[1.02] hover:border-accent/40"
-              >
-                <h3 className="font-bold text-white mb-1">{pkg.name}</h3>
-                <p className="text-charcoal-500 text-xs mb-3">{pkg.tagline}</p>
-                <p className="text-2xl font-bold text-white mb-1">
-                  {pkg.pricing.label ? '' : 'from '}${pkg.pricing.sedan.toFixed(0)}
-                  {pkg.pricing.label && <span className="text-charcoal-500 text-sm font-normal"> {pkg.pricing.label}</span>}
-                </p>
-                {pkg.duration && <p className="text-charcoal-500 text-xs mb-4">Est. {pkg.duration}</p>}
-                <ul className="space-y-2 mb-5 flex-1">
-                  {pkg.features.slice(0, 6).map((f) => (
-                    <li key={f} className="flex items-start gap-1.5 text-xs">
-                      <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-accent" />
-                      <span className="text-charcoal-300">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={() => openModal(pkg.name)}
-                  className="block w-full text-center py-2.5 rounded-lg font-semibold text-sm bg-charcoal-700 text-white hover:bg-charcoal-600 transition-all"
-                >
-                  Book in {content.name}
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-center text-charcoal-500 text-sm mt-8">
-            Want the full breakdown?{' '}
-            <Link to="/ceramic-coating" className="text-accent hover:underline">Compare all ceramic coating tiers</Link>.
-          </p>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-16 bg-charcoal-900">
-        <div className="container-custom max-w-3xl">
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-8 text-center">
-            Ceramic Coating in {content.name} — FAQ
-          </h2>
-          <div className="space-y-3">
-            {content.faqs.map((f, i) => (
-              <div key={f.q} className="bg-charcoal-800/50 border border-charcoal-700 rounded-xl overflow-hidden">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between gap-4 p-5 text-left"
-                >
-                  <span className="font-semibold text-white text-sm md:text-base">{f.q}</span>
-                  {openFaq === i
-                    ? <ChevronUp className="w-5 h-5 text-accent flex-shrink-0" />
-                    : <ChevronDown className="w-5 h-5 text-charcoal-400 flex-shrink-0" />}
-                </button>
-                {openFaq === i && (
-                  <p className="px-5 pb-5 text-charcoal-300 text-sm leading-relaxed">{f.a}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Nearby areas */}
-      {city?.nearbyAreas && city.nearbyAreas.length > 0 && (
-        <section className="py-12 bg-charcoal-950">
-          <div className="container-custom">
-            <h3 className="font-bold text-white text-lg mb-4 text-center">
-              Also Serving Nearby Areas
-            </h3>
-            <div className="flex flex-wrap justify-center gap-3">
-              {city.nearbyAreas.map((area) => (
-                <span key={area} className="px-4 py-2 bg-charcoal-800 border border-charcoal-700 rounded-full text-sm text-charcoal-300">
-                  {area}
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* CTA */}
-      <section className="py-20 bg-charcoal-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-transparent to-primary-500/10" />
-        <div className="container-custom relative z-10 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-            Protect Your Paint in <span className="gradient-text">{content.name}</span>
-          </h2>
-          <p className="text-charcoal-400 text-lg mb-8 max-w-xl mx-auto">
-            Get a ceramic coating quote in under 2 minutes. We come to you anywhere in {content.name}.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button onClick={() => openModal('Tier 1 Ceramic Coating')} className="btn-primary text-lg px-10 py-4">
-              Get My Ceramic Quote
-            </button>
-            {city && (
-              <Link to={`/areas/${city.slug}`} className="btn-secondary text-lg px-8 py-4">
-                All {content.name} Detailing
-              </Link>
-            )}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
