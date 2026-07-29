@@ -6,6 +6,7 @@ import {
 import { PHONE, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { packages, type DetailPackage } from '../data/packages';
 import { addons } from '../data/addons';
+import { useLeadModal } from '../context/LeadModalContext';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
@@ -51,11 +52,17 @@ const CERAMIC_TIERS = ['ceramic-t1', 'ceramic-t2'].map(pkgById).filter(Boolean) 
 type WizardState = 'idle' | 'loading' | 'error';
 
 export default function QuoteWizard() {
-  const [step, setStep] = useState(1);
-  const [service, setService] = useState('');
+  const { defaultPackage } = useLeadModal();
+  const preselectedPkg = packages.find(p => p.name === defaultPackage);
+  const preselectedService = preselectedPkg
+    ? (preselectedPkg.isCeramic ? 'Ceramic / Paint Correction' : 'Full Detail')
+    : '';
+
+  const [step, setStep] = useState(preselectedPkg ? 2 : 1);
+  const [service, setService] = useState(preselectedService);
   const [vehicle, setVehicle] = useState('');
   const [condition, setCondition] = useState('');
-  const [pkgId, setPkgId] = useState('');
+  const [pkgId, setPkgId] = useState(preselectedPkg?.id ?? '');
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
   const [timeline, setTimeline] = useState('');
   const [firstName, setFirstName] = useState('');
