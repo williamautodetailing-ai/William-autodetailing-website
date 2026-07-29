@@ -77,7 +77,7 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" className="section-padding bg-charcoal-900 relative overflow-hidden">
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-[150px]" />
+      <div className="decorative-blur absolute top-0 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-[150px]" />
 
       <div className="container-custom relative z-10">
         <div className="text-center mb-16">
