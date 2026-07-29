@@ -134,8 +134,8 @@ export const packages: DetailPackage[] = [
   },
   {
     id: 'ceramic-t2',
-    name: 'Tier 2 Ceramic Coating',
-    tagline: '4–5 year elite paint protection',
+    name: 'Tier 2 Gyeon Certified Coating',
+    tagline: '5-year Gyeon certified paint protection',
     pricing: {
       sedan: 999.00,
       suv: 1099.00,
@@ -144,7 +144,9 @@ export const packages: DetailPackage[] = [
       'Signature Exterior Detail included',
       'Standard Interior Detail included',
       'Paint enhancement polish',
-      '4–5 year professional paint coating',
+      'Applied by a Gyeon-certified detailer',
+      '5-year professional paint coating',
+      '10-year manufacturer warranty included',
       'Superior chemical & UV resistance',
       'Hydrophobic surface (easier to clean)',
       'Maximum gloss, shine & paint clarity',
@@ -204,7 +206,8 @@ export const ceramicComparisonRows: CeramicComparisonRow[] = [
   { group: 'Prep Work', label: 'Paint enhancement polish',         t1: true,  t2: true,  windshield: false },
   // Coating
   { group: 'Coating', label: '2–3 year paint protection',          t1: true,  t2: false, windshield: false },
-  { group: 'Coating', label: '4–5 year paint protection',          t1: false, t2: true,  windshield: false },
+  { group: 'Coating', label: '5-year Gyeon certified protection',  t1: false, t2: true,  windshield: false },
+  { group: 'Coating', label: '10-year manufacturer warranty',      t1: false, t2: true,  windshield: false },
   { group: 'Coating', label: '18 months windshield protection',    t1: false, t2: false, windshield: true  },
   { group: 'Coating', label: 'Hydrophobic surface',                t1: true,  t2: true,  windshield: true  },
   { group: 'Coating', label: 'Protection from bird droppings & bugs', t1: true, t2: true, windshield: false },
