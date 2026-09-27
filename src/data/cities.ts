@@ -121,7 +121,7 @@ export const cityPages: CityData[] = [
     slug: 'olympia-heights-mobile-detailing',
     state: 'FL',
     county: 'Miami-Dade',
-    description: "Olympia Heights is a vibrant residential community in Miami-Dade, and we're proud to serve it. Our mobile detailing team arrives at your address, fully prepared to deliver the same 5-star quality that has earned us 137 Google reviews.",
+    description: "Olympia Heights is a vibrant residential community in Miami-Dade, and we're proud to serve it. Our mobile detailing team arrives at your address, fully prepared to deliver the same 5-star quality that has earned us 180 Google reviews.",
     nearbyAreas: ['Westchester', 'Kendall', 'Tamiami', 'West Miami'],
     travelFee: false,
   },
