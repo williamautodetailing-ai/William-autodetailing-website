@@ -97,6 +97,11 @@ const LandingPage = lazy(() => import('./pages/LandingPage'));
 
 
 
+const ReferralPage = lazy(() => import('./pages/ReferralPage'));
+const SpecialOfferPage = lazy(() => import('./pages/SpecialOfferPage'));
+
+
+
 
 
 
@@ -255,7 +260,7 @@ function AppLayout() {
 
   const location = useLocation();
 
-  const isLanding = location.pathname === '/book';
+  const isLanding = location.pathname === '/book' || location.pathname === '/199-special';
 
 
 
@@ -313,6 +318,11 @@ function AppLayout() {
 
 
           <Route path="/book" element={<LandingPage />} />
+
+
+
+          <Route path="/refer" element={<ReferralPage />} />
+          <Route path="/199-special" element={<SpecialOfferPage />} />
 
 
 
