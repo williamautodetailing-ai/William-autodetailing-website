@@ -12,7 +12,7 @@ const template = readFileSync(join(root, 'dist/index.html'), 'utf-8');
 const SITE_URL = 'https://williamautodetailing.net';
 const BUSINESS = "William's Auto Detailing";
 const RATING = '5.0';
-const REVIEWS = '137';
+const REVIEWS = '180';
 
 const pageMeta = {
   '/': {
