@@ -170,7 +170,7 @@ function HomePage() {
     <main>
       <SEO
         title="William's Auto Detailing | #1 Mobile Car Detailing in Miami, FL"
-        description="William's Auto Detailing — Miami's top-rated mobile car detailing. We come to your home, office, or apartment. Signature detail, deep-clean packages, ceramic coating, and add-ons. 5.0 stars · 137+ Google reviews. Serving all of Miami-Dade County."
+        description="William's Auto Detailing — Miami's top-rated mobile car detailing. We come to your home, office, or apartment. Signature detail, deep-clean packages, ceramic coating, and add-ons. 5.0 stars · 180+ Google reviews. Serving all of Miami-Dade County."
         keywords="mobile car detailing Miami, auto detailing Miami FL, ceramic coating Miami, car detailing Doral, mobile detailing near me, car detailing Miami-Dade, best car detailing Miami"
         canonical="/"
       />
