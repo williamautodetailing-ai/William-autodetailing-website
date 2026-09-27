@@ -6,6 +6,7 @@ import {
 import { PHONE, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { packages, type DetailPackage } from '../data/packages';
 import { addons } from '../data/addons';
+import type { SpecialOffer } from '../data/offers';
 import { useLeadModal } from '../context/LeadModalContext';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
@@ -51,14 +52,21 @@ const CERAMIC_TIERS = ['ceramic-t1', 'ceramic-t2'].map(pkgById).filter(Boolean) 
 
 type WizardState = 'idle' | 'loading' | 'error';
 
-export default function QuoteWizard() {
-  const { defaultPackage } = useLeadModal();
-  const preselectedPkg = packages.find(p => p.name === defaultPackage);
-  const preselectedService = preselectedPkg
-    ? (preselectedPkg.isCeramic ? 'Ceramic / Paint Correction' : 'Full Detail')
-    : '';
+// Full flow vs. offer flow (offer skips service + package selection)
+const FULL_FLOW = [1, 2, 3, 4, 5, 6, 7];
+const OFFER_FLOW = [2, 3, 5, 6, 7];
 
-  const [step, setStep] = useState(preselectedPkg ? 2 : 1);
+export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
+  const { defaultPackage } = useLeadModal();
+  const preselectedPkg = offer ? undefined : packages.find(p => p.name === defaultPackage);
+  const preselectedService = offer
+    ? 'Full Detail'
+    : preselectedPkg
+      ? (preselectedPkg.isCeramic ? 'Ceramic / Paint Correction' : 'Full Detail')
+      : '';
+
+  const FLOW = offer ? OFFER_FLOW : FULL_FLOW;
+  const [step, setStep] = useState(offer || preselectedPkg ? 2 : 1);
   const [service, setService] = useState(preselectedService);
   const [vehicle, setVehicle] = useState('');
   const [condition, setCondition] = useState('');
@@ -73,7 +81,12 @@ export default function QuoteWizard() {
   const [errorMsg, setErrorMsg] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const TOTAL = 7;
+  const TOTAL = FLOW.length;
+  const stepNumber = FLOW.indexOf(step) + 1;
+  const nextStep = (s: number) => FLOW[Math.min(FLOW.indexOf(s) + 1, FLOW.length - 1)];
+  const prevStep = (s: number) => FLOW[Math.max(FLOW.indexOf(s) - 1, 0)];
+  const vehicleOptions = offer ? VEHICLES.filter(v => v.size !== 'custom') : VEHICLES;
+  const addonOptions = offer ? addons.filter(a => !offer.includedAddonIds.includes(a.id)) : addons;
   const isUrgent = timeline === 'ASAP — this week';
 
   const isCeramic = service.startsWith('Ceramic');
@@ -95,15 +108,17 @@ export default function QuoteWizard() {
   })();
 
   const selectedPkg = tierPackages.find(p => p.id === pkgId);
-  const estimate = selectedPkg ? priceFor(selectedPkg) : null;
+  const offerPrice = offer && vehicleSize ? (vehicleSize === 'suv' ? offer.pricing.suv : offer.pricing.sedan) : null;
+  const estimate = offer ? offerPrice : selectedPkg ? priceFor(selectedPkg) : null;
+  const pkgLabel = offer ? offer.name : selectedPkg?.name;
 
   useEffect(() => {
-    if (step === 4 && !pkgId) setPkgId(recommendedId);
+    if (!offer && step === 4 && !pkgId) setPkgId(recommendedId);
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function pick(setter: (v: string) => void, value: string) {
     setter(value);
-    setTimeout(() => setStep(s => Math.min(s + 1, TOTAL)), 180);
+    setTimeout(() => setStep(s => nextStep(s)), 180);
   }
 
   function chooseService(serviceId: string) {
@@ -130,7 +145,8 @@ export default function QuoteWizard() {
       `Service: ${service}`,
       `Condition: ${condition}`,
       `Vehicle: ${vehicle}`,
-      selectedPkg ? `Package: ${selectedPkg.name}${estimate != null ? ` ($${estimate})` : ' (custom quote)'}` : '',
+      pkgLabel ? `Package: ${pkgLabel}${estimate != null ? ` ($${estimate})` : ' (custom quote)'}` : '',
+      offer ? `Offer includes: ${offer.upgrades.map(u => u.title).join(', ')}` : '',
       selectedAddons.length ? `Add-ons: ${selectedAddons.join(', ')}` : '',
       carModel ? `Car: ${carModel}` : '',
     ].filter(Boolean).join(' · ');
@@ -145,7 +161,7 @@ export default function QuoteWizard() {
           email,
           vehicle: carModel || vehicle,
           vehicleType: vehicleSize === 'suv' ? 'suv' : 'sedan',
-          packageInterest: selectedPkg?.name || service,
+          packageInterest: pkgLabel || service,
           notes,
         }),
       });
@@ -173,11 +189,11 @@ export default function QuoteWizard() {
           confirm your quote and schedule your detail.
         </p>
 
-        {(selectedPkg || vehicle) && (
+        {(pkgLabel || vehicle) && (
           <div className="flex flex-wrap justify-center gap-2 mb-6">
-            {selectedPkg && (
+            {pkgLabel && (
               <span className="text-xs font-medium text-accent bg-accent/10 border border-accent/25 px-2.5 py-1 rounded-lg">
-                {selectedPkg.name}{estimate != null ? ` · $${estimate}` : ''}
+                {pkgLabel}{estimate != null ? ` · $${estimate}` : ''}
               </span>
             )}
             {vehicle && <span className="text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg">{vehicle}</span>}
@@ -224,7 +240,7 @@ export default function QuoteWizard() {
       <div className="px-5 sm:px-6 pt-4 space-y-2.5">
         <div className="flex items-center gap-2.5 px-4 py-2.5 bg-gradient-to-r from-accent/15 to-transparent border border-accent/30 rounded-xl">
           <Gift className="w-4 h-4 text-accent flex-shrink-0" />
-          <p className="text-sm text-white font-medium">{PROMO}</p>
+          <p className="text-sm text-white font-medium">{offer ? offer.promo : PROMO}</p>
         </div>
         <div className="flex items-center justify-center gap-2 text-charcoal-400 text-xs">
           <span className="flex items-center gap-0.5">
@@ -242,14 +258,14 @@ export default function QuoteWizard() {
       <div className="px-5 sm:px-6 pt-5">
         <div className="flex items-center gap-1.5 mb-2">
           {Array.from({ length: TOTAL }).map((_, i) => (
-            <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i < step ? 'bg-accent' : 'bg-charcoal-700'}`} />
+            <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i < stepNumber ? 'bg-accent' : 'bg-charcoal-700'}`} />
           ))}
         </div>
         <div className="flex items-center justify-between">
-          <p className="text-charcoal-500 text-xs font-semibold tracking-widest uppercase">Step {step} of {TOTAL}</p>
-          {step > 1 && state !== 'loading' && (
+          <p className="text-charcoal-500 text-xs font-semibold tracking-widest uppercase">Step {stepNumber} of {TOTAL}</p>
+          {stepNumber > 1 && state !== 'loading' && (
             <button
-              onClick={() => setStep(s => Math.max(s - 1, 1))}
+              onClick={() => setStep(s => prevStep(s))}
               className="flex items-center gap-1 text-charcoal-400 hover:text-accent text-xs font-medium transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Back
@@ -301,11 +317,23 @@ export default function QuoteWizard() {
           <div className="animate-fade-in">
             <h3 className="text-xl font-bold text-white text-center mb-1">What's your vehicle?</h3>
             <p className="text-charcoal-400 text-sm text-center mb-5">
-              Pricing adjusts by size. This helps us give you an accurate number, not a ballpark.
+              {offer
+                ? 'Your special price is locked in by vehicle size.'
+                : 'Pricing adjusts by size. This helps us give you an accurate number, not a ballpark.'}
             </p>
+            {offer && (
+              <div className="flex items-center gap-2.5 px-4 py-3 mb-4 rounded-xl border border-gold/40 bg-gold/10">
+                <Check className="w-4 h-4 text-gold flex-shrink-0" />
+                <p className="text-xs text-charcoal-200">
+                  <span className="font-semibold text-white">{offer.name}</span> pre-loaded — includes{' '}
+                  {offer.upgrades.map(u => u.title).join(' + ')}
+                </p>
+              </div>
+            )}
             <div className="space-y-2.5">
-              {VEHICLES.map(opt => {
+              {vehicleOptions.map(opt => {
                 const active = vehicle === opt.id;
+                const optPrice = offer ? (opt.size === 'suv' ? offer.pricing.suv : offer.pricing.sedan) : null;
                 return (
                   <button
                     key={opt.id}
@@ -319,6 +347,9 @@ export default function QuoteWizard() {
                       <span className="block text-white font-semibold text-sm">{opt.id}</span>
                       <span className="block text-charcoal-400 text-xs mt-0.5">{opt.desc}</span>
                     </span>
+                    {optPrice != null && (
+                      <span className="text-xl font-bold gradient-text leading-none flex-shrink-0">${optPrice}</span>
+                    )}
                     <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ${active ? 'border-accent bg-accent' : 'border-charcoal-600'}`} />
                   </button>
                 );
@@ -421,7 +452,7 @@ export default function QuoteWizard() {
               Optional extras we can include. Tap any that apply — or skip and continue.
             </p>
             <div className="space-y-2.5">
-              {addons.map(a => {
+              {addonOptions.map(a => {
                 const active = selectedAddons.includes(a.name);
                 return (
                   <button
@@ -497,9 +528,9 @@ export default function QuoteWizard() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-2 mb-4">
-              {selectedPkg && (
+              {pkgLabel && (
                 <span className="text-xs font-medium text-accent bg-accent/10 border border-accent/25 px-2.5 py-1 rounded-lg">
-                  {selectedPkg.name}{estimate != null ? ` · $${estimate}` : ''}
+                  {pkgLabel}{estimate != null ? ` · $${estimate}` : ''}
                 </span>
               )}
               {vehicle && <span className="text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg">{vehicle}</span>}
