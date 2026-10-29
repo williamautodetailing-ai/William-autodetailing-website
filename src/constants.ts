@@ -25,8 +25,8 @@ export const PHONE = '(808) 772-0952';
 export const EMAIL = 'williamautodetailing@gmail.com';
 export const INSTAGRAM_URL = 'https://www.instagram.com/william.autodetailing/';
 // TODO: Replace with your actual Google Business review link
-export const GOOGLE_REVIEWS_URL = 'https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID_HERE';
-export const GOOGLE_REVIEW_COUNT = 180;
+export const GOOGLE_REVIEWS_URL = 'https://search.google.com/local/writereview?placeid=ChIJYenIEdFAwSIRRseZNyesqw0';
+export const GOOGLE_REVIEW_COUNT = 193;
 export const GOOGLE_RATING = '5.0';
 export const BASE_CITY = 'Doral';
 export const TRAVEL_FEE_MILES = 15;
