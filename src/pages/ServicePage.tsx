@@ -124,6 +124,20 @@ export default function ServicePage({ service }: { service: ServicePageContent }
         </div>
       </section>
 
+      {/* About this service */}
+      <section className="section-padding bg-charcoal-950">
+        <div className="container-custom max-w-3xl">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-8 text-center">
+            About Our <span className="gradient-text">{service.name}</span>
+          </h2>
+          <div className="space-y-5 text-charcoal-300 text-lg leading-relaxed">
+            {service.description.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* What's included + process */}
       <section className="section-padding bg-charcoal-900">
         <div className="container-custom grid lg:grid-cols-2 gap-8">
