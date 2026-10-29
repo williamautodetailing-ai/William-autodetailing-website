@@ -316,7 +316,7 @@ export const ceramicCities: CeramicCityContent[] = [
       },
       {
         q: 'How long will the ceramic coating last?',
-        a: 'Our Tier 1 coating protects for 2–3 years and Tier 2 for 4–5 years. With simple maintenance washing, you get the full lifespan even on a daily driver.',
+        a: 'Our Tier 1 coating protects for 2–3 years, and our Tier 2 Gyeon certified coating is rated for 5 years with a 10-year manufacturer warranty. With simple maintenance washing, you get the full lifespan even on a daily driver.',
       },
     ],
   },
