@@ -15,6 +15,7 @@ export interface ServiceBenefit {
 export interface ServicePageContent {
   slug: string;
   name: string;              // short name (nav, links)
+  summary: string;           // one-liner for service cards on the home page
   metaTitle: string;
   metaDescription: string;
   keywords: string;
@@ -22,7 +23,8 @@ export interface ServicePageContent {
   h1: string;
   h1Highlight: string;       // gradient part of the H1
   intro: string;
-  price?: string;            // e.g. "$75" or "From $174.99"
+  description: string[];     // "About this service" paragraphs
+  price?: string;            // e.g. "$75" or "From $200"
   priceNote?: string;
   duration?: string;
   bookAs: string;            // package/service name pre-filled in the lead form
@@ -38,52 +40,59 @@ export const services: ServicePageContent[] = [
   {
     slug: 'interior-detailing',
     name: 'Interior Detailing',
-    metaTitle: "Interior Car Detailing Miami — Mobile Interior Cleaning | William's Auto Detailing",
-    metaDescription: 'Mobile interior car detailing in Miami-Dade. Two-stage vacuum, air purge blow-out, seat shampoo & extraction, leather conditioning and streak-free glass. We come to your home or office.',
-    keywords: 'interior car detailing Miami, mobile interior detailing, car interior cleaning Doral, interior detail near me, car seat cleaning Miami',
+    summary: 'Full cabin deep clean with seat shampoo & extraction for cloth or leather conditioning for leather.',
+    metaTitle: "Interior Car Detailing Miami — From $200 | William's Auto Detailing",
+    metaDescription: 'Mobile interior car detailing in Miami-Dade from $200. Air purge, two-stage vacuum, cloth seat shampoo & extraction or leather cleaning & conditioning, streak-free glass. We come to you.',
+    keywords: 'interior car detailing Miami, mobile interior detailing, car interior cleaning Doral, interior detail near me, car seat cleaning Miami, car seat shampoo Miami',
     badge: 'Mobile Interior Detailing',
     h1: 'Interior Car Detailing',
     h1Highlight: 'in Miami',
-    intro: "From crumbs in the crevices to stains in the seats, our interior detail brings your cabin back to that clean, fresh feeling — done right in your driveway or parking spot anywhere in Miami-Dade.",
-    price: 'From $174.99',
-    priceNote: 'Interior is included in every detail package. Deep interior work (shampoo, extraction, leather conditioning) is included in Pristine & Perfect Detail.',
-    duration: '2–5 hours',
-    bookAs: 'Pristine Detail',
+    intro: "From crumbs in the crevices to stains in the seats, our interior detail brings your cabin back to that clean, fresh, like-new feeling — done right in your driveway or parking spot anywhere in Miami-Dade.",
+    description: [
+      "Your car's interior is where you spend all of your time — commuting, running errands, driving the kids around — and it shows. Dust settles into the vents, sand and crumbs work their way into the seat rails, and spills, sweat and body oils soak into the seats. A quick vacuum doesn't touch any of that. Our interior detail is a true top-to-bottom reset of your cabin.",
+      "We start with a full air purge blow-out to force debris out of the vents, seams and tight gaps, then do a two-stage vacuum of the floors, seats, trunk and every crevice. Floor mats are cleaned, plastics, vinyl and trim are wiped down, and all interior glass is finished streak-free.",
+      "Seats are where our interior detail really stands apart. Cloth seats are shampooed and hot-water extracted to pull dirt, odors and stains out from deep in the fabric. Leather seats are deep scrubbed and treated with leather conditioner to keep them soft, hydrated and protected from the Florida sun for up to 3 months.",
+      "Interior detailing starts at $200 and we come to your home, office or apartment anywhere in Miami-Dade County — no drop-offs, no waiting rooms.",
+    ],
+    price: 'From $200',
+    priceNote: 'Starting price — final price depends on vehicle size and interior condition.',
+    duration: '2–3 hours',
+    bookAs: 'Interior Detailing',
     includes: [
       'Full vehicle air purge blow-out of vents, seams & crevices',
       'Two-stage vacuum — floors, seats, trunk & crevices',
+      'Cloth seats: shampoo + hot-water extraction',
+      'Leather seats: deep scrub + leather conditioner (up to 3 months UV protection)',
       'Floor mats cleaned (carpet & weather mats)',
-      'Plastic, vinyl & leather surfaces wiped down',
+      'Plastic, vinyl & trim surfaces cleaned and wiped down',
       'Interior glass streak-free finish',
-      'Cloth seats shampooed, sanitized & extracted (Pristine & Perfect)',
-      'Leather seats scrubbed & conditioned for 3 months (Pristine & Perfect)',
-      'Stain removal on cloth seats (Pristine & Perfect)',
     ],
     benefits: [
       { title: 'Healthier Cabin', description: 'Removes dust, allergens, bacteria and odors that build up in carpets, vents and seat fabric.' },
-      { title: 'Protects Your Interior', description: "Conditioned leather and cleaned plastics hold up better against Florida's heat and UV." },
+      { title: 'Seats Done Right', description: 'Cloth is shampooed and extracted, leather is scrubbed and conditioned — every time.' },
       { title: 'Higher Resale Value', description: 'A clean, well-kept interior is one of the first things buyers and dealers notice.' },
       { title: 'We Come to You', description: 'No drop-offs or waiting rooms — we detail at your home, office or apartment.' },
     ],
     process: [
       'Air purge blow-out to lift debris from vents, seams and tight spaces',
       'Two-stage vacuum of every surface and crevice',
-      'Shampoo & hot-water extraction of cloth seats, carpets and mats',
-      'Leather scrubbed, cleaned and conditioned',
+      'Cloth seats shampooed & hot-water extracted, or leather scrubbed & conditioned',
+      'Floor mats cleaned',
       'Plastics, vinyl and trim wiped down',
       'Streak-free interior glass to finish',
     ],
     faqs: [
-      { q: 'How long does an interior detail take?', a: 'A Signature Detail takes about 2 hours, Pristine about 3 hours, and The Perfect Detail 4–5 hours depending on vehicle size and condition.' },
-      { q: 'Do you shampoo the seats and carpets?', a: 'Yes. Cloth seats are shampooed, sanitized and extracted in our Pristine and Perfect Detail packages. Stain treatment can also be added to any detail as an add-on.' },
+      { q: 'How much does interior detailing cost?', a: 'Interior detailing starts at $200. The final price depends on vehicle size and the condition of the interior.' },
+      { q: 'Are the seats shampooed?', a: 'Yes. Cloth seats are shampooed and hot-water extracted. If you have leather seats, they are deep scrubbed and treated with leather conditioner instead.' },
+      { q: 'How long does an interior detail take?', a: 'Most interior details take about 2–3 hours depending on vehicle size and condition.' },
       { q: 'Where do you do the interior detail?', a: "We're fully mobile — we come to your home, office or apartment anywhere in Miami-Dade County." },
-      { q: 'Can you remove pet hair?', a: 'Yes. Let us know about pet hair when you book so we can plan the right time for your vehicle.' },
     ],
     related: ['shampoo-extraction', 'leather-alcantara-cleaning', 'exterior-detailing'],
   },
   {
     slug: 'exterior-detailing',
     name: 'Exterior Detailing',
+    summary: 'Foam bath hand wash, wheels & tires, decontamination and ceramic sealant protection.',
     metaTitle: "Exterior Car Detailing Miami — Hand Wash, Clay Bar & Sealant | William's Auto Detailing",
     metaDescription: 'Mobile exterior car detailing in Miami-Dade. Double foam hand wash, wheels & tires, clay bar, iron removal and up to 6 months of ceramic sealant protection. We come to you.',
     keywords: 'exterior car detailing Miami, mobile car wash Miami, hand car wash Doral, clay bar treatment Miami, car wax Miami',
@@ -91,6 +100,11 @@ export const services: ServicePageContent[] = [
     h1: 'Exterior Car Detailing',
     h1Highlight: 'in Miami',
     intro: "Miami sun, salt air, love bugs and brake dust take a toll on your paint. Our exterior detail safely removes it all and seals your paint with real protection — not just a quick wash.",
+    description: [
+      "South Florida is hard on a car's finish. Intense UV fades paint, salt air from the coast settles on every surface, and bugs, bird droppings and brake dust can etch into the clear coat if they sit too long. Automatic car washes make it worse — their brushes drag grit across the paint and leave swirl marks behind.",
+      "Our exterior detail is a safe, hand-done process. We clean the wheels, tires and wheel wells first, then cover the car in a double foam bath that loosens dirt before we ever touch the paint. After a careful hand wash, we clean the door jambs, gas cap and trunk jamb, finish the exterior glass streak-free and apply a windshield sealant for better visibility in the rain.",
+      "For deeper results, our Pristine and Perfect Detail packages add a clay bar and iron removal treatment to pull bonded contamination out of the paint, leaving it smooth as glass. Every exterior detail is finished with wax and ceramic sealant — up to 3 months with Signature and up to 6 months with Pristine and Perfect — so water beads off and dirt releases easily between washes.",
+    ],
     price: 'From $174.99',
     priceNote: 'Exterior is included in every detail package. Clay bar, iron removal and 6-month ceramic sealant are included in Pristine & Perfect Detail.',
     duration: '2–5 hours',
@@ -108,7 +122,7 @@ export const services: ServicePageContent[] = [
     benefits: [
       { title: 'Safe Hand Wash', description: 'Foam pre-wash and hand wash techniques reduce the swirls that automatic car washes leave behind.' },
       { title: 'Real Paint Protection', description: 'Every exterior detail ends with wax and ceramic sealant so water beads and dirt releases easily.' },
-      { title: 'Decontaminated Paint', description: 'Clay bar and iron removal pull out bonded contamination that washing alone can\'t remove.' },
+      { title: 'Decontaminated Paint', description: "Clay bar and iron removal pull out bonded contamination that washing alone can't remove." },
       { title: 'Done at Your Location', description: 'We bring everything needed to detail your car at home or at work.' },
     ],
     process: [
@@ -129,6 +143,7 @@ export const services: ServicePageContent[] = [
   {
     slug: 'paint-correction',
     name: 'Paint Correction',
+    summary: 'Machine polishing that removes swirl marks and light scratches to restore deep gloss.',
     metaTitle: "Paint Correction Miami — Swirl & Scratch Removal | William's Auto Detailing",
     metaDescription: 'Paint correction and polishing in Miami-Dade. Remove swirl marks, light scratches and dull oxidized paint to restore deep gloss and clarity. Mobile service — we come to you.',
     keywords: 'paint correction Miami, swirl mark removal Miami, car polishing Doral, scratch removal Miami, paint enhancement polish',
@@ -136,6 +151,11 @@ export const services: ServicePageContent[] = [
     h1: 'Paint Correction',
     h1Highlight: 'in Miami',
     intro: "Swirl marks, light scratches and dull, faded paint make even a great car look tired. Machine polishing removes those defects from the clear coat and restores the deep gloss your paint had when it was new.",
+    description: [
+      "Look at your car in direct sunlight and you'll probably see it — fine circular scratches that look like a spider web across the paint. Those swirl marks come from automatic car washes, dirty towels and improper drying, and over time they make paint look hazy and dull no matter how clean it is.",
+      "Paint correction fixes the paint itself rather than hiding the problem. After a full wash and clay bar and iron decontamination, we use a machine polisher and professional compounds and polishes to carefully level the clear coat and remove swirls, light scratches and oxidation. The result is paint with real depth, sharp reflections and a gloss that wax alone can never give you.",
+      "Paint correction is the essential first step before a ceramic coating, because a coating locks in whatever finish is underneath it. Every one of our ceramic coating packages includes a paint enhancement polish, and The Perfect Detail includes it too. For heavier defects, we'll inspect your paint and give you an honest quote and realistic expectations before we start.",
+    ],
     price: 'From $550',
     priceNote: 'Paint enhancement polish is included in The Perfect Detail and in every ceramic coating package. Heavier correction is quoted based on paint condition.',
     duration: '4–8 hours',
@@ -153,7 +173,7 @@ export const services: ServicePageContent[] = [
       { title: 'Swirl Removal', description: 'Reduces the spider-web swirl marks left by automatic car washes and improper drying.' },
       { title: 'Deep Gloss', description: 'Polishing restores reflection, depth and clarity to faded or hazy paint.' },
       { title: 'Perfect Before Ceramic', description: 'Correction is the right first step before a ceramic coating locks in the finish for years.' },
-      { title: 'Expert Results', description: 'Paint correction and ceramic coatings are a core part of our work — see the reviews.' },
+      { title: 'Honest Expectations', description: "We inspect your paint first and tell you exactly what's realistic before we start." },
     ],
     process: [
       'Inspect the paint under light to assess defects',
@@ -173,6 +193,7 @@ export const services: ServicePageContent[] = [
   {
     slug: 'shampoo-extraction',
     name: 'Shampoo & Extraction',
+    summary: 'Shampoo and hot-water extraction of seats, carpets and mats with stain treatment.',
     metaTitle: "Car Seat Shampoo & Carpet Extraction Miami — Stain Treatment | William's Auto Detailing",
     metaDescription: 'Car upholstery shampoo and hot-water extraction in Miami-Dade. Deep clean seats, carpets and mats and treat stains — $75, about 1 hour. Mobile service, we come to you.',
     keywords: 'car seat shampoo Miami, carpet extraction car Miami, car upholstery cleaning Doral, car stain removal Miami, mobile car shampoo',
@@ -180,8 +201,13 @@ export const services: ServicePageContent[] = [
     h1: 'Car Shampoo & Extraction',
     h1Highlight: 'in Miami',
     intro: "Coffee spills, kid messes, sweat and sand work deep into fabric seats and carpets. Our shampoo and extraction treatment deep cleans upholstery, carpets and mats and pulls the dirt out — not just the surface.",
+    description: [
+      "Fabric seats and carpets act like a sponge. Every spilled drink, muddy shoe, beach trip and sweaty commute leaves something behind, and over time it builds into stains, dingy discoloration and that stale smell that air fresheners can't cover. Vacuuming only gets what's sitting on top.",
+      "Our shampoo and extraction service goes deeper. We vacuum first, pre-treat stains and heavily soiled areas, then shampoo and agitate the upholstery, carpets and floor mats to break the dirt loose. A hot-water extractor then rinses the fibers and pulls the dirty solution back out — taking the grime, odor-causing residue and as much of the stain as possible with it.",
+      "Shampoo and extraction is available as a $75 add-on that takes about an hour, and it's included with our Interior Detailing service and in our Pristine and Perfect Detail packages for cloth seats. It's a great choice before selling a car, after a road trip, or anytime the seats just don't feel clean anymore.",
+    ],
     price: '$75',
-    priceNote: 'Book as a stain treatment add-on to any detail. Cloth seat shampoo & extraction is included in Pristine & Perfect Detail.',
+    priceNote: 'Book as a stain treatment add-on to any detail. Included with Interior Detailing and Pristine & Perfect Detail for cloth seats.',
     duration: '1 hour',
     bookAs: 'Stain Treatment',
     includes: [
@@ -206,7 +232,7 @@ export const services: ServicePageContent[] = [
     ],
     disclaimer: 'We cannot guarantee complete removal of stains. While we aim to do an excellent job, there are SEVERAL variables with stain treatment and resolution that come into play that prevent us from being able to promise complete removal.',
     faqs: [
-      { q: 'How much does car seat shampoo cost?', a: 'Stain treatment with shampoo and extraction of upholstery, carpets and mats is $75 and takes about 1 hour. It is also included in our Pristine and Perfect Detail packages.' },
+      { q: 'How much does car seat shampoo cost?', a: 'Stain treatment with shampoo and extraction of upholstery, carpets and mats is $75 and takes about 1 hour. It is also included with Interior Detailing and in our Pristine and Perfect Detail packages for cloth seats.' },
       { q: 'Will all stains come out?', a: "Most stains improve a lot, but we can't guarantee complete removal. How old the stain is, what caused it and the type of fabric all affect the result." },
       { q: 'How long until the seats are dry?', a: 'Extraction removes most of the moisture. Drying time depends on weather and airflow — leaving windows cracked in a safe spot helps them dry faster.' },
     ],
@@ -215,6 +241,7 @@ export const services: ServicePageContent[] = [
   {
     slug: 'leather-alcantara-cleaning',
     name: 'Leather & Alcantara Cleaning',
+    summary: 'Deep scrub and conditioning that restores leather & Alcantara and protects from UV.',
     metaTitle: "Leather Seat Cleaning & Conditioning Miami — Alcantara Cleaning | William's Auto Detailing",
     metaDescription: 'Leather and Alcantara deep cleaning and conditioning in Miami-Dade. Deep scrub, restored fibers and UV protection for up to 3 months — $75, about 30 minutes. We come to you.',
     keywords: 'leather seat cleaning Miami, leather conditioning Miami, Alcantara cleaning Miami, car leather cleaner Doral, leather interior detailing',
@@ -222,8 +249,13 @@ export const services: ServicePageContent[] = [
     h1: 'Leather & Alcantara',
     h1Highlight: 'Deep Cleaning & Conditioning',
     intro: "Leather and Alcantara look and feel incredible — until body oils, sunscreen and dirt build up. Our deep clean and conditioning restores the look and feel of your seats and protects them from Florida's sun.",
+    description: [
+      "Leather seats don't stay clean on their own. Body oils, sweat, lotion, sunscreen and everyday dirt build up in the grain and perforations, leaving leather shiny, sticky and darker than it should be. Add Miami's heat and UV, and unprotected leather dries out, fades and eventually cracks. Alcantara has its own problem — its soft fibers mat down and turn dark and greasy, especially on steering wheels and seat bolsters.",
+      "We start with a deep scrub and clean of every leather and Alcantara surface, lifting out the oils and grime trapped in the grain and fibers. On Alcantara, we restore the fibers so the material looks and feels soft again, and leave behind protection that helps resist future soiling.",
+      "On leather, the deep scrub is followed by a quality leather conditioner that hydrates the hide and protects it from UV rays for up to 3 months — keeping it soft, supple and looking factory-fresh. It's a $75 add-on that takes about 30 minutes, and leather conditioning is included with our Interior Detailing service and in our Pristine and Perfect Detail packages.",
+    ],
     price: '$75',
-    priceNote: 'Book as an add-on to any detail. Leather scrub & conditioning is included in Pristine & Perfect Detail.',
+    priceNote: 'Book as an add-on to any detail. Leather scrub & conditioning is included with Interior Detailing and Pristine & Perfect Detail.',
     duration: '30 minutes',
     bookAs: 'Leather/Alcantara Deep Cleaning & Conditioning',
     includes: [
@@ -256,6 +288,7 @@ export const services: ServicePageContent[] = [
   {
     slug: 'headlight-restoration',
     name: 'Headlight Restoration',
+    summary: 'Restore yellowed, cloudy headlights to clear — sealed with a 3 year UV coating.',
     metaTitle: "Headlight Restoration Miami — 3 Year UV Coating | William's Auto Detailing",
     metaDescription: 'Headlight restoration in Miami-Dade. Restore clarity to yellowed, oxidized headlights for better looks and safer night driving, with a 3 year UV coating applied — $90, about 1 hour.',
     keywords: 'headlight restoration Miami, headlight cleaning Doral, yellow headlights fix Miami, oxidized headlights, headlight restoration near me',
@@ -263,6 +296,11 @@ export const services: ServicePageContent[] = [
     h1: 'Headlight Restoration',
     h1Highlight: 'in Miami',
     intro: "The Florida sun turns headlights yellow and cloudy fast. Our headlight restoration brings back clarity and visibility, making your car look much better and safer to drive at night — then seals them with a 3 year UV coating.",
+    description: [
+      "Modern headlight lenses are made of polycarbonate plastic with a thin factory UV coating. Under South Florida's sun that coating breaks down, and the lens starts to oxidize — turning yellow, foggy and cloudy. Besides making the whole car look older, hazy headlights scatter and block light, which makes it harder to see the road at night.",
+      "Our headlight restoration removes the oxidized, yellowed layer from the lens and refines it back to a clear, glossy finish. The difference is immediate: brighter light output, better visibility in the dark and rain, and a front end that looks years newer.",
+      "Most quick fixes look good for a few weeks and then yellow again because nothing protects the bare plastic. We finish every restoration with a 3 year UV coating to seal the lens and help keep it clear. Headlight restoration is $90, takes about an hour, and can be booked on its own or added to any detail — for a fraction of the cost of replacing headlight assemblies.",
+    ],
     price: '$90',
     duration: '1 hour',
     bookAs: 'Headlights Restoration',
@@ -293,6 +331,7 @@ export const services: ServicePageContent[] = [
   {
     slug: 'engine-bay-detail',
     name: 'Engine Bay Detail',
+    summary: 'Clean, protect and dress the engine bay for a like-new look under the hood.',
     metaTitle: "Engine Bay Cleaning Miami — Engine Bay Detail | William's Auto Detailing",
     metaDescription: 'Engine bay detailing in Miami-Dade. Clean, protect and dress your engine bay to remove grease, grime and buildup — $50. Add to any mobile detail. We come to you.',
     keywords: 'engine bay cleaning Miami, engine bay detail Doral, engine detailing Miami, under hood cleaning, engine bay detailing near me',
@@ -300,6 +339,11 @@ export const services: ServicePageContent[] = [
     h1: 'Engine Bay Detail',
     h1Highlight: 'in Miami',
     intro: "A clean engine bay makes a great impression when you sell, makes leaks easier to spot, and simply looks right on a well-kept car. We clean, protect and dress your engine bay safely.",
+    description: [
+      "Under the hood is the part of the car most people never clean — and it shows. Road dust, leaves, grease and oil residue build up over the engine, plastic covers and hoses until everything looks dull and grimy. Heat makes it worse, baking the dirt on and drying out rubber and plastic parts.",
+      "Our engine bay detail cleans away that buildup safely. We protect sensitive components, apply degreaser to break down grease and grime, agitate the dirty areas and carefully rinse and dry. Then we dress and protect the plastics and rubber so they look rich and new instead of faded and chalky.",
+      "A clean engine bay isn't just about looks. It makes oil and coolant leaks much easier to spot early, and it's one of the first places buyers and dealers look when you're selling or trading in. At $50, it's an easy add-on to any detail.",
+    ],
     price: '$50',
     bookAs: 'Engine Bay Detail',
     includes: [
