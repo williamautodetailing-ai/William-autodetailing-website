@@ -1,8 +1,33 @@
 import { useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
+import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT, GOOGLE_REVIEWS_URL } from '../constants';
 
-const testimonials = [
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
+type Review = {
+  name: string;
+  role?: string;
+  initials: string;
+  rating: number;
+  timeAgo: string;
+  quote: string;
+  photoUrl?: string | null;
+  profileUrl?: string | null;
+};
+
+type LiveReviewsResponse = {
+  rating: number | null;
+  reviewCount: number | null;
+  mapsUrl: string | null;
+  reviews: Omit<Review, 'initials' | 'role'>[];
+};
+
+const getInitials = (name: string) =>
+  name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]?.toUpperCase()).join('') || 'G';
+
+// Fallback reviews — shown in the prerendered HTML (good for SEO) and if the live Google fetch fails
+const fallbackTestimonials: Review[] = [
   {
     name: 'Jessica Hernandez',
     role: 'Doral, FL',
@@ -55,6 +80,36 @@ const avatarColors: Record<string, string> = {
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [testimonials, setTestimonials] = useState<Review[]>(fallbackTestimonials);
+  const [rating, setRating] = useState<string>(GOOGLE_RATING);
+  const [reviewCount, setReviewCount] = useState<number>(GOOGLE_REVIEW_COUNT);
+  const [reviewsUrl, setReviewsUrl] = useState<string>(GOOGLE_REVIEWS_URL);
+  const [isLive, setIsLive] = useState(false);
+
+  // Pull live reviews from Google via the google-reviews edge function
+  useEffect(() => {
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+    let cancelled = false;
+    fetch(`${SUPABASE_URL}/functions/v1/google-reviews`, {
+      headers: { Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+    })
+      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      .then((data: LiveReviewsResponse) => {
+        if (cancelled) return;
+        if (data.rating) setRating(data.rating.toFixed(1));
+        if (data.reviewCount) setReviewCount(data.reviewCount);
+        if (data.mapsUrl) setReviewsUrl(data.mapsUrl);
+        if (data.reviews?.length) {
+          setTestimonials(data.reviews.map((r) => ({ ...r, initials: getInitials(r.name) })));
+          setActiveIndex(0);
+          setIsLive(true);
+        }
+      })
+      .catch(() => {
+        // Keep fallback reviews
+      });
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -62,7 +117,7 @@ export default function Testimonials() {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, testimonials.length]);
 
   const goTo = (index: number) => {
     setActiveIndex(index);
@@ -72,7 +127,7 @@ export default function Testimonials() {
   const next = () => { setActiveIndex((prev) => (prev + 1) % testimonials.length); setIsAutoPlaying(false); };
   const prev = () => { setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length); setIsAutoPlaying(false); };
 
-  const active = testimonials[activeIndex];
+  const active = testimonials[activeIndex] ?? testimonials[0];
   const colorClass = avatarColors[active.initials] ?? 'from-accent to-primary-500';
 
   return (
@@ -88,7 +143,9 @@ export default function Testimonials() {
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-4 h-4 text-gold fill-gold" />
             ))}
-            <span className="text-sm">{GOOGLE_RATING} · {GOOGLE_REVIEW_COUNT} Google Reviews</span>
+            <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors">
+              {rating} · {reviewCount} Google Reviews
+            </a>
           </div>
         </div>
 
@@ -106,9 +163,19 @@ export default function Testimonials() {
             <Quote className="absolute top-6 left-6 w-12 h-12 text-accent/20 rotate-180" />
 
             <div className="text-center relative z-10">
-              <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${colorClass} flex items-center justify-center mx-auto mb-5`}>
-                <span className="text-white font-bold text-lg">{active.initials}</span>
-              </div>
+              {active.photoUrl ? (
+                <img
+                  src={active.photoUrl}
+                  alt={active.name}
+                  referrerPolicy="no-referrer"
+                  loading="lazy"
+                  className="w-16 h-16 rounded-full object-cover mx-auto mb-5"
+                />
+              ) : (
+                <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${colorClass} flex items-center justify-center mx-auto mb-5`}>
+                  <span className="text-white font-bold text-lg">{active.initials}</span>
+                </div>
+              )}
 
               <div className="flex justify-center gap-1 mb-4">
                 {[...Array(active.rating)].map((_, i) => (
@@ -120,8 +187,14 @@ export default function Testimonials() {
                 "{active.quote}"
               </blockquote>
 
-              <p className="font-bold text-white">{active.name}</p>
-              <p className="text-charcoal-400 text-sm">{active.role} · {active.timeAgo}</p>
+              {active.profileUrl ? (
+                <a href={active.profileUrl} target="_blank" rel="noopener noreferrer" className="font-bold text-white hover:text-accent transition-colors">
+                  {active.name}
+                </a>
+              ) : (
+                <p className="font-bold text-white">{active.name}</p>
+              )}
+              <p className="text-charcoal-400 text-sm">{[active.role, active.timeAgo].filter(Boolean).join(' · ')}</p>
             </div>
           </div>
 
@@ -134,6 +207,13 @@ export default function Testimonials() {
                 aria-label={`Review ${i + 1}`}
               />
             ))}
+          </div>
+
+          <div className="text-center mt-6 text-xs text-charcoal-500">
+            {isLive && <span>Reviews powered by Google · </span>}
+            <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              Read all reviews on Google
+            </a>
           </div>
         </div>
       </div>
