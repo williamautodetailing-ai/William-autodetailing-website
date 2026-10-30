@@ -2,6 +2,7 @@ import { Phone, Mail, Clock, Instagram, MapPin, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BUSINESS_NAME, PHONE, EMAIL, INSTAGRAM_URL, GOOGLE_REVIEWS_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { cityPages } from '../data/cities';
+import { services } from '../data/services';
 import { useLeadModal } from '../context/LeadModalContext';
 
 export default function Footer() {
@@ -10,7 +11,7 @@ export default function Footer() {
   return (
     <footer className="bg-charcoal-950 pt-16 pb-8 border-t border-charcoal-800">
       <div className="container-custom">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
           <div>
             <Link to="/" className="flex items-center mb-4">
               <img
@@ -39,7 +40,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold text-white mb-4">Services</h4>
+            <h4 className="font-bold text-white mb-4">Packages</h4>
             <ul className="space-y-2">
               <li>
                 <Link to="/detail-packages" className="text-charcoal-400 hover:text-accent transition-colors text-sm">
@@ -56,6 +57,29 @@ export default function Footer() {
                   Add-Ons
                 </Link>
               </li>
+              <li>
+                <Link to="/gallery" className="text-charcoal-400 hover:text-accent transition-colors text-sm">
+                  Gallery
+                </Link>
+              </li>
+              <li>
+                <Link to="/refer" className="text-charcoal-400 hover:text-accent transition-colors text-sm">
+                  Give a Wax, Get a Wax
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-white mb-4">Services</h4>
+            <ul className="space-y-2">
+              {services.map((s) => (
+                <li key={s.slug}>
+                  <Link to={`/services/${s.slug}`} className="text-charcoal-400 hover:text-accent transition-colors text-sm">
+                    {s.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
