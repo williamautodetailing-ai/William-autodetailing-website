@@ -174,14 +174,14 @@ export default function DetailPackagesPage() {
                   key={pkg.id}
                   className={`rounded-2xl border p-5 ${
                     isPopular
-                      ? 'border-accent/50 bg-accent/[0.04]'
+                      ? 'border-gold/50 bg-gold/[0.04]'
                       : 'border-charcoal-700 bg-charcoal-800/40'
                   }`}
                 >
                   {isPopular && (
-                    <div className="inline-flex items-center gap-1.5 mb-3 px-2.5 py-1 bg-charcoal-800 border border-accent/50 rounded-full">
-                      <Star className="w-3 h-3 text-accent fill-accent" />
-                      <span className="text-accent text-xs font-bold tracking-wider">MOST POPULAR</span>
+                    <div className="inline-flex items-center gap-1.5 mb-3 px-2.5 py-1 bg-charcoal-800 border border-gold/50 rounded-full">
+                      <Star className="w-3 h-3 text-gold fill-gold" />
+                      <span className="text-gold text-xs font-bold tracking-wider">MOST POPULAR</span>
                     </div>
                   )}
                   <h3 className="font-display font-bold text-xl text-white mb-1">{pkg.name}</h3>
@@ -203,7 +203,7 @@ export default function DetailPackagesPage() {
                             return (
                               <div key={row.label} className="flex items-center gap-2">
                                 {included ? (
-                                  <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                                  <Check className="w-3.5 h-3.5 text-gold flex-shrink-0" />
                                 ) : (
                                   <Minus className="w-3.5 h-3.5 text-charcoal-700 flex-shrink-0" />
                                 )}
@@ -245,13 +245,13 @@ export default function DetailPackagesPage() {
                       key={pkg.id}
                       className={`relative flex flex-col items-center text-center px-3 pt-8 pb-5 rounded-t-2xl ${
                         isPopular
-                          ? 'bg-gradient-to-b from-accent/8 to-charcoal-800 border-x-2 border-t-2 border-accent/50'
+                          ? 'bg-gradient-to-b from-gold/10 to-charcoal-800 border-x-2 border-t-2 border-gold/50'
                           : 'bg-charcoal-800/60 border-x border-t border-charcoal-700'
                       }`}
                     >
                       {isPopular && (
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center gap-1 px-3 py-1 bg-charcoal-800 border border-accent/50 text-accent text-xs font-bold rounded-full whitespace-nowrap">
-                          <Star className="w-3 h-3 fill-accent" />
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center gap-1 px-3 py-1 bg-charcoal-800 border border-gold/50 text-gold text-xs font-bold rounded-full whitespace-nowrap">
+                          <Star className="w-3 h-3 fill-gold" />
                           MOST POPULAR
                         </div>
                       )}
@@ -295,7 +295,7 @@ export default function DetailPackagesPage() {
                           key={pkg.id}
                           className={`py-2.5 border-y ${
                             isPopular
-                              ? 'bg-charcoal-800/80 border-x-2 border-accent/50'
+                              ? 'bg-charcoal-800/80 border-x-2 border-gold/50'
                               : 'bg-charcoal-800/40 border-x border-charcoal-700'
                           }`}
                         />
@@ -329,12 +329,12 @@ export default function DetailPackagesPage() {
                               key={ci}
                               className={`flex items-center justify-center py-3 border-b ${
                                 isPopular
-                                  ? 'bg-accent/[0.03] border-x-2 border-accent/50'
+                                  ? 'bg-gold/[0.03] border-x-2 border-gold/50'
                                   : 'bg-charcoal-900/40 border-x border-charcoal-700/60'
                               } ${isVeryLast && isLastCol ? 'rounded-br-xl' : ''}`}
                             >
                               {included ? (
-                                <Check className="w-4 h-4 text-emerald-400" />
+                                <Check className="w-4 h-4 text-gold" />
                               ) : (
                                 <Minus className="w-4 h-4 text-charcoal-700" />
                               )}
