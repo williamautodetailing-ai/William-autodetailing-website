@@ -1,8 +1,9 @@
-import { MapPin, Star, Check, Shield, Droplets } from 'lucide-react';
+import { MapPin, Star, Check, Shield, Droplets, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { CityData } from '../data/cities';
 import { packages } from '../data/packages';
 import { ceramicCities } from '../data/ceramicCities';
+import { services } from '../data/services';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, TRAVEL_FEE_MILES, BASE_CITY } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
 import SEO from '../components/SEO';
@@ -190,6 +191,41 @@ export default function CityPage({ city }: CityPageProps) {
                 </button>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services in this city */}
+      <section className="py-16 bg-charcoal-900 border-b border-charcoal-800">
+        <div className="container-custom">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-white text-center mb-3">
+            Detailing Services in <span className="gradient-text">{city.name}</span>
+          </h2>
+          <p className="text-charcoal-400 text-center mb-8">Every service below is available at your home or office in {city.name}.</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {services.map((s) => (
+              <Link
+                key={s.slug}
+                to={`/services/${s.slug}`}
+                className="group flex items-center justify-between gap-3 bg-charcoal-800/50 border border-charcoal-700 rounded-xl px-5 py-4 hover:border-accent/50 transition-colors"
+              >
+                <span>
+                  <span className="block font-semibold text-white group-hover:text-accent transition-colors">{s.name}</span>
+                  {s.price && <span className="text-emerald-400 text-sm font-semibold">{s.price}</span>}
+                </span>
+                <ArrowRight className="w-4 h-4 text-accent flex-shrink-0 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            ))}
+            <Link
+              to="/maintenance-club"
+              className="group flex items-center justify-between gap-3 bg-gradient-to-br from-accent/10 to-primary-500/10 border border-accent/30 rounded-xl px-5 py-4 hover:border-accent transition-colors"
+            >
+              <span>
+                <span className="block font-semibold text-white group-hover:text-accent transition-colors">Maintenance Club</span>
+                <span className="text-emerald-400 text-sm font-semibold">From $75 / visit</span>
+              </span>
+              <ArrowRight className="w-4 h-4 text-accent flex-shrink-0 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </section>
