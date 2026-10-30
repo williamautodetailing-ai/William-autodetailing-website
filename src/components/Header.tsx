@@ -13,6 +13,7 @@ const serviceLinks = [
 const navLinks = [
   { href: '/#how-it-works', label: 'How It Works' },
   { href: '/gallery', label: 'Gallery', isPage: true },
+  { href: '/maintenance-club', label: 'Maintenance Club', isPage: true },
   { href: '/#testimonials', label: 'Reviews' },
   { href: '/ceramic-coating', label: 'Ceramic Coating', isPage: true },
   { href: '/add-ons', label: 'Add-Ons', isPage: true },
