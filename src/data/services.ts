@@ -12,6 +12,12 @@ export interface ServiceBenefit {
   description: string;
 }
 
+export interface ServiceImage {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
 export interface ServicePageContent {
   slug: string;
   name: string;              // short name (nav, links)
@@ -33,6 +39,7 @@ export interface ServicePageContent {
   process: string[];
   disclaimer?: string;
   faqs: ServiceFaq[];
+  images?: ServiceImage[];   // real work photos shown on the page
   related: string[];         // slugs of related services
 }
 
@@ -87,6 +94,11 @@ export const services: ServicePageContent[] = [
       { q: 'How long does an interior detail take?', a: 'Most interior details take about 2–3 hours depending on vehicle size and condition.' },
       { q: 'Where do you do the interior detail?', a: "We're fully mobile — we come to your home, office or apartment anywhere in Miami-Dade County." },
     ],
+    images: [
+      { src: '/images/optimized/work/interior-detail-mercedes-tan-leather.webp', alt: 'Clean Mercedes-Benz interior with tan leather seats after a mobile interior detail in Miami', caption: 'Mercedes-Benz — Interior Detail' },
+      { src: '/images/optimized/work/interior-detail-bmw-black-leather.webp', alt: 'BMW interior with black leather seats after an interior detail in Miami-Dade', caption: 'BMW — Interior Detail' },
+      { src: '/images/optimized/work/leather-conditioning-bmw-m8-red.webp', alt: 'BMW M8 Competition red leather interior after detailing in Miami', caption: 'BMW M8 — Interior Detail' },
+    ],
     related: ['shampoo-extraction', 'leather-alcantara-cleaning', 'exterior-detailing'],
   },
   {
@@ -138,6 +150,11 @@ export const services: ServicePageContent[] = [
       { q: 'What is a clay bar treatment?', a: 'A clay bar lifts bonded contaminants — industrial fallout, overspray, tree sap — out of your clear coat, leaving the paint smooth so sealant bonds better.' },
       { q: 'Is a hand wash better than an automatic car wash?', a: 'Yes. Brushes in automatic washes drag dirt across your paint and cause swirl marks. A foam pre-wash and hand wash is much safer for your finish.' },
     ],
+    images: [
+      { src: '/images/optimized/work/foam-bath-hand-wash-bmw-m2.webp', alt: 'BMW M2 covered in foam during a hand wash exterior detail in Miami', caption: 'BMW M2 — Foam Bath' },
+      { src: '/images/optimized/work/exterior-detail-corvette-grand-sport.webp', alt: 'Silver Corvette Grand Sport after an exterior detail in Miami', caption: 'Corvette — Exterior Detail' },
+      { src: '/images/optimized/work/porsche-gt3-rs-mobile-detail-miami.webp', alt: 'Two Porsche 911 GT3 RS cars detailed in a Miami driveway', caption: 'Porsche GT3 RS — Mobile Detail' },
+    ],
     related: ['paint-correction', 'headlight-restoration', 'interior-detailing'],
   },
   {
@@ -188,6 +205,10 @@ export const services: ServicePageContent[] = [
       { q: 'Should I get a ceramic coating after paint correction?', a: 'We recommend it. A ceramic coating locks in the corrected finish and protects it for 2–5 years. Every ceramic package includes a paint enhancement polish.' },
       { q: 'How long does paint correction take?', a: 'The Perfect Detail with paint enhancement polish takes about 4–5 hours. Ceramic coating packages with correction take around 8 hours.' },
     ],
+    images: [
+      { src: '/images/optimized/work/lamborghini-aventador-svj-detail.webp', alt: 'White Lamborghini Aventador SVJ after a detail in Miami', caption: 'Lamborghini Aventador SVJ' },
+      { src: '/images/optimized/work/lamborghini-urus-paint-detail.webp', alt: 'Orange Lamborghini Urus after a detail in Miami', caption: 'Lamborghini Urus' },
+    ],
     related: ['exterior-detailing', 'headlight-restoration', 'engine-bay-detail'],
   },
   {
@@ -236,6 +257,9 @@ export const services: ServicePageContent[] = [
       { q: 'Will all stains come out?', a: "Most stains improve a lot, but we can't guarantee complete removal. How old the stain is, what caused it and the type of fabric all affect the result." },
       { q: 'How long until the seats are dry?', a: 'Extraction removes most of the moisture. Drying time depends on weather and airflow — leaving windows cracked in a safe spot helps them dry faster.' },
     ],
+    images: [
+      { src: '/images/optimized/work/seat-shampoo-extraction-corvette.webp', alt: 'Red fabric sport seat after shampoo and extraction in Miami', caption: 'Seat Shampoo & Extraction' },
+    ],
     related: ['interior-detailing', 'leather-alcantara-cleaning', 'engine-bay-detail'],
   },
   {
@@ -283,6 +307,10 @@ export const services: ServicePageContent[] = [
       { q: 'Can you clean Alcantara steering wheels and seats?', a: 'Yes. We deep scrub and clean Alcantara, restore the fibers and leave protection behind against future soiling.' },
       { q: 'How much does leather cleaning and conditioning cost?', a: 'Leather/Alcantara deep cleaning and conditioning is $75 and takes about 30 minutes. It can be added to any detail.' },
     ],
+    images: [
+      { src: '/images/optimized/work/leather-conditioning-bmw-m8-red.webp', alt: 'BMW M8 red leather seats after leather cleaning and conditioning in Miami', caption: 'BMW M8 — Leather Conditioning' },
+      { src: '/images/optimized/work/interior-detail-mercedes-tan-leather.webp', alt: 'Mercedes-Benz tan leather seats after leather cleaning and conditioning', caption: 'Mercedes-Benz — Leather Care' },
+    ],
     related: ['interior-detailing', 'shampoo-extraction', 'headlight-restoration'],
   },
   {
@@ -326,6 +354,10 @@ export const services: ServicePageContent[] = [
       { q: 'How long does headlight restoration last?', a: 'We apply a 3 year UV coating after restoring the lenses to help keep them from oxidizing and yellowing again.' },
       { q: 'Can I add headlight restoration to a detail?', a: 'Yes. It can be booked on its own or added to any detail package.' },
     ],
+    images: [
+      { src: '/images/optimized/work/headlight-restoration-before-bmw.webp', alt: 'Cloudy, oxidized BMW headlight before headlight restoration', caption: 'Before' },
+      { src: '/images/optimized/work/headlight-restoration-after-bmw.webp', alt: 'Clear BMW headlight after headlight restoration with UV coating in Miami', caption: 'After' },
+    ],
     related: ['exterior-detailing', 'paint-correction', 'engine-bay-detail'],
   },
   {
@@ -367,6 +399,10 @@ export const services: ServicePageContent[] = [
     faqs: [
       { q: 'Is engine bay cleaning safe?', a: 'Yes. We protect sensitive components and take a careful approach to safely clean the engine bay.' },
       { q: 'How much does an engine bay detail cost?', a: 'An engine bay detail is $50 and can be added to any detail package.' },
+    ],
+    images: [
+      { src: '/images/optimized/promotions/engine-bay-before.webp', alt: 'Dirty engine bay before an engine bay detail', caption: 'Before' },
+      { src: '/images/optimized/promotions/engine-bay-after.webp', alt: 'Clean, dressed engine bay after an engine bay detail in Miami', caption: 'After' },
     ],
     related: ['exterior-detailing', 'headlight-restoration', 'paint-correction'],
   },
