@@ -175,8 +175,8 @@ export default function MaintenanceClubPage() {
           <div className="grid grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto mb-14">
             <figure className="overflow-hidden rounded-2xl border border-charcoal-700">
               <img
-                src="/images/optimized/work/lamborghini-aventador-svj-detail.webp"
-                alt="White Lamborghini Aventador SVJ after a maintenance detail in Miami"
+                src="/images/optimized/work/exterior-detail-corvette-grand-sport.webp"
+                alt="Silver Corvette Grand Sport kept freshly detailed in Miami"
                 loading="lazy"
                 decoding="async"
                 className="w-full aspect-[4/5] object-cover"
