@@ -69,17 +69,20 @@ const coatingPhotos = [
   {
     src: '/images/optimized/work/ceramic-coating-application-bmw-m8.webp',
     alt: 'Detailer applying ceramic coating to the carbon fiber roof of a BMW M8 in Miami',
-    caption: 'BMW M8 — Ceramic Coating Application',
+    caption: 'The Coating Going On',
+    description: 'Ceramic coating is applied by hand, one panel at a time, then leveled so it cures into a hard, glossy protective layer.',
   },
   {
     src: '/images/optimized/work/paint-correction-swirl-marks-bmw-m8.webp',
     alt: 'Swirl marks on a BMW M8 hood under inspection lights before paint correction and ceramic coating',
-    caption: 'BMW M8 — Swirls Before Correction',
+    caption: 'Why We Polish First',
+    description: 'Under inspection lights, swirls show up as spider webs. A coating would lock these in, so we correct the paint before coating.',
   },
   {
     src: '/images/optimized/work/paint-correction-before-after-mercedes.webp',
     alt: 'Black Mercedes-Benz hood before and after paint correction',
-    caption: 'Mercedes-Benz — 50/50 Before & After',
+    caption: 'Before & After Polish',
+    description: 'Left side untouched, right side polished. This corrected finish is what the coating protects for years.',
   },
 ];
 
@@ -200,7 +203,7 @@ export default function CeramicCoatingPage() {
             </p>
             <div className="grid sm:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
               {coatingPhotos.map((img) => (
-                <figure key={img.src} className="relative overflow-hidden rounded-2xl border border-charcoal-700 bg-charcoal-900">
+                <figure key={img.src} className="flex flex-col overflow-hidden rounded-2xl border border-charcoal-700 bg-charcoal-800/50">
                   <img
                     src={img.src}
                     alt={img.alt}
@@ -208,8 +211,9 @@ export default function CeramicCoatingPage() {
                     decoding="async"
                     className="w-full aspect-[4/5] object-cover"
                   />
-                  <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-charcoal-950/90 to-transparent px-4 py-3 text-sm font-semibold text-white">
-                    {img.caption}
+                  <figcaption className="p-5">
+                    <p className="font-bold text-white mb-1">{img.caption}</p>
+                    <p className="text-charcoal-400 text-sm leading-relaxed">{img.description}</p>
                   </figcaption>
                 </figure>
               ))}
