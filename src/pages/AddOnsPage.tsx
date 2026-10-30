@@ -64,7 +64,7 @@ export default function AddOnsPage() {
 
                 {addon.disclaimer && (
                   <div className="flex items-start gap-2 bg-charcoal-700/50 border border-charcoal-600/50 rounded-lg px-3 py-2.5 mb-4">
-                    <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                    <AlertCircle className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
                     <p className="text-xs text-charcoal-400 leading-relaxed">{addon.disclaimer}</p>
                   </div>
                 )}
