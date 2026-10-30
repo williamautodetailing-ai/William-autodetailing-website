@@ -124,6 +124,45 @@ export default function ServicePage({ service }: { service: ServicePageContent }
         </div>
       </section>
 
+      {/* Real work photos — shown first so visitors instantly see what they get */}
+      {service.images && service.images.length > 0 && (
+        <section className="py-16 md:py-20 bg-charcoal-900">
+          <div className="container-custom">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white text-center mb-3">
+              See What <span className="gradient-text">You Get</span>
+            </h2>
+            <p className="text-charcoal-400 text-center mb-10">Real {service.name.toLowerCase()} results from Miami-Dade customers.</p>
+            <div
+              className={`grid gap-6 mx-auto ${
+                service.images.length === 1
+                  ? 'max-w-md'
+                  : service.images.length === 2
+                    ? 'sm:grid-cols-2 max-w-3xl'
+                    : 'sm:grid-cols-2 lg:grid-cols-3 max-w-5xl'
+              }`}
+            >
+              {service.images.map((img) => (
+                <figure key={img.src} className="flex flex-col overflow-hidden rounded-2xl border border-charcoal-700 bg-charcoal-800/50">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full aspect-[4/5] object-cover"
+                  />
+                  {(img.caption || img.description) && (
+                    <figcaption className="p-5">
+                      {img.caption && <p className="font-bold text-white mb-1">{img.caption}</p>}
+                      {img.description && <p className="text-charcoal-400 text-sm leading-relaxed">{img.description}</p>}
+                    </figcaption>
+                  )}
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* About this service */}
       <section className="section-padding bg-charcoal-950">
         <div className="container-custom max-w-3xl">
@@ -137,43 +176,6 @@ export default function ServicePage({ service }: { service: ServicePageContent }
           </div>
         </div>
       </section>
-
-      {/* Real work photos */}
-      {service.images && service.images.length > 0 && (
-        <section className="pb-16 md:pb-20 bg-charcoal-950">
-          <div className="container-custom">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-white text-center mb-8">
-              {service.name} <span className="gradient-text">Results</span>
-            </h2>
-            <div
-              className={`grid gap-4 md:gap-6 mx-auto ${
-                service.images.length === 1
-                  ? 'max-w-md'
-                  : service.images.length === 2
-                    ? 'grid-cols-2 max-w-3xl'
-                    : 'sm:grid-cols-2 lg:grid-cols-3 max-w-5xl'
-              }`}
-            >
-              {service.images.map((img) => (
-                <figure key={img.src} className="relative overflow-hidden rounded-2xl border border-charcoal-700 bg-charcoal-900">
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full aspect-[4/5] object-cover"
-                  />
-                  {img.caption && (
-                    <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-charcoal-950/90 to-transparent px-4 py-3 text-sm font-semibold text-white">
-                      {img.caption}
-                    </figcaption>
-                  )}
-                </figure>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* What's included + process */}
       <section className="section-padding bg-charcoal-900">
