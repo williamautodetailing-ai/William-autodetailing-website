@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, Gift } from 'lucide-react';
+import { Menu, X, ChevronDown, Gift, Phone } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cityPages } from '../data/cities';
 import { services } from '../data/services';
 import { useLeadModal } from '../context/LeadModalContext';
+import { PHONE } from '../constants';
 
 const serviceLinks = [
   ...services.map((s) => ({ href: `/services/${s.slug}`, label: s.name })),
@@ -67,7 +68,7 @@ export default function Header() {
               />
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden xl:flex items-center gap-6 2xl:gap-8">
               <div
                 className="relative"
                 onMouseEnter={() => setIsServicesOpen(true)}
@@ -134,8 +135,8 @@ export default function Header() {
                 to={REFER_HREF}
                 className={`inline-flex items-center gap-2 whitespace-nowrap px-4 py-2 rounded-full border text-sm font-semibold transition-colors ${
                   isActive(REFER_HREF)
-                    ? 'border-accent bg-accent/10 text-accent'
-                    : 'border-accent/50 text-accent hover:bg-accent/10 hover:border-accent'
+                    ? 'border-gold bg-gold/10 text-gold'
+                    : 'border-gold/50 text-gold hover:bg-gold/10 hover:border-gold'
                 }`}
               >
                 <Gift className="w-4 h-4" />
@@ -143,7 +144,15 @@ export default function Header() {
               </Link>
             </nav>
 
-            <div className="hidden md:block flex-shrink-0">
+            <div className="hidden md:flex items-center gap-4 flex-shrink-0 ml-auto xl:ml-0">
+              <a
+                href={`tel:${PHONE.replace(/\D/g, '')}`}
+                className="flex items-center gap-2 whitespace-nowrap text-charcoal-200 hover:text-accent transition-colors font-medium"
+                aria-label={`Call ${PHONE}`}
+              >
+                <Phone className="w-4 h-4 text-accent" />
+                <span className="hidden 2xl:inline">{PHONE}</span>
+              </a>
               <button onClick={() => openModal()} className="btn-primary whitespace-nowrap">
                 Book Now
               </button>
@@ -151,7 +160,7 @@ export default function Header() {
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-charcoal-200 hover:text-white"
+              className="xl:hidden p-2 text-charcoal-200 hover:text-white"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -160,7 +169,7 @@ export default function Header() {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-charcoal-950 border-t border-charcoal-800 max-h-[80vh] overflow-y-auto">
+          <div className="xl:hidden bg-charcoal-950 border-t border-charcoal-800 max-h-[80vh] overflow-y-auto">
             <nav className="container-custom py-4 flex flex-col gap-2">
               <div>
                 <p className="text-charcoal-500 text-xs font-semibold uppercase tracking-wider px-2 mb-2">Services</p>
@@ -206,7 +215,7 @@ export default function Header() {
 
               <Link
                 to={REFER_HREF}
-                className="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full border border-accent/50 text-accent font-semibold hover:bg-accent/10 transition-colors"
+                className="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full border border-gold/50 text-gold font-semibold hover:bg-gold/10 transition-colors"
               >
                 <Gift className="w-4 h-4" />
                 {REFER_LABEL}
@@ -218,6 +227,12 @@ export default function Header() {
               >
                 Book Now
               </button>
+              <a
+                href={`tel:${PHONE.replace(/\D/g, '')}`}
+                className="inline-flex items-center justify-center gap-2 py-3 text-charcoal-200 font-medium hover:text-accent transition-colors"
+              >
+                <Phone className="w-4 h-4 text-accent" /> Call {PHONE}
+              </a>
             </nav>
           </div>
         )}
