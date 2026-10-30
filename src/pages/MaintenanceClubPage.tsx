@@ -228,13 +228,13 @@ export default function MaintenanceClubPage() {
                 key={plan.id}
                 className={`relative flex flex-col rounded-2xl p-8 border ${
                   plan.popular
-                    ? 'border-accent/60 bg-gradient-to-b from-accent/10 to-charcoal-900 shadow-xl shadow-accent/10'
+                    ? 'border-gold/60 bg-gradient-to-b from-gold/10 to-charcoal-900 shadow-xl shadow-gold/10'
                     : 'border-charcoal-700 bg-charcoal-800/50'
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center gap-1 px-3 py-1 bg-charcoal-800 border border-accent/50 text-accent text-xs font-bold rounded-full whitespace-nowrap">
-                    <Star className="w-3 h-3 fill-accent" />
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center gap-1 px-3 py-1 bg-charcoal-800 border border-gold/50 text-gold text-xs font-bold rounded-full whitespace-nowrap">
+                    <Star className="w-3 h-3 fill-gold" />
                     MOST POPULAR
                   </div>
                 )}
@@ -256,7 +256,7 @@ export default function MaintenanceClubPage() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {perks.map((perk) => (
                     <li key={perk} className="flex items-start gap-2 text-sm text-charcoal-300">
-                      <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <Check className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
                       {perk}
                     </li>
                   ))}
@@ -309,7 +309,7 @@ export default function MaintenanceClubPage() {
       {/* Discounted add-ons */}
       <section className="section-padding bg-charcoal-950">
         <div className="container-custom text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/40 text-gold font-bold mb-6">
             <Percent className="w-4 h-4" /> Members save 5–50%
           </div>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-8">
