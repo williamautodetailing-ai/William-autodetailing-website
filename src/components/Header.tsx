@@ -2,21 +2,28 @@ import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cityPages } from '../data/cities';
+import { services } from '../data/services';
 import { useLeadModal } from '../context/LeadModalContext';
+
+const serviceLinks = [
+  ...services.map((s) => ({ href: `/services/${s.slug}`, label: s.name })),
+  { href: '/detail-packages', label: 'Detail Packages' },
+];
 
 const navLinks = [
   { href: '/#how-it-works', label: 'How It Works' },
-  { href: '/#services', label: 'Services' },
-  { href: '/#gallery', label: 'Gallery' },
+  { href: '/gallery', label: 'Gallery', isPage: true },
   { href: '/#testimonials', label: 'Reviews' },
   { href: '/ceramic-coating', label: 'Ceramic Coating', isPage: true },
   { href: '/add-ons', label: 'Add-Ons', isPage: true },
+  { href: '/refer', label: 'Give a Wax, Get a Wax', isPage: true },
 ];
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCitiesOpen, setIsCitiesOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const location = useLocation();
   const { openModal } = useLeadModal();
 
@@ -29,6 +36,7 @@ export default function Header() {
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsCitiesOpen(false);
+    setIsServicesOpen(false);
   }, [location.pathname]);
 
   const isHomePage = location.pathname === '/';
@@ -56,6 +64,32 @@ export default function Header() {
             </Link>
 
             <nav className="hidden md:flex items-center gap-6">
+              <div
+                className="relative"
+                onMouseEnter={() => setIsServicesOpen(true)}
+                onMouseLeave={() => setIsServicesOpen(false)}
+              >
+                <button className="flex items-center gap-1 text-charcoal-200 hover:text-accent transition-colors font-medium">
+                  Services <ChevronDown className="w-4 h-4" />
+                </button>
+
+                {isServicesOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50">
+                    <div className="bg-charcoal-900 border border-charcoal-700 rounded-xl shadow-2xl p-3 w-64 flex flex-col gap-1">
+                      {serviceLinks.map((s) => (
+                        <Link
+                          key={s.href}
+                          to={s.href}
+                          className="px-3 py-2 rounded-lg text-sm text-charcoal-300 hover:text-accent hover:bg-charcoal-800 transition-colors"
+                        >
+                          {s.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {navLinks.map((link) =>
                 link.isPage ? (
                   <Link
@@ -143,6 +177,21 @@ export default function Header() {
                   </a>
                 )
               )}
+
+              <div className="border-t border-charcoal-800 pt-3 mt-1">
+                <p className="text-charcoal-500 text-xs font-semibold uppercase tracking-wider px-2 mb-2">Services</p>
+                <div className="grid grid-cols-2 gap-1">
+                  {serviceLinks.map((s) => (
+                    <Link
+                      key={s.href}
+                      to={s.href}
+                      className="text-charcoal-300 hover:text-accent text-sm py-2 px-2 rounded-lg hover:bg-charcoal-800 transition-colors"
+                    >
+                      {s.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
 
               <div className="border-t border-charcoal-800 pt-3 mt-1">
                 <p className="text-charcoal-500 text-xs font-semibold uppercase tracking-wider px-2 mb-2">Service Areas</p>
