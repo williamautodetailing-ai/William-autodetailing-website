@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
-const { render, routes, ceramicCities } = await import(join(root, '.ssr-tmp/entry-server.js'));
+const { render, routes, ceramicCities, services } = await import(join(root, '.ssr-tmp/entry-server.js'));
 
 const template = readFileSync(join(root, 'dist/index.html'), 'utf-8');
 
@@ -30,6 +30,14 @@ const pageMeta = {
   '/add-ons': {
     title: `Add-On Services — Engine Bay, Headlights & More | ${BUSINESS}`,
     description: `Specialty add-on detailing services in Miami. Engine bay cleaning, headlight restoration, odor elimination, pet hair removal, clay bar & more. Book standalone or with any package.`,
+  },
+  '/gallery': {
+    title: `Car Detailing Gallery — Before & After Photos Miami | ${BUSINESS}`,
+    description: `See real before & after results from ${BUSINESS}. Interior detailing, paint correction, ceramic coating, engine bay & headlight restoration across Miami-Dade. ${RATING} stars · ${REVIEWS}+ Google reviews.`,
+  },
+  '/maintenance-club': {
+    title: `Maintenance Club — Car Detailing Membership Miami | ${BUSINESS}`,
+    description: `Join the Maintenance Club: weekly, bi-weekly or monthly mobile maintenance details in Miami-Dade. 1 free scratch or stain removal each month and 5–50% off premium add-ons.`,
   },
   '/privacy-policy': {
     title: `Privacy Policy | ${BUSINESS}`,
@@ -56,6 +64,12 @@ function getMeta(url) {
       title: `${name} Mobile Detailing, FL | ${BUSINESS}`,
       description: `${name} mobile car detailing by ${BUSINESS}. We come to your home or office. Ceramic coatings, full details, add-ons. ${RATING} stars · ${REVIEWS}+ reviews. Serving ${name} & surrounding areas.`,
     };
+  }
+
+  const serviceMatch = url.match(/^\/services\/(.+)$/);
+  if (serviceMatch) {
+    const s = services.find((x) => x.slug === serviceMatch[1]);
+    if (s) return { title: s.metaTitle, description: s.metaDescription };
   }
 
   const ceramicMatch = url.match(/^\/ceramic-coating\/(.+)$/);
