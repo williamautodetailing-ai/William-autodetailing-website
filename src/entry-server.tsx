@@ -6,7 +6,6 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import HowItWorks from './components/HowItWorks';
 import Services from './components/Services';
-import Gallery from './components/Gallery';
 import Testimonials from './components/Testimonials';
 import ServiceArea from './components/ServiceArea';
 import About from './components/About';
@@ -17,7 +16,11 @@ import AddOnsPage from './pages/AddOnsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import CityPage from './pages/CityPage';
 import CeramicCityPage from './pages/CeramicCityPage';
+import GalleryPage from './pages/GalleryPage';
+import ServicePage from './pages/ServicePage';
 import { cityPages } from './data/cities';
+import { services } from './data/services';
+import ServiceCards from './components/ServiceCards';
 import { ceramicCities } from './data/ceramicCities';
 import { LeadModalProvider } from './context/LeadModalContext';
 import LeadFormModal from './components/LeadFormModal';
@@ -28,7 +31,7 @@ function HomePage() {
       <Hero />
       <HowItWorks />
       <Services />
-      <Gallery />
+      <ServiceCards />
       <Testimonials />
       <ServiceArea />
       <About />
@@ -50,6 +53,13 @@ function CeramicCityRoute() {
   return <CeramicCityPage content={content} />;
 }
 
+function ServiceRoute() {
+  const { slug } = useParams<{ slug: string }>();
+  const service = services.find((s) => s.slug === slug);
+  if (!service) return <Navigate to="/detail-packages" replace />;
+  return <ServicePage service={service} />;
+}
+
 function AppShell({ url }: { url: string }) {
   return (
     <StaticRouter location={url}>
@@ -64,6 +74,8 @@ function AppShell({ url }: { url: string }) {
             <Route path="/ceramic-coating/:slug" element={<CeramicCityRoute />} />
             <Route path="/detail-packages" element={<DetailPackagesPage />} />
             <Route path="/add-ons" element={<AddOnsPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/services/:slug" element={<ServiceRoute />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/areas/:slug" element={<CityRoute />} />
             <Route path="*" element={<Navigate to="/" replace />} />
@@ -89,11 +101,13 @@ export const routes: string[] = [
   '/ceramic-coating',
   '/detail-packages',
   '/add-ons',
+  '/gallery',
   '/privacy-policy',
+  ...services.map((s) => `/services/${s.slug}`),
   ...cityPages.map((c) => `/areas/${c.slug}`),
   ...ceramicCities.map((c) => `/ceramic-coating/${c.citySlug}`),
 ];
 
 // Re-exported so the prerender script can build per-page meta from a single
 // source of truth (see scripts/prerender.mjs).
-export { ceramicCities };
+export { ceramicCities, services };
