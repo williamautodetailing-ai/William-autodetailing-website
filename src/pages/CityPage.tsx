@@ -162,8 +162,8 @@ export default function CityPage({ city }: CityPageProps) {
                 }`}
               >
                 {pkg.popular && (
-                  <div className="text-xs font-bold text-accent mb-3 flex items-center gap-1">
-                    <Star className="w-3.5 h-3.5 fill-accent" />
+                  <div className="text-xs font-bold text-gold mb-3 flex items-center gap-1">
+                    <Star className="w-3.5 h-3.5 fill-gold" />
                     MOST POPULAR
                   </div>
                 )}
@@ -173,7 +173,7 @@ export default function CityPage({ city }: CityPageProps) {
                 <ul className="space-y-2 mb-5 flex-1">
                   {pkg.features.slice(0, 5).map((f) => (
                     <li key={f} className="flex items-start gap-1.5 text-xs">
-                      <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${pkg.popular ? 'text-accent' : 'text-primary-400'}`} />
+                      <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${'text-gold'}`} />
                       <span className="text-charcoal-300">{f}</span>
                     </li>
                   ))}
@@ -211,7 +211,7 @@ export default function CityPage({ city }: CityPageProps) {
               >
                 <span>
                   <span className="block font-semibold text-white group-hover:text-accent transition-colors">{s.name}</span>
-                  {s.price && <span className="text-emerald-400 text-sm font-semibold">{s.price}</span>}
+                  {s.price && <span className="text-gold text-sm font-semibold">{s.price}</span>}
                 </span>
                 <ArrowRight className="w-4 h-4 text-accent flex-shrink-0 group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -222,7 +222,7 @@ export default function CityPage({ city }: CityPageProps) {
             >
               <span>
                 <span className="block font-semibold text-white group-hover:text-accent transition-colors">Maintenance Club</span>
-                <span className="text-emerald-400 text-sm font-semibold">From $75 / visit</span>
+                <span className="text-gold text-sm font-semibold">From $75 / visit</span>
               </span>
               <ArrowRight className="w-4 h-4 text-accent flex-shrink-0 group-hover:translate-x-1 transition-transform" />
             </Link>
