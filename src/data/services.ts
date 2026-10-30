@@ -206,6 +206,9 @@ export const services: ServicePageContent[] = [
       { q: 'How long does paint correction take?', a: 'The Perfect Detail with paint enhancement polish takes about 4–5 hours. Ceramic coating packages with correction take around 8 hours.' },
     ],
     images: [
+      { src: '/images/optimized/work/paint-correction-before-after-mercedes.webp', alt: 'Black Mercedes-Benz hood before and after paint correction showing swirl marks removed', caption: 'Mercedes-Benz — 50/50 Before & After' },
+      { src: '/images/optimized/work/paint-correction-swirl-marks-bmw-m8.webp', alt: 'Swirl marks and holograms on a BMW M8 hood under inspection lights before paint correction', caption: 'BMW M8 — Swirls Under Inspection Light' },
+      { src: '/images/optimized/work/ceramic-coating-application-bmw-m8.webp', alt: 'Detailer applying ceramic coating to the carbon fiber roof of a BMW M8 after paint correction', caption: 'BMW M8 — Coating After Correction' },
       { src: '/images/optimized/work/lamborghini-aventador-svj-detail.webp', alt: 'White Lamborghini Aventador SVJ after a detail in Miami', caption: 'Lamborghini Aventador SVJ' },
       { src: '/images/optimized/work/lamborghini-urus-paint-detail.webp', alt: 'Orange Lamborghini Urus after a detail in Miami', caption: 'Lamborghini Urus' },
     ],
