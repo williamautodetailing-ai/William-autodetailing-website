@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Gift } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cityPages } from '../data/cities';
 import { services } from '../data/services';
@@ -8,17 +8,19 @@ import { useLeadModal } from '../context/LeadModalContext';
 const serviceLinks = [
   ...services.map((s) => ({ href: `/services/${s.slug}`, label: s.name })),
   { href: '/detail-packages', label: 'Detail Packages' },
+  { href: '/add-ons', label: 'Add-Ons' },
 ];
 
 const navLinks = [
-  { href: '/#how-it-works', label: 'How It Works' },
-  { href: '/gallery', label: 'Gallery', isPage: true },
-  { href: '/maintenance-club', label: 'Maintenance Club', isPage: true },
-  { href: '/#testimonials', label: 'Reviews' },
-  { href: '/ceramic-coating', label: 'Ceramic Coating', isPage: true },
-  { href: '/add-ons', label: 'Add-Ons', isPage: true },
-  { href: '/refer', label: 'Give a Wax, Get a Wax', isPage: true },
+  { href: '/ceramic-coating', label: 'Ceramic Coating' },
+  { href: '/maintenance-club', label: 'Maintenance Club' },
+  { href: '/gallery', label: 'Gallery' },
 ];
+
+const REFER_HREF = '/refer';
+const REFER_LABEL = 'Give a Wax, Get a Wax';
+
+const navItemClass = 'whitespace-nowrap text-charcoal-200 hover:text-accent transition-colors font-medium';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,6 +43,7 @@ export default function Header() {
   }, [location.pathname]);
 
   const isHomePage = location.pathname === '/';
+  const isActive = (href: string) => location.pathname === href;
 
   return (
     <>
@@ -52,8 +55,8 @@ export default function Header() {
         }`}
       >
         <div className="container-custom">
-          <div className="flex items-center justify-between h-24 md:h-32">
-            <Link to="/" className="flex items-center">
+          <div className="flex items-center justify-between gap-6 h-24 md:h-32">
+            <Link to="/" className="flex items-center flex-shrink-0">
               <img
                 src="/images/optimized/williams-logo.webp"
                 alt="William's Auto Detailing"
@@ -64,13 +67,13 @@ export default function Header() {
               />
             </Link>
 
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden lg:flex items-center gap-8">
               <div
                 className="relative"
                 onMouseEnter={() => setIsServicesOpen(true)}
                 onMouseLeave={() => setIsServicesOpen(false)}
               >
-                <button className="flex items-center gap-1 text-charcoal-200 hover:text-accent transition-colors font-medium">
+                <button className={`flex items-center gap-1 ${navItemClass}`}>
                   Services <ChevronDown className="w-4 h-4" />
                 </button>
 
@@ -91,34 +94,22 @@ export default function Header() {
                 )}
               </div>
 
-              {navLinks.map((link) =>
-                link.isPage ? (
-                  <Link
-                    key={link.href}
-                    to={link.href}
-                    className={`text-charcoal-200 hover:text-accent transition-colors font-medium ${
-                      location.pathname === link.href ? 'text-accent' : ''
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className="text-charcoal-200 hover:text-accent transition-colors font-medium"
-                  >
-                    {link.label}
-                  </a>
-                )
-              )}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className={`${navItemClass} ${isActive(link.href) ? 'text-accent' : ''}`}
+                >
+                  {link.label}
+                </Link>
+              ))}
 
               <div
                 className="relative"
                 onMouseEnter={() => setIsCitiesOpen(true)}
                 onMouseLeave={() => setIsCitiesOpen(false)}
               >
-                <button className="flex items-center gap-1 text-charcoal-200 hover:text-accent transition-colors font-medium">
+                <button className={`flex items-center gap-1 ${navItemClass}`}>
                   Areas <ChevronDown className="w-4 h-4" />
                 </button>
 
@@ -138,17 +129,29 @@ export default function Header() {
                   </div>
                 )}
               </div>
+
+              <Link
+                to={REFER_HREF}
+                className={`inline-flex items-center gap-2 whitespace-nowrap px-4 py-2 rounded-full border text-sm font-semibold transition-colors ${
+                  isActive(REFER_HREF)
+                    ? 'border-accent bg-accent/10 text-accent'
+                    : 'border-accent/50 text-accent hover:bg-accent/10 hover:border-accent'
+                }`}
+              >
+                <Gift className="w-4 h-4" />
+                {REFER_LABEL}
+              </Link>
             </nav>
 
-            <div className="hidden md:block">
-              <button onClick={() => openModal()} className="btn-primary">
+            <div className="hidden md:block flex-shrink-0">
+              <button onClick={() => openModal()} className="btn-primary whitespace-nowrap">
                 Book Now
               </button>
             </div>
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-charcoal-200 hover:text-white"
+              className="lg:hidden p-2 text-charcoal-200 hover:text-white"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -157,29 +160,9 @@ export default function Header() {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-charcoal-950 border-t border-charcoal-800 max-h-[80vh] overflow-y-auto">
+          <div className="lg:hidden bg-charcoal-950 border-t border-charcoal-800 max-h-[80vh] overflow-y-auto">
             <nav className="container-custom py-4 flex flex-col gap-2">
-              {navLinks.map((link) =>
-                link.isPage ? (
-                  <Link
-                    key={link.href}
-                    to={link.href}
-                    className="text-charcoal-200 hover:text-accent transition-colors font-medium py-2 px-2 rounded-lg hover:bg-charcoal-800"
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className="text-charcoal-200 hover:text-accent transition-colors font-medium py-2 px-2 rounded-lg hover:bg-charcoal-800"
-                  >
-                    {link.label}
-                  </a>
-                )
-              )}
-
-              <div className="border-t border-charcoal-800 pt-3 mt-1">
+              <div>
                 <p className="text-charcoal-500 text-xs font-semibold uppercase tracking-wider px-2 mb-2">Services</p>
                 <div className="grid grid-cols-2 gap-1">
                   {serviceLinks.map((s) => (
@@ -192,6 +175,18 @@ export default function Header() {
                     </Link>
                   ))}
                 </div>
+              </div>
+
+              <div className="border-t border-charcoal-800 pt-3 mt-1 flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className="text-charcoal-200 hover:text-accent transition-colors font-medium py-2 px-2 rounded-lg hover:bg-charcoal-800"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
               </div>
 
               <div className="border-t border-charcoal-800 pt-3 mt-1">
@@ -209,9 +204,17 @@ export default function Header() {
                 </div>
               </div>
 
+              <Link
+                to={REFER_HREF}
+                className="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full border border-accent/50 text-accent font-semibold hover:bg-accent/10 transition-colors"
+              >
+                <Gift className="w-4 h-4" />
+                {REFER_LABEL}
+              </Link>
+
               <button
                 onClick={() => { openModal(); setIsMobileMenuOpen(false); }}
-                className="btn-primary mt-3 justify-center"
+                className="btn-primary mt-2 justify-center"
               >
                 Book Now
               </button>
