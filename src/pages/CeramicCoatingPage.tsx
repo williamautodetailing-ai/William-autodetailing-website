@@ -65,6 +65,24 @@ const faqs = [
   },
 ];
 
+const coatingPhotos = [
+  {
+    src: '/images/optimized/work/ceramic-coating-application-bmw-m8.webp',
+    alt: 'Detailer applying ceramic coating to the carbon fiber roof of a BMW M8 in Miami',
+    caption: 'BMW M8 — Ceramic Coating Application',
+  },
+  {
+    src: '/images/optimized/work/paint-correction-swirl-marks-bmw-m8.webp',
+    alt: 'Swirl marks on a BMW M8 hood under inspection lights before paint correction and ceramic coating',
+    caption: 'BMW M8 — Swirls Before Correction',
+  },
+  {
+    src: '/images/optimized/work/paint-correction-before-after-mercedes.webp',
+    alt: 'Black Mercedes-Benz hood before and after paint correction',
+    caption: 'Mercedes-Benz — 50/50 Before & After',
+  },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -170,6 +188,37 @@ export default function CeramicCoatingPage() {
                 <p className="text-charcoal-400 text-sm leading-relaxed">{benefit.description}</p>
               </div>
             ))}
+          </div>
+
+          {/* Real work photos */}
+          <div className="mt-16">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white text-center mb-3">
+              Correction & Coating <span className="gradient-text">Results</span>
+            </h2>
+            <p className="text-charcoal-400 text-center mb-8 max-w-xl mx-auto">
+              Every ceramic coating starts with a paint enhancement polish — so the coating locks in a corrected, swirl-free finish.
+            </p>
+            <div className="grid sm:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
+              {coatingPhotos.map((img) => (
+                <figure key={img.src} className="relative overflow-hidden rounded-2xl border border-charcoal-700 bg-charcoal-900">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full aspect-[4/5] object-cover"
+                  />
+                  <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-charcoal-950/90 to-transparent px-4 py-3 text-sm font-semibold text-white">
+                    {img.caption}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+            <p className="text-center mt-6">
+              <Link to="/services/paint-correction" className="text-accent hover:underline font-semibold">
+                Learn about paint correction →
+              </Link>
+            </p>
           </div>
         </div>
       </section>
