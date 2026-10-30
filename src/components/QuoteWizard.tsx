@@ -539,9 +539,9 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
               )}
             </div>
 
-            <div className="flex items-center gap-2.5 px-4 py-3 bg-emerald-500/10 border border-emerald-500/25 rounded-xl mb-5">
-              <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-              <p className="text-emerald-300 text-xs">
+            <div className="flex items-center gap-2.5 px-4 py-3 bg-gold/10 border border-gold/30 rounded-xl mb-5">
+              <ShieldCheck className="w-4 h-4 text-gold flex-shrink-0" />
+              <p className="text-gold-light text-xs">
                 <span className="font-semibold">No payment required.</span> We'll confirm everything before your appointment.
               </p>
             </div>
