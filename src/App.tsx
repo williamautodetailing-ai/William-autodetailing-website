@@ -26,7 +26,8 @@ import Services from './components/Services';
 
 
 
-import Gallery from './components/Gallery';
+import { services } from './data/services';
+import ServiceCards from './components/ServiceCards';
 
 
 
@@ -99,6 +100,8 @@ const LandingPage = lazy(() => import('./pages/LandingPage'));
 
 const ReferralPage = lazy(() => import('./pages/ReferralPage'));
 const SpecialOfferPage = lazy(() => import('./pages/SpecialOfferPage'));
+const GalleryPage = lazy(() => import('./pages/GalleryPage'));
+const ServicePage = lazy(() => import('./pages/ServicePage'));
 
 
 
@@ -185,9 +188,7 @@ function HomePage() {
 
       <Services />
 
-
-
-      <Gallery />
+      <ServiceCards />
 
 
 
@@ -250,6 +251,13 @@ function CeramicCityRoute() {
   return <CeramicCityPage content={content} />;
 }
 
+function ServiceRoute() {
+  const { slug } = useParams<{ slug: string }>();
+  const service = services.find((s) => s.slug === slug);
+  if (!service) return <Navigate to="/detail-packages" replace />;
+  return <ServicePage service={service} />;
+}
+
 
 
 
@@ -306,6 +314,8 @@ function AppLayout() {
 
 
           <Route path="/add-ons" element={<AddOnsPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/services/:slug" element={<ServiceRoute />} />
 
 
 
