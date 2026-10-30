@@ -18,6 +18,7 @@ import CityPage from './pages/CityPage';
 import CeramicCityPage from './pages/CeramicCityPage';
 import GalleryPage from './pages/GalleryPage';
 import ServicePage from './pages/ServicePage';
+import MaintenanceClubPage from './pages/MaintenanceClubPage';
 import { cityPages } from './data/cities';
 import { services } from './data/services';
 import ServiceCards from './components/ServiceCards';
@@ -75,6 +76,7 @@ function AppShell({ url }: { url: string }) {
             <Route path="/detail-packages" element={<DetailPackagesPage />} />
             <Route path="/add-ons" element={<AddOnsPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/maintenance-club" element={<MaintenanceClubPage />} />
             <Route path="/services/:slug" element={<ServiceRoute />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/areas/:slug" element={<CityRoute />} />
@@ -102,6 +104,7 @@ export const routes: string[] = [
   '/detail-packages',
   '/add-ons',
   '/gallery',
+  '/maintenance-club',
   '/privacy-policy',
   ...services.map((s) => `/services/${s.slug}`),
   ...cityPages.map((c) => `/areas/${c.slug}`),
