@@ -5,29 +5,6 @@ import { useLeadModal } from '../context/LeadModalContext';
 import Gallery from '../components/Gallery';
 import SEO from '../components/SEO';
 
-const photos = [
-  {
-    src: '/images/optimized/promotions/engine-bay-before.webp',
-    alt: 'Dirty engine bay before detailing in Miami',
-    caption: 'Engine Bay — Before',
-  },
-  {
-    src: '/images/optimized/promotions/engine-bay-after.webp',
-    alt: 'Clean, dressed engine bay after detailing in Miami',
-    caption: 'Engine Bay — After',
-  },
-  {
-    src: '/images/optimized/about-us/audi-r8.webp',
-    alt: 'Audi R8 after a mobile detail in Miami-Dade',
-    caption: 'Audi R8 — Full Detail',
-  },
-  {
-    src: '/images/optimized/hero-porsche.webp',
-    alt: 'Porsche with a glossy, ceramic protected finish',
-    caption: 'Porsche — Paint Protection',
-  },
-];
-
 export default function GalleryPage() {
   const { openModal } = useLeadModal();
 
@@ -54,28 +31,6 @@ export default function GalleryPage() {
           <p className="text-lg md:text-xl text-charcoal-300 max-w-2xl mx-auto">
             Before & afters from mobile details, paint corrections and ceramic coatings we've done across Miami-Dade County.
           </p>
-        </div>
-      </section>
-
-      {/* Photo grid */}
-      <section className="pb-8">
-        <div className="container-custom">
-          <div className="grid sm:grid-cols-2 gap-6">
-            {photos.map((photo) => (
-              <figure key={photo.src} className="group relative overflow-hidden rounded-2xl border border-charcoal-700 bg-charcoal-900">
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-charcoal-950/90 to-transparent px-5 py-4 text-sm font-semibold text-white">
-                  {photo.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
         </div>
       </section>
 
