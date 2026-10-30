@@ -102,6 +102,7 @@ const ReferralPage = lazy(() => import('./pages/ReferralPage'));
 const SpecialOfferPage = lazy(() => import('./pages/SpecialOfferPage'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const ServicePage = lazy(() => import('./pages/ServicePage'));
+const MaintenanceClubPage = lazy(() => import('./pages/MaintenanceClubPage'));
 
 
 
@@ -315,6 +316,7 @@ function AppLayout() {
 
           <Route path="/add-ons" element={<AddOnsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/maintenance-club" element={<MaintenanceClubPage />} />
           <Route path="/services/:slug" element={<ServiceRoute />} />
 
 
