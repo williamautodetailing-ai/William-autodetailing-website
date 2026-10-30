@@ -58,6 +58,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/maintenance-club" className="text-charcoal-400 hover:text-accent transition-colors text-sm">
+                  Maintenance Club
+                </Link>
+              </li>
+              <li>
                 <Link to="/gallery" className="text-charcoal-400 hover:text-accent transition-colors text-sm">
                   Gallery
                 </Link>
