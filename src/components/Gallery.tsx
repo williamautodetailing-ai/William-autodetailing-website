@@ -1,7 +1,7 @@
 import { ExternalLink, Camera, Star } from 'lucide-react';
 import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 
-const GOOGLE_PHOTOS_URL = 'https://share.google/O09RVjOI5JFSInkKp';
+const GOOGLE_PHOTOS_URL = 'https://www.google.com/search?q=William%27s+Auto+Detailing&ludocid=985070227947112262&lsig=AB86z5UBGrFj-SyLSoSRGWIrIocG#lkt=LocalPoiPhotos&lpg=cid:CgIgAQ%3D%3D,ik:CAoSHENJQUJJaEJSNTVSYkpjQkNJOGcyM0oxWTZlRmY%3D';
 
 export default function Gallery() {
   return (
