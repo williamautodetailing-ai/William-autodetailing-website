@@ -26,7 +26,7 @@ export default function ServiceCards() {
               <h3 className="text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors">{s.name}</h3>
               <p className="text-charcoal-400 text-sm leading-relaxed flex-1 mb-4">{s.summary}</p>
               <div className="flex items-center gap-3 mb-5 text-sm">
-                {s.price && <span className="text-emerald-400 font-bold">{s.price}</span>}
+                {s.price && <span className="text-gold font-bold">{s.price}</span>}
                 {s.duration && (
                   <span className="inline-flex items-center gap-1 text-charcoal-400">
                     <Clock className="w-3.5 h-3.5 text-accent" /> {s.duration}
@@ -41,11 +41,11 @@ export default function ServiceCards() {
 
           <Link
             to="/ceramic-coating"
-            className="group flex flex-col bg-gradient-to-br from-accent/10 to-primary-500/10 border border-accent/30 rounded-2xl p-6 hover:border-accent transition-all duration-300"
+            className="group flex flex-col bg-gradient-to-br from-gold/10 to-charcoal-900 border border-gold/40 rounded-2xl p-6 hover:border-gold transition-all duration-300"
           >
-            <h3 className="text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors">Ceramic Coating</h3>
+            <h3 className="text-lg font-bold text-white mb-2 group-hover:text-gold transition-colors">Ceramic Coating</h3>
             <p className="text-charcoal-300 text-sm leading-relaxed flex-1 mb-4">2–5 year professional paint protection with full prep included.</p>
-            <div className="mb-5 text-sm text-emerald-400 font-bold">From $699</div>
+            <div className="mb-5 text-sm text-gold font-bold">From $699</div>
             <span className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-accent text-charcoal-950 font-semibold text-sm">
               View Service <ArrowRight className="w-4 h-4" />
             </span>
