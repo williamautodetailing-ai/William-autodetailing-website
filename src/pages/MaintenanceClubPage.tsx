@@ -123,6 +123,16 @@ export default function MaintenanceClubPage() {
 
       {/* Hero */}
       <section className="relative py-20 md:py-28 overflow-hidden">
+        <div className="absolute inset-0 opacity-25">
+          <img
+            src="/images/optimized/work/porsche-gt3-rs-mobile-detail-miami.webp"
+            alt="Two Porsche 911 GT3 RS cars kept detailed in a Miami driveway"
+            className="w-full h-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/75 to-charcoal-950/50" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.10),transparent_65%)]" />
         <div className="decorative-blur absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/10 rounded-full blur-[180px]" />
 
@@ -162,6 +172,27 @@ export default function MaintenanceClubPage() {
       {/* Benefits */}
       <section className="section-padding bg-charcoal-900">
         <div className="container-custom">
+          <div className="grid grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto mb-14">
+            <figure className="overflow-hidden rounded-2xl border border-charcoal-700">
+              <img
+                src="/images/optimized/work/lamborghini-aventador-svj-detail.webp"
+                alt="White Lamborghini Aventador SVJ after a maintenance detail in Miami"
+                loading="lazy"
+                decoding="async"
+                className="w-full aspect-[4/5] object-cover"
+              />
+            </figure>
+            <figure className="overflow-hidden rounded-2xl border border-charcoal-700">
+              <img
+                src="/images/optimized/work/foam-bath-hand-wash-bmw-m2.webp"
+                alt="BMW M2 foam bath during a mobile maintenance wash in Miami"
+                loading="lazy"
+                decoding="async"
+                className="w-full aspect-[4/5] object-cover"
+              />
+            </figure>
+          </div>
+
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white text-center mb-12">
             Member <span className="gradient-text">Benefits</span>
           </h2>
