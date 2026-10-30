@@ -21,11 +21,15 @@ export default {
           light: '#5ce1ff',
           dark: '#00a8cc',
         },
+        // Champagne — the warm luxury accent: headings highlights, stars, prices, badges.
+        // Cyan (accent) is reserved for booking buttons and links so they stand out.
         gold: {
-          DEFAULT: '#f59e0b',
-          light: '#fbbf24',
-          dark: '#d97706',
+          DEFAULT: '#D9B97A',
+          light: '#E8D3A5',
+          dark: '#B8955A',
         },
+        // Soft white — easier on the eyes than pure #fff on near-black
+        white: '#EDF1F5',
         charcoal: {
           50: '#f4f6fb',
           100: '#e8ecf5',
