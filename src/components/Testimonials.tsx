@@ -71,10 +71,10 @@ const fallbackTestimonials: Review[] = [
 ];
 
 const avatarColors: Record<string, string> = {
-  JH: 'from-blue-500 to-blue-700',
-  CL: 'from-emerald-500 to-emerald-700',
-  S: 'from-violet-500 to-violet-700',
-  DH: 'from-orange-500 to-orange-700',
+  JH: 'from-charcoal-700 to-charcoal-800',
+  CL: 'from-charcoal-700 to-charcoal-800',
+  S: 'from-charcoal-700 to-charcoal-800',
+  DH: 'from-charcoal-700 to-charcoal-800',
 };
 
 export default function Testimonials() {
@@ -128,7 +128,7 @@ export default function Testimonials() {
   const prev = () => { setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length); setIsAutoPlaying(false); };
 
   const active = testimonials[activeIndex] ?? testimonials[0];
-  const colorClass = avatarColors[active.initials] ?? 'from-accent to-primary-500';
+  const colorClass = avatarColors[active.initials] ?? 'from-charcoal-700 to-charcoal-800';
 
   return (
     <section id="testimonials" className="section-padding bg-charcoal-900 relative overflow-hidden">
@@ -172,8 +172,8 @@ export default function Testimonials() {
                   className="w-16 h-16 rounded-full object-cover mx-auto mb-5"
                 />
               ) : (
-                <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${colorClass} flex items-center justify-center mx-auto mb-5`}>
-                  <span className="text-white font-bold text-lg">{active.initials}</span>
+                <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${colorClass} ring-1 ring-gold/50 flex items-center justify-center mx-auto mb-5`}>
+                  <span className="text-gold font-bold text-lg">{active.initials}</span>
                 </div>
               )}
 
