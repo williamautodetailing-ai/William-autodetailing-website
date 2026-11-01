@@ -15,7 +15,8 @@ Deno.serve(async (req: Request) => {
   try {
     const { name, phone, email, vehicle, vehicleType, packageInterest, notes } = await req.json();
 
-    if (!name || !phone || !email || !vehicle || !packageInterest) {
+    // Email is optional — follow-up happens by phone/text
+    if (!name || !phone || !vehicle || !packageInterest) {
       return new Response(
         JSON.stringify({ error: "Missing required fields" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -30,7 +31,7 @@ Deno.serve(async (req: Request) => {
     const { error: dbError } = await supabase.from("leads").insert({
       name,
       phone,
-      email,
+      email: email || "", // leads.email is NOT NULL; empty when not provided
       vehicle,
       vehicle_type: vehicleType ?? "sedan",
       package_interest: packageInterest,
@@ -56,10 +57,11 @@ Deno.serve(async (req: Request) => {
               <td style="padding:10px 0;border-bottom:1px solid #1e293b;color:#94a3b8;font-size:13px;">Phone</td>
               <td style="padding:10px 0;border-bottom:1px solid #1e293b;font-size:14px;"><a href="tel:${phone.replace(/\D/g, '')}" style="color:#00d4ff;text-decoration:none;font-weight:600;">${phone}</a></td>
             </tr>
+            ${email ? `
             <tr>
               <td style="padding:10px 0;border-bottom:1px solid #1e293b;color:#94a3b8;font-size:13px;">Email</td>
               <td style="padding:10px 0;border-bottom:1px solid #1e293b;font-size:14px;"><a href="mailto:${email}" style="color:#00d4ff;text-decoration:none;">${email}</a></td>
-            </tr>
+            </tr>` : ''}
             <tr>
               <td style="padding:10px 0;border-bottom:1px solid #1e293b;color:#94a3b8;font-size:13px;">Vehicle</td>
               <td style="padding:10px 0;border-bottom:1px solid #1e293b;color:#f1f5f9;font-size:14px;">${vehicle}</td>
