@@ -1,0 +1,16 @@
+# 301 redirects — old area URLs → new (city)-mobile-detailing URLs (preserve SEO)
+/areas/doral             /areas/doral-mobile-detailing             301
+/areas/miami             /areas/miami-mobile-detailing             301
+/areas/medley            /areas/medley-mobile-detailing            301
+/areas/kendall           /areas/kendall-mobile-detailing           301
+/areas/tamiami           /areas/tamiami-mobile-detailing           301
+/areas/sweetwater        /areas/sweetwater-mobile-detailing        301
+/areas/west-miami        /areas/west-miami-mobile-detailing        301
+/areas/miami-beach       /areas/miami-beach-mobile-detailing       301
+/areas/south-miami       /areas/south-miami-mobile-detailing       301
+/areas/coral-gables      /areas/coral-gables-mobile-detailing      301
+/areas/hialeah-gardens   /areas/hialeah-gardens-mobile-detailing   301
+/areas/olympia-heights   /areas/olympia-heights-mobile-detailing   301
+
+# SPA fallback — keep last
+/*    /index.html   200
