@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Check, Star, Sparkles, ShieldCheck, Percent, CalendarCheck, ChevronDown, ChevronUp, Crown } from 'lucide-react';
-import { BUSINESS_NAME, PHONE, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
+import { Check, Star, Sparkles, ShieldCheck, Percent, CalendarCheck, ChevronDown, ChevronUp } from 'lucide-react';
+import { BUSINESS_NAME } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
 import SEO from '../components/SEO';
 import { maintenancePlans as plans, maintenancePlanBookingName } from '../data/maintenanceClub';
+import PageHero from '../components/PageHero';
+import ClosingCta from '../components/home/ClosingCta';
 
 const perks = [
   'Maintenance detail at your home or office on your schedule',
@@ -84,7 +86,7 @@ export default function MaintenanceClubPage() {
   const { openModal } = useLeadModal();
 
   return (
-    <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
+    <div className="bg-charcoal-950 text-white">
       <SEO
         title={`Maintenance Club — Car Detailing Membership Miami | ${BUSINESS_NAME}`}
         description="Join the Maintenance Club: weekly, bi-weekly or monthly mobile maintenance details in Miami-Dade. 1 free scratch or stain removal each month and 5–50% off premium add-ons."
@@ -93,59 +95,21 @@ export default function MaintenanceClubPage() {
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* Hero */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
-        <div className="absolute inset-0 opacity-25">
-          <img
-            src="/images/optimized/work/porsche-gt3-rs-mobile-detail-miami.webp"
-            alt="Two Porsche 911 GT3 RS cars kept detailed in a Miami driveway"
-            className="w-full h-full object-cover"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/75 to-charcoal-950/50" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.10),transparent_65%)]" />
-        <div className="decorative-blur absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/10 rounded-full blur-[180px]" />
-
-        <div className="relative z-10 container-custom text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-accent/30 mb-8">
-            <Crown className="w-4 h-4 text-gold" />
-            <span className="text-charcoal-200 text-sm font-medium">Membership</span>
-          </div>
-
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            The Maintenance
-            <span className="block gradient-text">Club</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-charcoal-300 max-w-2xl mx-auto mb-8">
-            Keep your car looking freshly detailed all the time. Regular mobile maintenance visits, a free scratch or stain removal every month, and members-only savings on premium add-ons.
-          </p>
-
-          <div className="flex items-center justify-center gap-2 mb-10">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 text-gold fill-gold" />
-            ))}
-            <span className="text-charcoal-300 text-sm ml-1">{GOOGLE_RATING} · {GOOGLE_REVIEW_COUNT} Google Reviews</span>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#plans" className="btn-primary text-lg px-8 py-4">
-              Choose My Plan
-            </a>
-            <a href={`tel:${PHONE.replace(/\D/g, '')}`} className="btn-secondary text-lg px-8 py-4">
-              Call {PHONE}
-            </a>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        image="/images/optimized/work/porsche-gt3-rs-mobile-detail-miami.webp"
+        imageAlt="Two Porsche 911 GT3 RS cars kept detailed in a Miami driveway"
+        title="The Maintenance Club."
+        sub="Weekly, bi-weekly or monthly visits, a free scratch or stain removal every month, and 5–50% off add-ons."
+        price="From $75/visit"
+        priceNote="Full detail required to join"
+        action={<a href="#plans" className="btn-primary text-lg px-8 py-4">Choose My Plan</a>}
+      />
 
       {/* Benefits */}
       <section className="section-padding bg-charcoal-900">
         <div className="container-custom">
           <div className="grid grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto mb-14">
-            <figure className="overflow-hidden rounded-2xl border border-charcoal-700">
+            <figure className="overflow-hidden rounded-2xl">
               <img
                 src="/images/optimized/work/exterior-detail-corvette-grand-sport.webp"
                 alt="Silver Corvette Grand Sport kept freshly detailed in Miami"
@@ -154,7 +118,7 @@ export default function MaintenanceClubPage() {
                 className="w-full aspect-[4/5] object-cover"
               />
             </figure>
-            <figure className="overflow-hidden rounded-2xl border border-charcoal-700">
+            <figure className="overflow-hidden rounded-2xl">
               <img
                 src="/images/optimized/work/foam-bath-hand-wash-bmw-m2.webp"
                 alt="BMW M2 foam bath during a mobile maintenance wash in Miami"
@@ -165,17 +129,14 @@ export default function MaintenanceClubPage() {
             </figure>
           </div>
 
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white text-center mb-12">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight text-center mb-12">
             Member <span className="gradient-text">Benefits</span>
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {benefits.map((b) => (
-              <div key={b.title} className="bg-charcoal-800/50 border border-charcoal-700 rounded-2xl p-6 hover:border-accent/40 transition-colors">
-                <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center mb-4">
-                  <b.icon className="w-6 h-6 text-accent" />
-                </div>
+              <div key={b.title} className="bg-charcoal-800 rounded-2xl p-6 hover:border-accent/40 transition-colors">
                 <h3 className="text-lg font-bold text-white mb-2">{b.title}</h3>
-                <p className="text-charcoal-400 text-sm leading-relaxed">{b.description}</p>
+                <p className="text-charcoal-300 text-base leading-relaxed">{b.description}</p>
               </div>
             ))}
           </div>
@@ -186,7 +147,7 @@ export default function MaintenanceClubPage() {
       <section id="plans" className="section-padding bg-charcoal-950 scroll-mt-28">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
               Choose Your <span className="gradient-text">Plan</span>
             </h2>
             <p className="text-charcoal-400 text-lg max-w-2xl mx-auto">
@@ -200,8 +161,8 @@ export default function MaintenanceClubPage() {
                 key={plan.id}
                 className={`relative flex flex-col rounded-2xl p-8 border ${
                   plan.popular
-                    ? 'border-gold/60 bg-gradient-to-b from-gold/10 to-charcoal-900 shadow-xl shadow-gold/10'
-                    : 'border-charcoal-700 bg-charcoal-800/50'
+                    ? 'border-gold/60 bg-charcoal-800'
+                    : 'border-charcoal-700 bg-charcoal-800'
                 }`}
               >
                 {plan.popular && (
@@ -211,20 +172,19 @@ export default function MaintenanceClubPage() {
                   </div>
                 )}
                 <h3 className="font-display text-2xl font-bold text-white mb-1">{plan.name}</h3>
-                <p className="text-accent text-sm font-semibold mb-4">{plan.frequency}</p>
                 <div className="mb-4 space-y-2">
                   <p>
                     <span className="text-4xl font-bold text-white">${plan.sedan}</span>
-                    <span className="text-charcoal-400 text-sm"> / visit</span>
+                    <span className="text-charcoal-300 text-base"> / visit</span>
                     <span className="block text-charcoal-500 text-xs">Sedans & Coupes</span>
                   </p>
                   <p>
                     <span className="text-2xl font-bold text-white">${plan.suv}</span>
-                    <span className="text-charcoal-400 text-sm"> / visit</span>
+                    <span className="text-charcoal-300 text-base"> / visit</span>
                     <span className="block text-charcoal-500 text-xs">SUVs & Trucks</span>
                   </p>
                 </div>
-                <p className="text-charcoal-400 text-sm mb-6">{plan.tagline}</p>
+                <p className="text-charcoal-300 text-base mb-6">{plan.tagline}</p>
                 <ul className="space-y-3 mb-8 flex-1">
                   {perks.map((perk) => (
                     <li key={perk} className="flex items-start gap-2 text-sm text-charcoal-300">
@@ -237,7 +197,7 @@ export default function MaintenanceClubPage() {
                   onClick={() => openModal(maintenancePlanBookingName(plan))}
                   className={`w-full py-3 rounded-xl font-bold transition-all ${
                     plan.popular
-                      ? 'bg-accent text-charcoal-950 hover:bg-accent-light shadow-md shadow-accent/20'
+                      ? 'bg-accent text-charcoal-950 hover:bg-accent-light'
                       : 'bg-charcoal-700 text-white hover:bg-charcoal-600'
                   }`}
                 >
@@ -256,17 +216,14 @@ export default function MaintenanceClubPage() {
       {/* How it works */}
       <section className="section-padding bg-charcoal-900">
         <div className="container-custom">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white text-center mb-12">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight text-center mb-12">
             How to <span className="gradient-text">Join</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {steps.map((step, i) => (
-              <div key={step.title} className="text-center bg-charcoal-800/50 border border-charcoal-700 rounded-2xl p-8">
-                <span className="w-12 h-12 rounded-full bg-accent/15 border border-accent/40 text-accent text-lg font-bold flex items-center justify-center mx-auto mb-4">
-                  {i + 1}
-                </span>
+            {steps.map((step) => (
+              <div key={step.title} className="text-center bg-charcoal-800 rounded-2xl p-8">
                 <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
-                <p className="text-charcoal-400 text-sm leading-relaxed">{step.description}</p>
+                <p className="text-charcoal-300 text-base leading-relaxed">{step.description}</p>
               </div>
             ))}
           </div>
@@ -281,23 +238,20 @@ export default function MaintenanceClubPage() {
       {/* Discounted add-ons */}
       <section className="section-padding bg-charcoal-950">
         <div className="container-custom text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/40 text-gold font-bold mb-6">
-            <Percent className="w-4 h-4" /> Members save 5–50%
-          </div>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-8">
-            Discounted <span className="gradient-text">Premium Add-Ons</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight mb-8">
+            Members save 5–50% on add-ons.
           </h2>
           <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
             {discountedAddons.map((a) => (
               <Link
                 key={a.name}
                 to={a.to}
-                className="px-4 py-2 rounded-full bg-charcoal-800 border border-charcoal-700 text-charcoal-200 text-sm hover:border-accent hover:text-accent transition-colors"
+                className="px-4 py-2 rounded-full bg-charcoal-800 text-charcoal-200 text-sm hover:border-accent hover:text-accent transition-colors"
               >
                 {a.name}
               </Link>
             ))}
-            <span className="px-4 py-2 rounded-full bg-charcoal-800 border border-charcoal-700 text-charcoal-400 text-sm">and more</span>
+            <span className="px-4 py-2 rounded-full bg-charcoal-800 text-charcoal-300 text-base">and more</span>
           </div>
         </div>
       </section>
@@ -305,12 +259,12 @@ export default function MaintenanceClubPage() {
       {/* FAQ */}
       <section className="section-padding bg-charcoal-900">
         <div className="container-custom max-w-3xl">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white text-center mb-10">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight text-center mb-10">
             Maintenance Club <span className="gradient-text">FAQ</span>
           </h2>
           <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <div key={faq.q} className="bg-charcoal-800/50 border border-charcoal-700 rounded-xl overflow-hidden">
+              <div key={faq.q} className="bg-charcoal-800 rounded-xl overflow-hidden">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left"
@@ -326,26 +280,13 @@ export default function MaintenanceClubPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-charcoal-950 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-transparent to-primary-500/10" />
-        <div className="container-custom relative z-10 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-            Never Drive a Dirty Car <span className="gradient-text">Again</span>
-          </h2>
-          <p className="text-charcoal-400 text-lg mb-8 max-w-xl mx-auto">
-            Join the {BUSINESS_NAME} Maintenance Club and keep your car looking freshly detailed year-round.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#plans" className="btn-primary text-lg px-10 py-4">
-              Choose My Plan
-            </a>
-            <a href={`tel:${PHONE.replace(/\D/g, '')}`} className="text-accent font-semibold hover:underline">
-              or call {PHONE}
-            </a>
-          </div>
-        </div>
-      </section>
+      <ClosingCta
+        title="Never drive a dirty car again."
+        bookAs="Maintenance Club — Bi-Weekly"
+        bookLabel="Join Bi-Weekly"
+        image="/images/optimized/work/foam-bath-hand-wash-bmw-m2.webp"
+        imageAlt="BMW M2 foam bath during a mobile maintenance wash in Miami"
+      />
     </div>
   );
 }
