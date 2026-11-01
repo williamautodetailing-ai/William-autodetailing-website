@@ -166,19 +166,19 @@ export default function ReferralPage() {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-charcoal-300 mb-1.5">Your Name <span className="text-accent">*</span></label>
-                      <input type="text" value={referrerName} onChange={e => setReferrerName(e.target.value)} placeholder="Your full name"
-                        className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" required />
+                      <input type="text" value={referrerName} onChange={e => setReferrerName(e.target.value)} placeholder="Your full name" autoComplete="name"
+                        className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" required />
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-charcoal-300 mb-1.5">Your Phone <span className="text-accent">*</span></label>
-                        <input type="tel" value={referrerPhone} onChange={e => setReferrerPhone(e.target.value)} placeholder="(786) 555-1234"
-                          className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" required />
+                        <input type="tel" value={referrerPhone} onChange={e => setReferrerPhone(e.target.value)} placeholder="(786) 555-1234" autoComplete="tel" inputMode="tel"
+                          className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" required />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-charcoal-300 mb-1.5">Your Email <span className="text-accent">*</span></label>
-                        <input type="email" value={referrerEmail} onChange={e => setReferrerEmail(e.target.value)} placeholder="you@email.com"
-                          className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" required />
+                        <input type="email" value={referrerEmail} onChange={e => setReferrerEmail(e.target.value)} placeholder="you@email.com" autoComplete="email" inputMode="email"
+                          className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" required />
                       </div>
                     </div>
                   </div>
@@ -189,21 +189,21 @@ export default function ReferralPage() {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-charcoal-300 mb-1.5">Friend's Name <span className="text-accent">*</span></label>
-                      <input type="text" value={friendName} onChange={e => setFriendName(e.target.value)} placeholder="Their full name"
-                        className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" required />
+                      <input type="text" value={friendName} onChange={e => setFriendName(e.target.value)} placeholder="Their full name" autoComplete="off"
+                        className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" required />
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-charcoal-300 mb-1.5">Friend's Phone <span className="text-accent">*</span></label>
-                        <input type="tel" value={friendPhone} onChange={e => setFriendPhone(e.target.value)} placeholder="(786) 555-5678"
-                          className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" required />
+                        <input type="tel" value={friendPhone} onChange={e => setFriendPhone(e.target.value)} placeholder="(786) 555-5678" autoComplete="off" inputMode="tel"
+                          className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" required />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-charcoal-300 mb-1.5">
                           Friend's Email <span className="text-charcoal-500 font-normal">(optional)</span>
                         </label>
-                        <input type="email" value={friendEmail} onChange={e => setFriendEmail(e.target.value)} placeholder="them@email.com"
-                          className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" />
+                        <input type="email" value={friendEmail} onChange={e => setFriendEmail(e.target.value)} placeholder="them@email.com" autoComplete="off" inputMode="email"
+                          className="w-full bg-charcoal-900 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" />
                       </div>
                     </div>
                   </div>
