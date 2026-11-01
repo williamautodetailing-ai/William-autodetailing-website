@@ -1,94 +1,59 @@
-import { Star, MapPin } from 'lucide-react';
-import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
+import { Star, Phone } from 'lucide-react';
+import { PHONE, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
 
+// Home hero: one full-bleed photo of the real work, one headline, one action.
 export default function Hero() {
   const { openModal } = useLeadModal();
+  const tel = `tel:${PHONE.replace(/\D/g, '')}`;
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Hero image */}
-      <div className="absolute inset-0 bg-charcoal-950">
-        <img
-          src="/images/optimized/hero-porsche.webp"
-          srcSet="/images/optimized/hero-porsche-480.webp 480w, /images/optimized/hero-porsche-768.webp 768w, /images/optimized/hero-porsche.webp 1200w"
-          sizes="100vw"
-          alt="William detailing a Porsche 911 in Miami — William's Auto Detailing"
-          className="w-full h-full object-cover object-top opacity-55"
-          width={1200}
-          height={1053}
-          fetchpriority="high"
-          decoding="async"
-        />
+    <section className="relative min-h-[92svh] md:min-h-screen flex items-end overflow-hidden bg-charcoal-950">
+      <img
+        src="/images/optimized/hero-porsche.webp"
+        srcSet="/images/optimized/hero-porsche-480.webp 480w, /images/optimized/hero-porsche-768.webp 768w, /images/optimized/hero-porsche.webp 1200w"
+        sizes="100vw"
+        alt="William detailing a Porsche 911 in a Miami driveway"
+        className="hero-drift absolute inset-0 w-full h-full object-cover object-top"
+        width={1200}
+        height={1053}
+        fetchpriority="high"
+        decoding="async"
+      />
 
-        {/* Address cover — solid overlay instead of backdrop-filter for mobile GPU perf */}
-        <div
-          className="absolute rounded-sm bg-charcoal-950/90"
-          style={{
-            top: '3%',
-            right: '9%',
-            width: '12%',
-            height: '7%',
-          }}
-        />
+      {/* Neutral scrim under the text band only */}
+      <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-charcoal-950 via-charcoal-950/70 to-transparent" />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/60 to-charcoal-950/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-charcoal-950/60 via-transparent to-charcoal-950/40" />
-      </div>
+      <div className="relative z-10 container-custom w-full pb-14 md:pb-20">
+        <h1
+          data-reveal
+          className="font-display font-bold text-white tracking-tight leading-[0.95] text-[clamp(44px,7.2vw,108px)] max-w-[14ch]"
+        >
+          Showroom finish in your driveway.
+        </h1>
 
-      <div className="decorative-blur absolute top-1/4 -left-32 w-64 h-64 bg-accent/20 rounded-full blur-[128px]" />
-      <div className="decorative-blur absolute bottom-1/4 -right-32 w-64 h-64 bg-primary-500/20 rounded-full blur-[128px]" />
+        <p data-reveal style={{ ['--d' as string]: '80ms' }} className="mt-6 text-lg md:text-xl text-white/90 max-w-xl">
+          Miami's 5-star mobile detailer. We detail your car at your home, office or apartment.
+        </p>
 
-      <div className="relative z-10 container-custom text-center px-4 pt-24 md:pt-28">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-8 animate-fade-in">
-            <span className="flex items-center gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-gold fill-gold" />
-              ))}
-            </span>
-            <span className="text-charcoal-200 text-sm font-medium">
-              {GOOGLE_RATING} · {GOOGLE_REVIEW_COUNT} Google Reviews
-            </span>
-            <span className="text-charcoal-600 hidden sm:inline">|</span>
-            <span className="hidden sm:flex items-center gap-1 text-charcoal-300 text-sm">
-              <MapPin className="w-4 h-4" />
-              Miami &amp; Surrounding Areas
-            </span>
-          </div>
-
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            Premium Miami Mobile Detailing
-            <span className="block mt-2 gradient-text">We Come to You</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-charcoal-300 max-w-2xl mx-auto mb-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            {BUSINESS_NAME} — Miami's top-rated mobile auto detailing. Professional car detailing at your home, office, or apartment. Exotic cars, luxury vehicles, and daily drivers welcome.
-          </p>
-
-          <p className="text-charcoal-400 text-sm mb-10 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-            Serving Miami, Doral, Brickell, Miami Beach, Coral Gables &amp; all of Miami-Dade
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <button
-              onClick={() => openModal()}
-              className="btn-primary text-lg px-8 py-4"
-            >
-              Book Your Detail Now
-            </button>
-            <a href="#services" className="btn-secondary text-lg px-8 py-4">
-              View Packages
-            </a>
-          </div>
-
-          <p className="text-charcoal-400 text-sm mt-8 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            No hidden fees · Satisfaction guaranteed · Eco-friendly products
-          </p>
+        <div data-reveal style={{ ['--d' as string]: '160ms' }} className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
+          <button onClick={() => openModal()} className="btn-primary text-lg px-8 py-4">
+            Book My Detail
+          </button>
+          <a href={tel} className="inline-flex items-center justify-center gap-2 text-white font-semibold hover:text-accent transition-colors py-2">
+            <Phone className="w-5 h-5 text-accent" /> Call {PHONE}
+          </a>
         </div>
-      </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-charcoal-950 to-transparent" />
+        <p data-reveal style={{ ['--d' as string]: '240ms' }} className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-white/85 text-base">
+          <span className="flex items-center gap-0.5" aria-hidden="true">
+            {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-gold fill-gold" />)}
+          </span>
+          <span>{GOOGLE_RATING} from {GOOGLE_REVIEW_COUNT} Google reviews</span>
+          <span aria-hidden="true">·</span>
+          <span>No payment to book</span>
+        </p>
+      </div>
     </section>
   );
 }
