@@ -6,8 +6,33 @@ import {
 import { PHONE, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { packages, type DetailPackage } from '../data/packages';
 import { addons } from '../data/addons';
+import { services } from '../data/services';
+import { maintenancePlans, maintenancePlanBookingName } from '../data/maintenanceClub';
 import type { SpecialOffer } from '../data/offers';
 import { useLeadModal } from '../context/LeadModalContext';
+
+/**
+ * A "direct" booking is anything the visitor already picked on a page that isn't one of
+ * the full-detail/ceramic packages — a service page, an add-on or a Maintenance Club plan.
+ * The form keeps that choice, shows its price and only asks vehicle → timing → contact.
+ */
+interface DirectBooking {
+  label: string;
+  pricing?: { sedan: number; suv: number };
+  priceText?: string;
+  perVisit?: boolean;
+}
+
+function resolveDirectBooking(name: string): DirectBooking | null {
+  if (!name || packages.some(p => p.name === name)) return null;
+  const plan = maintenancePlans.find(p => maintenancePlanBookingName(p) === name);
+  if (plan) return { label: name, pricing: { sedan: plan.sedan, suv: plan.suv }, perVisit: true };
+  const service = services.find(s => s.bookAs === name || s.name === name);
+  if (service) return { label: service.name, priceText: service.price };
+  const addon = addons.find(a => a.name === name);
+  if (addon) return { label: addon.name };
+  return { label: name };
+}
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
@@ -56,18 +81,22 @@ type WizardState = 'idle' | 'loading' | 'error';
 // Full flow vs. offer flow (offer skips service + package selection)
 const FULL_FLOW = [1, 2, 3, 4, 5, 6, 7];
 const OFFER_FLOW = [2, 3, 5, 6, 7];
+const DIRECT_FLOW = [2, 6, 7];
 
 export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
   const { defaultPackage } = useLeadModal();
+  const [direct, setDirect] = useState<DirectBooking | null>(() => (offer ? null : resolveDirectBooking(defaultPackage)));
   const preselectedPkg = offer ? undefined : packages.find(p => p.name === defaultPackage);
   const preselectedService = offer
     ? 'Full Detail'
-    : preselectedPkg
-      ? (preselectedPkg.isCeramic ? 'Ceramic / Paint Correction' : 'Full Detail')
-      : '';
+    : direct
+      ? direct.label
+      : preselectedPkg
+        ? (preselectedPkg.isCeramic ? 'Ceramic / Paint Correction' : 'Full Detail')
+        : '';
 
-  const FLOW = offer ? OFFER_FLOW : FULL_FLOW;
-  const [step, setStep] = useState(offer || preselectedPkg ? 2 : 1);
+  const FLOW = offer ? OFFER_FLOW : direct ? DIRECT_FLOW : FULL_FLOW;
+  const [step, setStep] = useState(offer || direct || preselectedPkg ? 2 : 1);
   const [service, setService] = useState(preselectedService);
   const [vehicle, setVehicle] = useState('');
   const [condition, setCondition] = useState('');
@@ -110,8 +139,19 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
 
   const selectedPkg = tierPackages.find(p => p.id === pkgId);
   const offerPrice = offer && vehicleSize ? (vehicleSize === 'suv' ? offer.pricing.suv : offer.pricing.sedan) : null;
-  const estimate = offer ? offerPrice : selectedPkg ? priceFor(selectedPkg) : null;
-  const pkgLabel = offer ? offer.name : selectedPkg?.name;
+  const directPrice = direct?.pricing && (vehicleSize === 'sedan' || vehicleSize === 'suv') ? direct.pricing[vehicleSize] : null;
+  const estimate = offer ? offerPrice : direct ? directPrice : selectedPkg ? priceFor(selectedPkg) : null;
+  const pkgLabel = offer ? offer.name : direct ? direct.label : selectedPkg?.name;
+  // Price shown on chips and sent with the lead, e.g. "$300", "$100/visit" or "From $200"
+  const priceTag = estimate != null
+    ? `$${estimate}${direct?.perVisit ? '/visit' : ''}`
+    : direct && !isLuxury ? direct.priceText ?? null : null;
+
+  function clearDirect() {
+    setDirect(null);
+    setService('');
+    setStep(1);
+  }
 
   useEffect(() => {
     if (!offer && step === 4 && !pkgId) setPkgId(recommendedId);
@@ -146,7 +186,7 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
       `Service: ${service}`,
       `Condition: ${condition}`,
       `Vehicle: ${vehicle}`,
-      pkgLabel ? `Package: ${pkgLabel}${estimate != null ? ` ($${estimate})` : ' (custom quote)'}` : '',
+      pkgLabel ? `${direct ? 'Booked from page' : 'Package'}: ${pkgLabel} (${priceTag ?? 'custom quote'})` : '',
       offer ? `Offer includes: ${offer.upgrades.map(u => u.title).join(', ')}` : '',
       selectedAddons.length ? `Add-ons: ${selectedAddons.join(', ')}` : '',
       carModel ? `Car: ${carModel}` : '',
@@ -194,7 +234,7 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
           <div className="flex flex-wrap justify-center gap-2 mb-6">
             {pkgLabel && (
               <span className="text-xs font-medium text-accent bg-accent/10 border border-accent/25 px-2.5 py-1 rounded-lg">
-                {pkgLabel}{estimate != null ? ` · $${estimate}` : ''}
+                {pkgLabel}{priceTag ? ` · ${priceTag}` : ''}
               </span>
             )}
             {vehicle && <span className="text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg">{vehicle}</span>}
@@ -276,6 +316,21 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
       </div>
 
       <div className="px-5 sm:px-6 py-5">
+        {/* What they picked on the page — kept through the whole form */}
+        {direct && step !== 7 && (
+          <div className="flex items-center justify-between gap-3 px-4 py-3 mb-5 rounded-xl border border-gold/40 bg-gold/10">
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-gold">You're booking</p>
+              <p className="text-white font-bold text-sm truncate">
+                {direct.label}{priceTag ? <span className="text-gold font-semibold"> · {priceTag}</span> : null}
+              </p>
+            </div>
+            <button onClick={clearDirect} className="text-xs text-charcoal-400 hover:text-accent underline flex-shrink-0">
+              Change
+            </button>
+          </div>
+        )}
+
         {/* Step 1 — Service */}
         {step === 1 && (
           <div className="animate-fade-in">
@@ -531,7 +586,7 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
             <div className="flex flex-wrap justify-center gap-2 mb-4">
               {pkgLabel && (
                 <span className="text-xs font-medium text-accent bg-accent/10 border border-accent/25 px-2.5 py-1 rounded-lg">
-                  {pkgLabel}{estimate != null ? ` · $${estimate}` : ''}
+                  {pkgLabel}{priceTag ? ` · ${priceTag}` : ''}
                 </span>
               )}
               {vehicle && <span className="text-xs font-medium text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-2.5 py-1 rounded-lg">{vehicle}</span>}
