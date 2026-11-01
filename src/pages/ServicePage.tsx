@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Check, Clock, Star, ChevronDown, ChevronUp, AlertCircle, MapPin, ArrowRight } from 'lucide-react';
+import { Check, ChevronDown, ChevronUp, AlertCircle, ArrowRight } from 'lucide-react';
 import { services, type ServicePageContent } from '../data/services';
 import { cityPages } from '../data/cities';
 import { BUSINESS_NAME, PHONE, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
-import { useLeadModal } from '../context/LeadModalContext';
 import Testimonials from '../components/Testimonials';
 import SEO from '../components/SEO';
+import PageHero from '../components/PageHero';
+import ClosingCta from '../components/home/ClosingCta';
 
 const SITE_URL = 'https://williamautodetailing.net';
 
 export default function ServicePage({ service }: { service: ServicePageContent }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const { openModal } = useLeadModal();
 
   const related = service.related
     .map((slug) => services.find((s) => s.slug === slug))
@@ -59,7 +59,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
   ];
 
   return (
-    <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
+    <div className="bg-charcoal-950 text-white">
       <SEO
         title={service.metaTitle}
         description={service.metaDescription}
@@ -68,67 +68,29 @@ export default function ServicePage({ service }: { service: ServicePageContent }
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
-      {/* Hero */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.08),transparent_65%)]" />
-        <div className="decorative-blur absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/8 rounded-full blur-[180px]" />
-
-        <div className="relative z-10 container-custom text-center">
-          <nav aria-label="Breadcrumb" className="text-charcoal-500 text-sm mb-6">
+      <PageHero
+        image={service.images?.[service.images.length - 1]?.src ?? '/images/optimized/hero-porsche.webp'}
+        imageAlt={service.images?.[service.images.length - 1]?.alt ?? `${service.name} in Miami`}
+        title={`${service.name} in Miami.`}
+        sub={service.summary}
+        price={service.price}
+        priceNote={service.pricing ? `$${service.pricing.sedan} sedans · $${service.pricing.suv} SUVs` : service.duration}
+        bookAs={service.bookAs}
+        bookLabel={`Book ${service.name}`}
+        above={
+          <nav aria-label="Breadcrumb" className="text-charcoal-300 text-base mb-4">
             <Link to="/" className="hover:text-accent transition-colors">Home</Link>
             <span className="mx-2">/</span>
-            <span className="text-charcoal-300">{service.name}</span>
+            <span className="text-white">{service.name}</span>
           </nav>
-
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-charcoal-800/80 border border-charcoal-700 mb-8">
-            <span className="w-2 h-2 rounded-full bg-accent" />
-            <span className="text-charcoal-200 text-sm font-medium">{service.badge}</span>
-          </div>
-
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            {service.h1}
-            <span className="block gradient-text">{service.h1Highlight}</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-charcoal-300 max-w-2xl mx-auto mb-8">{service.intro}</p>
-
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-            {service.price && (
-              <span className="px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold">
-                {service.price}
-              </span>
-            )}
-            {service.duration && (
-              <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-charcoal-800 border border-charcoal-700 text-charcoal-200 text-sm">
-                <Clock className="w-4 h-4 text-accent" /> {service.duration}
-              </span>
-            )}
-            <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-charcoal-800 border border-charcoal-700 text-charcoal-200 text-sm">
-              <MapPin className="w-4 h-4 text-accent" /> We come to you
-            </span>
-          </div>
-
-          <div className="flex items-center justify-center gap-2 mb-10">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 text-gold fill-gold" />
-            ))}
-            <span className="text-charcoal-300 text-sm ml-1">{GOOGLE_RATING} · {GOOGLE_REVIEW_COUNT} Google Reviews</span>
-          </div>
-
-          <button onClick={() => openModal(service.bookAs)} className="btn-primary text-lg px-8 py-4">
-            Book {service.name}
-          </button>
-          {service.priceNote && (
-            <p className="text-charcoal-500 text-sm mt-6 max-w-xl mx-auto">{service.priceNote}</p>
-          )}
-        </div>
-      </section>
+        }
+      />
 
       {/* Real work photos — shown first so visitors instantly see what they get */}
       {service.images && service.images.length > 0 && (
         <section className="py-16 md:py-20 bg-charcoal-900">
           <div className="container-custom">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-white text-center mb-3">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight text-center mb-3">
               See What <span className="gradient-text">You Get</span>
             </h2>
             <p className="text-charcoal-400 text-center mb-10">Real {service.name.toLowerCase()} results from Miami-Dade customers.</p>
@@ -142,7 +104,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
               }`}
             >
               {service.images.map((img) => (
-                <figure key={img.src} className="flex flex-col overflow-hidden rounded-2xl border border-charcoal-700 bg-charcoal-800/50">
+                <figure key={img.src} className="flex flex-col overflow-hidden rounded-2xl bg-charcoal-800">
                   <img
                     src={img.src}
                     alt={img.alt}
@@ -153,7 +115,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
                   {(img.caption || img.description) && (
                     <figcaption className="p-5">
                       {img.caption && <p className="font-bold text-white mb-1">{img.caption}</p>}
-                      {img.description && <p className="text-charcoal-400 text-sm leading-relaxed">{img.description}</p>}
+                      {img.description && <p className="text-charcoal-300 text-base leading-relaxed">{img.description}</p>}
                     </figcaption>
                   )}
                 </figure>
@@ -166,7 +128,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
       {/* About this service */}
       <section className="section-padding bg-charcoal-950">
         <div className="container-custom max-w-3xl">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-8 text-center">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight mb-8 text-center">
             About Our <span className="gradient-text">{service.name}</span>
           </h2>
           <div className="space-y-5 text-charcoal-300 text-lg leading-relaxed">
@@ -180,8 +142,8 @@ export default function ServicePage({ service }: { service: ServicePageContent }
       {/* What's included + process */}
       <section className="section-padding bg-charcoal-900">
         <div className="container-custom grid lg:grid-cols-2 gap-8">
-          <div className="bg-charcoal-800/50 border border-charcoal-700 rounded-2xl p-8">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-6">
+          <div className="bg-charcoal-800 rounded-2xl p-8">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
               What's <span className="gradient-text">Included</span>
             </h2>
             <ul className="space-y-3">
@@ -193,15 +155,15 @@ export default function ServicePage({ service }: { service: ServicePageContent }
               ))}
             </ul>
             {service.disclaimer && (
-              <div className="flex items-start gap-2 bg-charcoal-700/50 border border-charcoal-600/50 rounded-lg px-4 py-3 mt-6">
-                <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2 bg-charcoal-700/50 rounded-lg px-4 py-3 mt-6">
+                <AlertCircle className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
                 <p className="text-xs text-charcoal-400 leading-relaxed">{service.disclaimer}</p>
               </div>
             )}
           </div>
 
-          <div className="bg-charcoal-800/50 border border-charcoal-700 rounded-2xl p-8">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-6">
+          <div className="bg-charcoal-800 rounded-2xl p-8">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
               Our <span className="gradient-text">Process</span>
             </h2>
             <ol className="space-y-4">
@@ -221,14 +183,14 @@ export default function ServicePage({ service }: { service: ServicePageContent }
       {/* Benefits */}
       <section className="section-padding bg-charcoal-950">
         <div className="container-custom">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white text-center mb-12">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight text-center mb-12">
             Why Get <span className="gradient-text">{service.name}?</span>
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {service.benefits.map((b) => (
-              <div key={b.title} className="bg-charcoal-800/50 border border-charcoal-700 rounded-2xl p-6 hover:border-accent/40 transition-colors">
+              <div key={b.title} className="bg-charcoal-800 rounded-2xl p-6 hover:border-accent/40 transition-colors">
                 <h3 className="text-lg font-bold text-white mb-2">{b.title}</h3>
-                <p className="text-charcoal-400 text-sm leading-relaxed">{b.description}</p>
+                <p className="text-charcoal-300 text-base leading-relaxed">{b.description}</p>
               </div>
             ))}
           </div>
@@ -240,12 +202,12 @@ export default function ServicePage({ service }: { service: ServicePageContent }
       {/* FAQ */}
       <section className="section-padding bg-charcoal-950">
         <div className="container-custom max-w-3xl">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white text-center mb-10">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight text-center mb-10">
             {service.name} <span className="gradient-text">FAQ</span>
           </h2>
           <div className="space-y-3">
             {service.faqs.map((faq, i) => (
-              <div key={faq.q} className="bg-charcoal-800/50 border border-charcoal-700 rounded-xl overflow-hidden">
+              <div key={faq.q} className="bg-charcoal-800 rounded-xl overflow-hidden">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left"
@@ -265,7 +227,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
       {/* Related services + areas */}
       <section className="section-padding bg-charcoal-900">
         <div className="container-custom">
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-white text-center mb-8">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight text-center mb-8">
             Related <span className="gradient-text">Services</span>
           </h2>
           <div className="grid sm:grid-cols-3 gap-4 mb-14">
@@ -273,7 +235,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
               <Link
                 key={r.slug}
                 to={`/services/${r.slug}`}
-                className="group flex items-center justify-between bg-charcoal-800/50 border border-charcoal-700 rounded-xl px-5 py-4 hover:border-accent/50 transition-colors"
+                className="group flex items-center justify-between bg-charcoal-800 rounded-xl px-5 py-4 hover:border-accent/50 transition-colors"
               >
                 <span className="font-semibold text-white">{r.name}</span>
                 <ArrowRight className="w-4 h-4 text-accent group-hover:translate-x-1 transition-transform" />
@@ -289,7 +251,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
               <Link
                 key={city.slug}
                 to={`/areas/${city.slug}`}
-                className="px-3 py-1.5 rounded-full bg-charcoal-800 border border-charcoal-700 text-charcoal-300 text-sm hover:border-accent hover:text-accent transition-colors"
+                className="px-3 py-1.5 rounded-full bg-charcoal-800 text-charcoal-300 text-sm hover:border-accent hover:text-accent transition-colors"
               >
                 {city.name}
               </Link>
@@ -298,26 +260,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-charcoal-950 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-transparent to-primary-500/10" />
-        <div className="container-custom relative z-10 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to <span className="gradient-text">Book?</span>
-          </h2>
-          <p className="text-charcoal-400 text-lg mb-8 max-w-xl mx-auto">
-            {BUSINESS_NAME} comes to your home, office or apartment anywhere in Miami-Dade County.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button onClick={() => openModal(service.bookAs)} className="btn-primary text-lg px-10 py-4">
-              Book {service.name}
-            </button>
-            <a href={`tel:${PHONE.replace(/\D/g, '')}`} className="text-accent font-semibold hover:underline">
-              or call {PHONE}
-            </a>
-          </div>
-        </div>
-      </section>
+      <ClosingCta title={`Book ${service.name} this week.`} bookAs={service.bookAs} bookLabel={`Book ${service.name}`} />
     </div>
   );
 }
