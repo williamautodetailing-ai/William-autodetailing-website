@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT, GOOGLE_REVIEWS_URL } from '../constants';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
@@ -137,7 +137,7 @@ export default function Testimonials() {
       <div className="container-custom relative z-10">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-            What Our <span className="gradient-text">Customers Say</span>
+            What customers say
           </h2>
           <div className="inline-flex items-center gap-2 text-charcoal-400">
             {[...Array(5)].map((_, i) => (
@@ -160,7 +160,6 @@ export default function Testimonials() {
           </div>
 
           <div className="relative bg-charcoal-800/50 rounded-3xl p-8 md:p-12 border border-charcoal-700 min-h-[280px]">
-            <Quote className="absolute top-6 left-6 w-12 h-12 text-accent/20 rotate-180" />
 
             <div className="text-center relative z-10">
               {active.photoUrl ? (
@@ -172,7 +171,7 @@ export default function Testimonials() {
                   className="w-16 h-16 rounded-full object-cover mx-auto mb-5"
                 />
               ) : (
-                <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${colorClass} ring-1 ring-gold/50 flex items-center justify-center mx-auto mb-5`}>
+                <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${colorClass} flex items-center justify-center mx-auto mb-5`}>
                   <span className="text-gold font-bold text-lg">{active.initials}</span>
                 </div>
               )}
