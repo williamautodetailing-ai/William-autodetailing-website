@@ -4,35 +4,7 @@ import { Check, Star, Sparkles, ShieldCheck, Percent, CalendarCheck, ChevronDown
 import { BUSINESS_NAME, PHONE, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
 import SEO from '../components/SEO';
-
-// Price per maintenance visit
-const plans: { id: string; name: string; frequency: string; sedan: number; suv: number; tagline: string; popular?: boolean }[] = [
-  {
-    id: 'weekly',
-    name: 'Weekly',
-    frequency: 'Every week',
-    sedan: 75,
-    suv: 95,
-    tagline: 'For daily drivers and show cars that always need to look perfect.',
-  },
-  {
-    id: 'biweekly',
-    name: 'Bi-Weekly',
-    frequency: 'Every 2 weeks',
-    sedan: 100,
-    suv: 125,
-    tagline: 'The sweet spot — your car never has time to get dirty.',
-    popular: true,
-  },
-  {
-    id: 'monthly',
-    name: 'Monthly',
-    frequency: 'Once a month',
-    sedan: 125,
-    suv: 145,
-    tagline: 'Keep that freshly detailed look with a monthly reset.',
-  },
-];
+import { maintenancePlans as plans, maintenancePlanBookingName } from '../data/maintenanceClub';
 
 const perks = [
   'Maintenance detail at your home or office on your schedule',
@@ -159,11 +131,11 @@ export default function MaintenanceClubPage() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button onClick={() => openModal('Maintenance Club')} className="btn-primary text-lg px-8 py-4">
-              Join the Club
-            </button>
-            <a href="#plans" className="btn-secondary text-lg px-8 py-4">
-              See Plans
+            <a href="#plans" className="btn-primary text-lg px-8 py-4">
+              Choose My Plan
+            </a>
+            <a href={`tel:${PHONE.replace(/\D/g, '')}`} className="btn-secondary text-lg px-8 py-4">
+              Call {PHONE}
             </a>
           </div>
         </div>
@@ -262,7 +234,7 @@ export default function MaintenanceClubPage() {
                   ))}
                 </ul>
                 <button
-                  onClick={() => openModal(`Maintenance Club — ${plan.name}`)}
+                  onClick={() => openModal(maintenancePlanBookingName(plan))}
                   className={`w-full py-3 rounded-xl font-bold transition-all ${
                     plan.popular
                       ? 'bg-accent text-charcoal-950 hover:bg-accent-light shadow-md shadow-accent/20'
@@ -365,9 +337,9 @@ export default function MaintenanceClubPage() {
             Join the {BUSINESS_NAME} Maintenance Club and keep your car looking freshly detailed year-round.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button onClick={() => openModal('Maintenance Club')} className="btn-primary text-lg px-10 py-4">
-              Join the Club
-            </button>
+            <a href="#plans" className="btn-primary text-lg px-10 py-4">
+              Choose My Plan
+            </a>
             <a href={`tel:${PHONE.replace(/\D/g, '')}`} className="text-accent font-semibold hover:underline">
               or call {PHONE}
             </a>
