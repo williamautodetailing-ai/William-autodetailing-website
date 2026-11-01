@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, Gift, Phone } from 'lucide-react';
+import { Menu, X, ChevronDown, Gift, Phone, MessageSquare } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cityPages } from '../data/cities';
 import { services } from '../data/services';
@@ -243,16 +243,37 @@ export default function Header() {
         )}
       </header>
 
-      <button
-        onClick={() => openModal()}
-        className={`fixed bottom-6 right-6 z-50 md:hidden btn-primary shadow-lg shadow-accent/30 transition-all duration-300 ${
-          showFloatingCta && !isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+      {/* Phone action bar: Call · Text · Book, once the page's own buttons have scrolled away */}
+      <div
+        className={`fixed inset-x-0 bottom-0 z-50 md:hidden bg-charcoal-900 pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ${
+          showFloatingCta && !isMobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
         }`}
         aria-hidden={!showFloatingCta || isMobileMenuOpen}
-        tabIndex={showFloatingCta && !isMobileMenuOpen ? 0 : -1}
       >
-        Book Now
-      </button>
+        <div className="grid grid-cols-[1fr_1fr_1.6fr] gap-2 p-2">
+          <a
+            href={`tel:${PHONE.replace(/\D/g, '')}`}
+            tabIndex={showFloatingCta ? 0 : -1}
+            className="flex flex-col items-center justify-center gap-0.5 py-2 rounded-lg text-charcoal-200 hover:text-white hover:bg-charcoal-800 text-[13px] font-semibold"
+          >
+            <Phone className="w-5 h-5 text-accent" /> Call
+          </a>
+          <a
+            href={`sms:${PHONE.replace(/\D/g, '')}`}
+            tabIndex={showFloatingCta ? 0 : -1}
+            className="flex flex-col items-center justify-center gap-0.5 py-2 rounded-lg text-charcoal-200 hover:text-white hover:bg-charcoal-800 text-[13px] font-semibold"
+          >
+            <MessageSquare className="w-5 h-5 text-accent" /> Text
+          </a>
+          <button
+            onClick={() => openModal()}
+            tabIndex={showFloatingCta ? 0 : -1}
+            className="btn-primary justify-center text-base"
+          >
+            Book Now
+          </button>
+        </div>
+      </div>
     </>
   );
 }
