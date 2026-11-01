@@ -5,10 +5,13 @@ import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import HowItWorks from './components/HowItWorks';
-import Services from './components/Services';
+import Results from './components/home/Results';
+import PriceMenu from './components/home/PriceMenu';
+import ClosingCta from './components/home/ClosingCta';
+
 import Testimonials from './components/Testimonials';
-import ServiceArea from './components/ServiceArea';
-import About from './components/About';
+
+
 import Footer from './components/Footer';
 import CeramicCoatingPage from './pages/CeramicCoatingPage';
 import DetailPackagesPage from './pages/DetailPackagesPage';
@@ -21,7 +24,7 @@ import ServicePage from './pages/ServicePage';
 import MaintenanceClubPage from './pages/MaintenanceClubPage';
 import { cityPages } from './data/cities';
 import { services } from './data/services';
-import ServiceCards from './components/ServiceCards';
+
 import { ceramicCities } from './data/ceramicCities';
 import { LeadModalProvider } from './context/LeadModalContext';
 import LeadFormModal from './components/LeadFormModal';
@@ -30,12 +33,11 @@ function HomePage() {
   return (
     <main>
       <Hero />
+      <Results />
+      <PriceMenu />
       <HowItWorks />
-      <Services />
-      <ServiceCards />
       <Testimonials />
-      <ServiceArea />
-      <About />
+      <ClosingCta />
     </main>
   );
 }
