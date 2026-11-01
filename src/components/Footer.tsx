@@ -9,7 +9,7 @@ export default function Footer() {
   const { openModal } = useLeadModal();
 
   return (
-    <footer className="bg-charcoal-950 pt-16 pb-8 border-t border-charcoal-800">
+    <footer className="bg-charcoal-950 pt-16 pb-8">
       <div className="container-custom">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
           <div>
@@ -156,7 +156,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-charcoal-800">
+        <div className="pt-8 mt-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
               <p className="text-charcoal-500 text-sm">
