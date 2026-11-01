@@ -27,8 +27,9 @@ const lowestPlan = maintenancePlans.reduce((a, b) => (a.sedan < b.sedan ? a : b)
 
 const groups: { title: string; items: MenuItem[] }[] = [
   {
-    title: 'Full details',
+    title: 'Details',
     items: [
+      { name: 'Exterior Detail', note: 'Wash, clay and seal. Up to 6 months of protection.', price: size => `From ${money(service('exterior-detailing').pricing![size])}`, book: service('exterior-detailing').bookAs },
       { name: 'Signature Detail', note: 'Inside and out. About 2 hours.', price: pkgPrice('signature'), book: 'Signature Detail' },
       { name: 'Pristine Detail', note: 'Adds clay bar, seat shampoo and 6-month sealant.', price: pkgPrice('pristine'), book: 'Pristine Detail', popular: true },
       { name: 'The Perfect Detail', note: 'Adds a paint polish. Our deepest clean.', price: pkgPrice('perfect'), book: 'The Perfect Detail' },
@@ -101,9 +102,9 @@ export default function PriceMenu() {
 
         <div className="lg:col-span-8 grid md:grid-cols-2 gap-x-12 gap-y-12">
           {groups.map(group => (
-            <div key={group.title} className={group.title === 'Full details' ? 'md:col-span-2' : ''}>
-              <h3 data-reveal className="text-xl font-bold text-gold mb-4">{group.title}</h3>
-              <ul className={group.title === 'Full details' ? 'grid md:grid-cols-2 gap-x-12' : ''}>
+            <div key={group.title} className={group.title === 'Details' ? 'md:col-span-2' : ''}>
+              <h3 data-reveal className="text-xl font-bold text-white mb-4">{group.title}</h3>
+              <ul className={`grid gap-3 ${group.title === 'Details' ? 'md:grid-cols-2' : ''}`}>
                 {group.items.map((item, i) => {
                   const inner = (
                     <>
@@ -114,15 +115,16 @@ export default function PriceMenu() {
                         </span>
                         <span className="block mt-0.5 text-base text-charcoal-300 leading-snug">{item.note}</span>
                       </span>
-                      <span className="flex-shrink-0 text-[17px] font-semibold text-white tabular-nums text-right">
-                        {item.price(size)}
+                      <span className="flex-shrink-0 text-right">
+                        <span className="block text-lg font-bold text-gold tabular-nums">{item.price(size)}</span>
+                        <span className="block mt-1 text-sm font-semibold text-accent">{item.to ? 'See plans' : 'Book'} →</span>
                       </span>
                     </>
                   );
                   const rowClass =
-                    'group w-full flex items-start justify-between gap-6 py-4 text-left rounded-md md:-mx-3 md:px-3 hover:bg-charcoal-800 transition-colors';
+                    'group w-full h-full flex items-start justify-between gap-4 p-4 md:p-5 text-left rounded-lg bg-charcoal-800 hover:bg-charcoal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent transition-colors';
                   return (
-                    <li key={item.name} data-reveal style={{ ['--d' as string]: `${i * 60}ms` }}>
+                    <li key={item.name} className="h-full" data-reveal style={{ ['--d' as string]: `${i * 60}ms` }}>
                       {item.to ? (
                         <Link to={item.to} className={rowClass}>{inner}</Link>
                       ) : (
