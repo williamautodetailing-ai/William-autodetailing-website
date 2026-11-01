@@ -19,15 +19,16 @@ import Hero from './components/Hero';
 
 
 import HowItWorks from './components/HowItWorks';
+import Results from './components/home/Results';
+import PriceMenu from './components/home/PriceMenu';
+import ClosingCta from './components/home/ClosingCta';
 
 
 
-import Services from './components/Services';
 
 
 
 import { services } from './data/services';
-import ServiceCards from './components/ServiceCards';
 
 
 
@@ -35,11 +36,9 @@ import Testimonials from './components/Testimonials';
 
 
 
-import ServiceArea from './components/ServiceArea';
 
 
 
-import About from './components/About';
 
 
 
@@ -60,9 +59,9 @@ import LeadFormModal from './components/LeadFormModal';
 
 
 
-import PromotionModal from './components/PromotionModal';
 
 import SEO from './components/SEO';
+import { useReveal } from './hooks/useReveal';
 
 
 
@@ -167,6 +166,7 @@ function ScrollToTop() {
 
 
 function HomePage() {
+  useReveal();
   return (
 
 
@@ -174,34 +174,17 @@ function HomePage() {
     <main>
       <SEO
         title="William's Auto Detailing | #1 Mobile Car Detailing in Miami, FL"
-        description="William's Auto Detailing — Miami's top-rated mobile car detailing. We come to your home, office, or apartment. Signature detail, deep-clean packages, ceramic coating, and add-ons. 5.0 stars · 180+ Google reviews. Serving all of Miami-Dade County."
+        description="William's Auto Detailing — Miami's top-rated mobile car detailing. We come to your home, office, or apartment. Signature detail, deep-clean packages, ceramic coating, and add-ons. 5.0 stars · 190+ Google reviews. Serving all of Miami-Dade County."
         keywords="mobile car detailing Miami, auto detailing Miami FL, ceramic coating Miami, car detailing Doral, mobile detailing near me, car detailing Miami-Dade, best car detailing Miami"
         canonical="/"
       />
 
       <Hero />
-
-
-
+      <Results />
+      <PriceMenu />
       <HowItWorks />
-
-
-
-      <Services />
-
-      <ServiceCards />
-
-
-
       <Testimonials />
-
-
-
-      <ServiceArea />
-
-
-
-      <About />
+      <ClosingCta />
 
 
 
@@ -355,10 +338,6 @@ function AppLayout() {
 
 
       <LeadFormModal />
-
-
-
-      <PromotionModal />
 
 
 
