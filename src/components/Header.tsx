@@ -48,14 +48,17 @@ export default function Header() {
     setIsServicesOpen(false);
   }, [location.pathname]);
 
-  const isHomePage = location.pathname === '/';
+  // Pages that open on a full-bleed photo get a see-through header until you scroll
+  const hasPhotoHero =
+    ['/', '/ceramic-coating', '/maintenance-club', '/detail-packages'].includes(location.pathname) ||
+    location.pathname.startsWith('/services/');
   const isActive = (href: string) => location.pathname === href;
 
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled || !isHomePage || isMobileMenuOpen
+          isScrolled || !hasPhotoHero || isMobileMenuOpen
             ? 'bg-charcoal-950 shadow-lg shadow-black/20'
             : 'bg-transparent'
         }`}
