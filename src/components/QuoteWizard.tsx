@@ -44,7 +44,8 @@ const TIMELINES: { id: string; desc: string; urgent?: boolean }[] = [
   { id: 'Just getting a quote', desc: 'Exploring options for now.' },
 ];
 
-const PROMO = 'Free Engine Bay Detail with every booking this month';
+// The one current promo — the booking form banner and the home page popup both use this
+export const PROMO = 'Free Engine Bay Detail with every booking this month';
 
 const pkgById = (id: string) => packages.find(p => p.id === id);
 const DETAIL_TIERS = ['signature', 'pristine', 'perfect'].map(pkgById).filter(Boolean) as DetailPackage[];
@@ -133,8 +134,8 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!firstName.trim() || !phone.trim() || !email.trim()) {
-      setErrorMsg('Please fill in your name, phone, and email.');
+    if (!firstName.trim() || !phone.trim()) {
+      setErrorMsg('Please fill in your name and phone.');
       return;
     }
     setErrorMsg('');
@@ -549,25 +550,34 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-charcoal-300 mb-1.5">First Name <span className="text-accent">*</span></label>
+                {/* text-base (16px) on inputs stops iOS Safari from zooming in on focus */}
                 <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Your first name"
-                  className="w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" required />
+                  autoComplete="given-name" autoCapitalize="words"
+                  className="w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-3 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" required />
               </div>
               <div>
-                <label className="block text-sm font-medium text-charcoal-300 mb-1.5">Phone <span className="text-accent">*</span></label>
+                <label className="block text-sm font-medium text-charcoal-300 mb-1.5">
+                  Phone <span className="text-accent">*</span> <span className="text-charcoal-500 font-normal">— to confirm your appointment</span>
+                </label>
                 <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="(786) 555-1234"
-                  className="w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" required />
+                  autoComplete="tel" inputMode="tel"
+                  className="w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-3 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" required />
               </div>
               <div>
-                <label className="block text-sm font-medium text-charcoal-300 mb-1.5">Email <span className="text-accent">*</span></label>
+                <label className="block text-sm font-medium text-charcoal-300 mb-1.5">
+                  Email <span className="text-charcoal-500 font-normal">(optional)</span>
+                </label>
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@email.com"
-                  className="w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" required />
+                  autoComplete="email" inputMode="email" autoCapitalize="off"
+                  className="w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-3 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-charcoal-300 mb-1.5">
                   Car Make/Model <span className="text-charcoal-500 font-normal">(optional)</span>
                 </label>
                 <input type="text" value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="e.g. 2022 White Tesla Model 3"
-                  className="w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-2.5 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-sm" />
+                  autoComplete="off"
+                  className="w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-3 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" />
               </div>
             </div>
 
