@@ -28,11 +28,16 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCitiesOpen, setIsCitiesOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [showFloatingCta, setShowFloatingCta] = useState(false);
   const location = useLocation();
   const { openModal } = useLeadModal();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+      // Floating Book Now appears once the page's own hero buttons have scrolled away
+      setShowFloatingCta(window.scrollY > 500);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -240,7 +245,11 @@ export default function Header() {
 
       <button
         onClick={() => openModal()}
-        className="fixed bottom-6 right-6 z-50 md:hidden btn-primary shadow-lg shadow-accent/30"
+        className={`fixed bottom-6 right-6 z-50 md:hidden btn-primary shadow-lg shadow-accent/30 transition-all duration-300 ${
+          showFloatingCta && !isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+        aria-hidden={!showFloatingCta || isMobileMenuOpen}
+        tabIndex={showFloatingCta && !isMobileMenuOpen ? 0 : -1}
       >
         Book Now
       </button>
