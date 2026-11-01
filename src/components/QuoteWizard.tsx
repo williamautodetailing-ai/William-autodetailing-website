@@ -28,7 +28,7 @@ function resolveDirectBooking(name: string): DirectBooking | null {
   const plan = maintenancePlans.find(p => maintenancePlanBookingName(p) === name);
   if (plan) return { label: name, pricing: { sedan: plan.sedan, suv: plan.suv }, perVisit: true };
   const service = services.find(s => s.bookAs === name || s.name === name);
-  if (service) return { label: service.name, priceText: service.price };
+  if (service) return { label: service.name, priceText: service.price, pricing: service.pricing };
   const addon = addons.find(a => a.name === name);
   if (addon) return { label: addon.name };
   return { label: name };
@@ -44,7 +44,7 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 const SERVICES = [
   { id: 'Full Detail', label: 'Full Detail', desc: 'Complete reset inside and out. Most popular service.', icon: Sparkles, popular: true },
   { id: 'Interior Detail', label: 'Interior Detail', desc: 'Deep clean of every surface inside.', icon: Brush },
-  { id: 'Exterior Detail', label: 'Exterior Detail', desc: 'Hand wash, clay bar, iron decon, and wax protection.', icon: Droplets },
+  { id: 'Exterior Detail', label: 'Exterior Detail', desc: 'Wash, clay and seal. Up to 6 months of protection.', icon: Droplets },
   { id: 'Ceramic / Paint Correction', label: 'Ceramic Coating / Paint Correction', desc: 'Remove swirls and scratches, or protect the paint for years.', icon: Shield },
 ] as const;
 
@@ -162,8 +162,14 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
     setTimeout(() => setStep(s => nextStep(s)), 180);
   }
 
+  // Interior / Exterior have their own prices, so they switch to the short direct flow
+  const SERVICE_PAGES: Record<string, string> = { 'Interior Detail': 'Interior Detailing', 'Exterior Detail': 'Exterior Detailing' };
+
   function chooseService(serviceId: string) {
-    setService(serviceId);
+    const directName = SERVICE_PAGES[serviceId];
+    const nextDirect = directName ? resolveDirectBooking(directName) : null;
+    setDirect(nextDirect);
+    setService(nextDirect ? nextDirect.label : serviceId);
     setPkgId('');
     setTimeout(() => setStep(2), 180);
   }
@@ -404,7 +410,7 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
                       <span className="block text-charcoal-400 text-xs mt-0.5">{opt.desc}</span>
                     </span>
                     {optPrice != null && (
-                      <span className="text-xl font-bold gradient-text leading-none flex-shrink-0">${optPrice}</span>
+                      <span className="text-xl font-bold text-gold leading-none flex-shrink-0">${optPrice}</span>
                     )}
                     <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ${active ? 'border-accent bg-accent' : 'border-charcoal-600'}`} />
                   </button>
@@ -483,7 +489,7 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
                       </div>
                       <div className="text-right flex-shrink-0">
                         {price != null
-                          ? <p className="text-xl font-bold gradient-text leading-none">${price}{isCeramic ? '+' : ''}</p>
+                          ? <p className="text-xl font-bold text-gold leading-none">${price}{isCeramic ? '+' : ''}</p>
                           : <p className="text-sm font-bold text-gold leading-tight">Custom<br/>Quote</p>}
                       </div>
                     </div>
