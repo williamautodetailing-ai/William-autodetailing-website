@@ -1,59 +1,49 @@
-import { Calendar, MapPin, Car } from 'lucide-react';
-
-const steps = [
+// Three stages, each a real photo and one sentence.
+const stages = [
   {
-    icon: Calendar,
-    title: 'Book Online',
-    description: 'Choose your package and schedule a time that works for you. Book in under 2 minutes.',
+    title: 'Pick your detail.',
+    text: 'Choose a service and a day. No payment up front.',
+    src: '/images/optimized/work/interior-detail-bmw-black-leather.webp',
+    alt: 'BMW interior ready for a detail',
   },
   {
-    icon: MapPin,
-    title: 'We Come to You',
-    description: 'Our mobile unit arrives at your location with all the professional equipment needed.',
+    title: 'We come to you.',
+    text: 'Home, office or apartment, anywhere in Miami-Dade.',
+    src: '/images/optimized/work/foam-bath-hand-wash-bmw-m2.webp',
+    alt: 'BMW M2 covered in foam during a mobile hand wash',
   },
   {
-    icon: Car,
-    title: 'Drive Away Spotless',
-    description: 'Relax while we work. Your car will look and feel brand new when we finish.',
+    title: 'Drive away spotless.',
+    text: 'Most details take 2 to 5 hours, start to finish.',
+    src: '/images/optimized/work/porsche-gt3-rs-mobile-detail-miami.webp',
+    alt: 'Two freshly detailed Porsche 911 GT3 RS cars in a Miami driveway',
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-16 md:py-20 bg-charcoal-950 relative overflow-hidden">
-      <div className="decorative-blur absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-[160px]" />
-
-      <div className="container-custom relative z-10">
-        <div className="text-center mb-10">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3">
-            How It <span className="gradient-text">Works</span>
-          </h2>
-          <p className="text-charcoal-300 max-w-xl mx-auto">
-            Three simple steps to a spotless vehicle — no drop-off, no waiting rooms.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-5 max-w-4xl mx-auto">
-          {steps.map((step, index) => (
-            <div
-              key={step.title}
-              className="flex gap-4 items-start bg-charcoal-800/50 border border-charcoal-700 rounded-2xl p-5 hover:border-accent/40 transition-colors"
-            >
-              <div className="flex-shrink-0 relative">
-                <div className="w-12 h-12 rounded-full bg-accent/15 border border-accent/25 flex items-center justify-center">
-                  <step.icon className="w-5 h-5 text-accent" />
-                </div>
-                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-accent text-charcoal-950 text-xs font-bold flex items-center justify-center">
-                  {index + 1}
-                </span>
-              </div>
-              <div>
-                <h3 className="font-bold text-white mb-1">{step.title}</h3>
-                <p className="text-charcoal-300 text-sm leading-relaxed">{step.description}</p>
-              </div>
-            </div>
+    <section id="how-it-works" className="py-24 md:py-36 bg-charcoal-950">
+      <div className="container-custom">
+        <h2 data-reveal className="font-display text-4xl md:text-6xl font-bold text-white tracking-tight mb-10 md:mb-14">
+          Booked in 2 minutes.
+        </h2>
+        <ol className="grid sm:grid-cols-3 gap-10 sm:gap-6 lg:gap-10">
+          {stages.map((s, i) => (
+            <li key={s.title} data-reveal style={{ ['--d' as string]: `${i * 90}ms` }}>
+              <img
+                src={s.src}
+                alt={s.alt}
+                loading="lazy"
+                decoding="async"
+                width={800}
+                height={1000}
+                className="w-full aspect-[4/5] object-cover"
+              />
+              <h3 className="mt-5 font-display text-2xl md:text-3xl font-bold text-white">{s.title}</h3>
+              <p className="mt-2 text-lg text-charcoal-200">{s.text}</p>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
