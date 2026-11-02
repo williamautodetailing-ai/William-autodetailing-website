@@ -166,6 +166,14 @@ export default function Header() {
               </button>
             </div>
 
+            <a
+              href={`tel:${PHONE.replace(/\D/g, '')}`}
+              className="md:hidden ml-auto -mr-3 flex items-center justify-center w-11 h-11 flex-shrink-0 rounded-full bg-accent text-charcoal-950"
+              aria-label={`Call ${PHONE}`}
+            >
+              <Phone className="w-5 h-5" />
+            </a>
+
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="xl:hidden p-2 text-charcoal-200 hover:text-white"
