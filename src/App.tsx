@@ -102,6 +102,7 @@ const SpecialOfferPage = lazy(() => import('./pages/SpecialOfferPage'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const ServicePage = lazy(() => import('./pages/ServicePage'));
 const MaintenanceClubPage = lazy(() => import('./pages/MaintenanceClubPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 
 
@@ -252,7 +253,8 @@ function AppLayout() {
 
   const location = useLocation();
 
-  const isLanding = location.pathname === '/book' || location.pathname === '/199-special';
+  const path = location.pathname.replace(/\/$/, '');
+  const isLanding = path === '/book' || path === '/199-special';
 
 
 
@@ -321,7 +323,7 @@ function AppLayout() {
 
 
 
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
 
 
 
