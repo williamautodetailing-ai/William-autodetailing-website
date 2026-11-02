@@ -29,8 +29,8 @@ const REVIEWS = '190';
 
 const pageMeta = {
   '/': {
-    title: `${BUSINESS} | #1 Mobile Car Detailing in Miami, FL`,
-    description: `${BUSINESS} — Miami's top-rated mobile car detailing. We come to your home, office, or apartment. Signature detail, deep-clean packages, ceramic coating, and add-ons. ${RATING} stars · ${REVIEWS}+ Google reviews. Serving all of Miami-Dade County.`,
+    title: `Mobile Auto Detailing Miami & Doral | ${BUSINESS}`,
+    description: `Professional mobile car detailing in Miami, Doral and surrounding areas. Interior and exterior detailing, ceramic coatings and paint correction. Book today.`,
   },
   '/ceramic-coating': {
     title: `Ceramic Coating Miami — 2–5 Year Paint Protection | ${BUSINESS}`,
