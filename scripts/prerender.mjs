@@ -1,13 +1,26 @@
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
-const { render, routes, ceramicCities, services } = await import(join(root, '.ssr-tmp/entry-server.js'));
+const { render, routes, ceramicCities, services, notFoundRoute } = await import(
+  pathToFileURL(join(root, '.ssr-tmp/entry-server.js')).href
+);
 
-const template = readFileSync(join(root, 'dist/index.html'), 'utf-8');
+// Keep a pristine copy of the built shell, so running this script a second time
+// (e.g. a host that runs both `vite build` and the old build script) still works.
+const EMPTY_ROOT = '<div id="root"></div>';
+const shellCopy = join(root, 'node_modules/.prerender-shell.html');
+let template = readFileSync(join(root, 'dist/index.html'), 'utf-8');
+if (template.includes(EMPTY_ROOT)) {
+  writeFileSync(shellCopy, template);
+} else if (existsSync(shellCopy)) {
+  template = readFileSync(shellCopy, 'utf-8');
+} else {
+  throw new Error('[prerender] dist/index.html is already pre-rendered and no clean copy exists. Run a fresh build.');
+}
 
 const SITE_URL = 'https://williamautodetailing.net';
 const BUSINESS = "William's Auto Detailing";
@@ -38,6 +51,18 @@ const pageMeta = {
   '/maintenance-club': {
     title: `Maintenance Club — Car Detailing Membership Miami | ${BUSINESS}`,
     description: `Join the Maintenance Club: weekly, bi-weekly or monthly mobile maintenance details in Miami-Dade. 1 free scratch or stain removal each month and 5–50% off premium add-ons.`,
+  },
+  '/book': {
+    title: `Mobile Detailing Miami — Premium Results in Your Driveway | ${BUSINESS}`,
+    description: `Miami's top-rated mobile car detailing. We come to your home or office fully equipped. Instant quote, no payment to book. ${RATING}★ · ${REVIEWS}+ reviews.`,
+  },
+  '/refer': {
+    title: `Give a Wax, Get a Wax — Referral Program | ${BUSINESS}`,
+    description: `Refer a friend to ${BUSINESS} and you both get a free one-time upgrade from basic wax to premium wax/sealant. No cost, no catch.`,
+  },
+  '/199-special': {
+    title: `Signature Detail Special — Mobile Detailing Miami | ${BUSINESS}`,
+    description: `Signature Detail + upgraded windshield sealant + engine bay detail. We come to you anywhere in Miami-Dade. ${RATING}★ · ${REVIEWS}+ reviews.`,
   },
   '/privacy-policy': {
     title: `Privacy Policy | ${BUSINESS}`,
@@ -90,20 +115,11 @@ function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
 
-for (const url of routes) {
-  let appHtml;
-  try {
-    appHtml = render(url);
-  } catch (e) {
-    console.warn(`[prerender] skipping ${url} — render error:`, e.message);
-    continue;
-  }
-
-  const meta = getMeta(url);
+function page(url, appHtml, meta) {
   const canonical = `${SITE_URL}${url === '/' ? '/' : url}`;
 
-  let html = template
-    .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
+  return template
+    .replace(EMPTY_ROOT, `<div id="root">${appHtml}</div>`)
     .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(meta.title)}</title>`)
     .replace(
       /<meta name="description" content="[^"]*"/,
@@ -133,6 +149,20 @@ for (const url of routes) {
       /<meta name="twitter:description" content="[^"]*"/,
       `<meta name="twitter:description" content="${escapeHtml(meta.description)}"`
     );
+}
+
+// Every route must render: a missing page would be served as the 404 page,
+// so a render error fails the build instead of shipping a broken site.
+const failed = [];
+for (const url of routes) {
+  let html;
+  try {
+    html = page(url, render(url), getMeta(url));
+  } catch (e) {
+    console.error(`[prerender] ${url} — render error:`, e.message);
+    failed.push(url);
+    continue;
+  }
 
   const filePath = url === '/'
     ? join(root, 'dist/index.html')
@@ -143,4 +173,19 @@ for (const url of routes) {
   console.log(`[prerender] wrote ${filePath}`);
 }
 
-console.log('[prerender] done');
+if (failed.length) {
+  throw new Error(`[prerender] ${failed.length} page(s) failed to render: ${failed.join(', ')}`);
+}
+
+// Served by Netlify (see public/_redirects) with a 404 status for any unknown URL.
+// No canonical, and noindex so it never enters search results.
+const notFound = page(notFoundRoute, render(notFoundRoute), {
+  title: `Page not found | ${BUSINESS}`,
+  description: `This page doesn't exist. Book a mobile detail with ${BUSINESS} anywhere in Miami-Dade.`,
+})
+  .replace(/\s*<link rel="canonical" href="[^"]*"\s*\/?>/, '')
+  .replace(/<meta name="robots" content="[^"]*"/, '<meta name="robots" content="noindex"');
+writeFileSync(join(root, 'dist/404.html'), notFound);
+console.log('[prerender] wrote 404.html');
+
+console.log(`[prerender] done — ${routes.length} pages`);
