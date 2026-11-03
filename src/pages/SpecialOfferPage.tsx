@@ -1,6 +1,7 @@
-import { Phone, Star, MapPin, ShieldCheck, Car, Award, Clock, Check, ArrowRight, Instagram, Sparkles, Droplets, Wrench } from 'lucide-react';
+import { Phone, Star, Check, ArrowRight, Instagram } from 'lucide-react';
 import QuoteWizard from '../components/QuoteWizard';
 import SEO from '../components/SEO';
+import { useReveal } from '../hooks/useReveal';
 import { SIGNATURE_199_SPECIAL as OFFER } from '../data/offers';
 import {
   BUSINESS_NAME, PHONE, INSTAGRAM_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT,
@@ -8,22 +9,28 @@ import {
 
 const telHref = `tel:${PHONE.replace(/\D/g, '')}`;
 
-const UPGRADE_ICONS = [Droplets, Wrench];
-
 const STEPS = [
-  { icon: Phone, title: 'Claim your price', desc: 'Pick your vehicle size and lock in the special in under 60 seconds.' },
-  { icon: Car, title: 'We come to you', desc: 'Fully equipped, right to your driveway — no drop-offs, no waiting rooms.' },
-  { icon: Award, title: 'Drive a head-turner', desc: 'Showroom-level results, every time, backed by our guarantee.' },
+  { title: 'Claim your price', desc: 'Pick your vehicle size and lock in the special in under 60 seconds.' },
+  { title: 'We come to you', desc: 'Fully equipped, right to your driveway — no drop-offs, no waiting rooms.' },
+  { title: 'Drive a head-turner', desc: 'Showroom-level results, every time, backed by our guarantee.' },
 ];
 
 const PERKS = [
-  { icon: MapPin, label: 'Fully Mobile', sub: 'All of Miami-Dade' },
-  { icon: ShieldCheck, label: '$1M Insured', sub: 'Your car is protected' },
-  { icon: Star, label: `${GOOGLE_RATING} Rated`, sub: `${GOOGLE_REVIEW_COUNT}+ reviews` },
-  { icon: Clock, label: 'No Payment to Book', sub: 'Pay after you inspect' },
+  { label: 'Fully Mobile', sub: 'All of Miami-Dade' },
+  { label: '$1M Insured', sub: 'Your car is protected' },
+  { label: `${GOOGLE_RATING} Rated`, sub: `${GOOGLE_REVIEW_COUNT}+ reviews` },
+  { label: 'No Payment to Book', sub: 'Pay after you inspect' },
 ];
 
+const PRICES = [
+  { label: 'Sedan / Coupe', price: OFFER.pricing.sedan },
+  { label: 'SUV / Truck', price: OFFER.pricing.suv },
+];
+
+// Landing page in the home page's style, with the booking wizard kept in the hero. No site nav, to reduce exits.
 export default function SpecialOfferPage() {
+  useReveal();
+
   const scrollToQuote = () =>
     document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
@@ -34,105 +41,101 @@ export default function SpecialOfferPage() {
         description={`Signature Detail + upgraded windshield sealant + engine bay detail. $${OFFER.pricing.sedan} sedans, $${OFFER.pricing.suv} SUVs & trucks. We come to you anywhere in Miami-Dade. ${GOOGLE_RATING}★ · ${GOOGLE_REVIEW_COUNT}+ reviews.`}
         canonical="/199-special"
       />
-      {/* Minimal top bar — no nav, reduce exits */}
+
+      {/* Minimal top bar */}
       <header className="absolute top-0 inset-x-0 z-30">
-        <div className="container-custom flex items-center justify-between h-20">
+        <div className="container-custom flex items-center justify-between h-24 md:h-32">
           <img
             src="/images/optimized/williams-logo.webp"
             alt={BUSINESS_NAME}
-            className="h-14 w-auto object-contain"
-            width={160}
-            height={160}
+            className="h-20 md:h-28 w-auto object-contain"
+            width={256}
+            height={256}
             fetchpriority="high"
           />
-          <a href={telHref} className="flex items-center gap-2 text-sm font-semibold text-white hover:text-accent transition-colors">
-            <Phone className="w-4 h-4 text-accent" />
-            <span className="hidden sm:inline">{PHONE}</span>
-            <span className="sm:hidden">Call</span>
+          <a
+            href={telHref}
+            className="sm:hidden flex items-center justify-center w-11 h-11 flex-shrink-0 rounded-full bg-accent text-charcoal-950"
+            aria-label={`Call ${PHONE}`}
+          >
+            <Phone className="w-5 h-5" />
+          </a>
+          <a href={telHref} className="hidden sm:flex items-center gap-2 text-white font-semibold hover:text-accent transition-colors">
+            <Phone className="w-5 h-5 text-accent" /> {PHONE}
           </a>
         </div>
       </header>
 
-      {/* HERO + embedded wizard */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
+      {/* Hero + embedded wizard */}
+      <section className="relative overflow-hidden lg:min-h-[78svh] lg:flex lg:items-end">
+        <div className="absolute inset-x-0 top-0 h-[78svh] lg:h-full overflow-hidden">
           <img
             src="/images/optimized/hero-porsche.webp"
+            srcSet="/images/optimized/hero-porsche-480.webp 480w, /images/optimized/hero-porsche-768.webp 768w, /images/optimized/hero-porsche.webp 1200w"
+            sizes="100vw"
             alt="Mobile car detailing in Miami"
-            className="w-full h-full object-cover opacity-40"
+            className="hero-drift absolute inset-0 w-full h-full object-cover object-top"
             width={1200}
             height={1053}
             fetchpriority="high"
+            decoding="async"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/80 to-charcoal-950/60" />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal-950/80 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-charcoal-950 via-charcoal-950/80 to-transparent" />
+          <div className="hidden lg:block absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-charcoal-950/80 to-transparent" />
         </div>
 
-        <div className="relative container-custom grid lg:grid-cols-2 gap-10 lg:gap-12 items-center pt-28 pb-14 lg:pt-32 lg:pb-20">
-          {/* Left — offer */}
-          <div className="animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/40 mb-5">
-              <Sparkles className="w-3.5 h-3.5 text-gold" />
-              <span className="text-gold text-xs font-bold tracking-widest uppercase">Limited-Time Special</span>
-            </div>
+        <div className="relative z-10 container-custom w-full grid lg:grid-cols-2 gap-10 lg:gap-12 lg:items-end pt-36 pb-12 md:pb-16">
+          {/* Left: the offer */}
+          <div>
+            <span data-reveal className="badge-gold mb-5">LIMITED-TIME SPECIAL</span>
 
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] mb-5">
+            <h1
+              data-reveal
+              className="font-display font-bold text-white tracking-tight leading-[0.98] text-[clamp(40px,4.6vw,72px)] max-w-[16ch]"
+            >
               Signature Detail + Upgrades
-              <span className="block gradient-text mt-1">Just ${OFFER.pricing.sedan}.</span>
+              <span className="block mt-1">Just ${OFFER.pricing.sedan}.</span>
             </h1>
 
-            <p className="text-charcoal-300 text-lg mb-6 max-w-xl">
-              Our full Signature Detail inside and out — plus an <span className="text-white font-medium">upgraded windshield sealant</span> and
-              an <span className="text-white font-medium">engine bay detail</span>. Done in your driveway.
+            <p data-reveal style={{ ['--d' as string]: '80ms' }} className="mt-5 text-lg md:text-xl text-white/90 max-w-xl">
+              Our full Signature Detail inside and out — plus an upgraded windshield sealant and an engine bay detail. Done in your driveway.
             </p>
 
-            {/* Price cards */}
-            <div className="grid grid-cols-2 gap-3 mb-6 max-w-md">
-              <div className="bg-charcoal-900/80 border border-charcoal-700 rounded-xl px-4 py-3.5">
-                <p className="text-charcoal-400 text-xs font-semibold uppercase tracking-wide">🚗 Sedan / Coupe</p>
-                <p className="text-3xl font-bold gradient-text leading-tight mt-1">${OFFER.pricing.sedan}</p>
-              </div>
-              <div className="bg-charcoal-900/80 border border-charcoal-700 rounded-xl px-4 py-3.5">
-                <p className="text-charcoal-400 text-xs font-semibold uppercase tracking-wide">🚙 SUV / Truck</p>
-                <p className="text-3xl font-bold gradient-text leading-tight mt-1">${OFFER.pricing.suv}</p>
-              </div>
+            <div data-reveal style={{ ['--d' as string]: '120ms' }} className="mt-7 flex flex-wrap gap-3">
+              {PRICES.map((p) => (
+                <div key={p.label} className="inline-flex flex-col justify-center px-5 py-3 rounded-lg bg-charcoal-800">
+                  <span className="text-xl font-bold text-gold tabular-nums leading-tight">${p.price}</span>
+                  <span className="text-sm text-charcoal-300">{p.label}</span>
+                </div>
+              ))}
             </div>
 
-            <div className="flex items-center gap-2 mb-8 text-charcoal-300 text-sm">
-              <span className="flex items-center gap-0.5">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-gold fill-gold" />)}
-              </span>
-              <span className="font-semibold text-white">{GOOGLE_RATING}</span>
-              <span>· {GOOGLE_REVIEW_COUNT} Google Reviews</span>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button onClick={scrollToQuote} className="btn-primary text-base py-4 px-7 justify-center">
+            <div data-reveal style={{ ['--d' as string]: '160ms' }} className="mt-7 flex flex-col sm:flex-row sm:items-center gap-4">
+              <button onClick={scrollToQuote} className="btn-primary text-lg px-8 py-4">
                 Claim the ${OFFER.pricing.sedan} Special <ArrowRight className="w-5 h-5" />
               </button>
-              <a href={telHref} className="btn-secondary text-base py-4 px-7 justify-center">
-                <Phone className="w-5 h-5" /> Call Now
+              <a href={telHref} className="inline-flex items-center justify-center gap-2 text-white font-semibold hover:text-accent transition-colors py-2">
+                <Phone className="w-5 h-5 text-accent" /> Call {PHONE}
               </a>
             </div>
+
+            <p data-reveal style={{ ['--d' as string]: '240ms' }} className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-1 text-white/85 text-base">
+              <span className="flex items-center gap-0.5" aria-hidden="true">
+                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-gold fill-gold" />)}
+              </span>
+              <span>{GOOGLE_RATING} from {GOOGLE_REVIEW_COUNT} Google reviews</span>
+              <span aria-hidden="true">·</span>
+              <span>No payment to book</span>
+            </p>
           </div>
 
-          {/* Right — embedded quote wizard, offer pre-loaded */}
-          <div id="quote" className="scroll-mt-24">
-            <div className="w-full max-w-lg mx-auto bg-charcoal-900 border border-charcoal-700 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden">
-              <div className="flex items-center gap-3 px-5 sm:px-6 py-4 border-b border-charcoal-800 bg-gradient-to-r from-charcoal-900 to-charcoal-800">
-                <img
-                  src="/images/optimized/williams-logo.webp"
-                  alt={BUSINESS_NAME}
-                  className="h-10 w-auto object-contain flex-shrink-0"
-                  width={64}
-                  height={64}
-                />
-                <div>
-                  <p className="text-gold text-[10px] font-bold tracking-widest uppercase">Special Offer</p>
-                  <h2 className="text-base sm:text-lg font-bold text-white leading-tight">
-                    Lock In Your <span className="gradient-text">${OFFER.pricing.sedan} Detail</span>
-                  </h2>
-                </div>
+          {/* Right: quote wizard with the offer pre-loaded */}
+          <div id="quote" className="scroll-mt-6">
+            <div className="w-full max-w-lg mx-auto bg-charcoal-900 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden">
+              <div className="px-5 sm:px-6 py-4 border-b border-charcoal-800">
+                <h2 className="font-display text-xl font-bold text-white tracking-tight">
+                  Lock In Your ${OFFER.pricing.sedan} Detail
+                </h2>
               </div>
               <QuoteWizard offer={OFFER} />
             </div>
@@ -141,117 +144,111 @@ export default function SpecialOfferPage() {
       </section>
 
       {/* Trust perks */}
-      <section className="border-y border-charcoal-800 bg-charcoal-900/40">
-        <div className="container-custom grid grid-cols-2 lg:grid-cols-4 gap-4 py-8">
-          {PERKS.map(p => {
-            const Icon = p.icon;
-            return (
-              <div key={p.label} className="flex items-center gap-3">
-                <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-accent/10 border border-accent/25 flex-shrink-0">
-                  <Icon className="w-5 h-5 text-accent" />
-                </span>
-                <div>
-                  <p className="text-white font-semibold text-sm leading-tight">{p.label}</p>
-                  <p className="text-charcoal-400 text-xs">{p.sub}</p>
-                </div>
-              </div>
-            );
-          })}
+      <section className="bg-charcoal-900">
+        <div className="container-custom grid grid-cols-2 lg:grid-cols-4 gap-6 py-10">
+          {PERKS.map((p) => (
+            <div key={p.label}>
+              <p className="text-white font-semibold leading-tight">{p.label}</p>
+              <p className="mt-1 text-charcoal-300 text-sm">{p.sub}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* What's included */}
-      <section className="container-custom py-16 lg:py-20">
-        <div className="text-center mb-12">
-          <p className="text-accent text-xs font-bold tracking-widest uppercase mb-2">What's Included</p>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold">Everything in the ${OFFER.pricing.sedan} Special</h2>
-        </div>
+      <section className="section-padding bg-charcoal-950">
+        <div className="container-custom">
+          <h2 data-reveal className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight text-center mb-12">
+            Everything in the ${OFFER.pricing.sedan} Special
+          </h2>
 
-        <div className="grid lg:grid-cols-5 gap-6">
-          {/* Upgrades */}
-          <div className="lg:col-span-2 space-y-4">
-            {OFFER.upgrades.map((u, i) => {
-              const Icon = UPGRADE_ICONS[i] ?? Sparkles;
-              return (
-                <div key={u.title} className="relative bg-gradient-to-br from-gold/10 to-charcoal-900 border border-gold/40 rounded-2xl p-6">
-                  <span className="absolute -top-2.5 right-5 text-[10px] font-bold uppercase tracking-wide text-charcoal-950 bg-gold px-2 py-0.5 rounded-full">
-                    Included
-                  </span>
-                  <Icon className="w-8 h-8 text-gold mb-3" />
-                  <h3 className="text-lg font-bold text-white mb-1.5">{u.title}</h3>
-                  <p className="text-charcoal-400 text-sm leading-relaxed">{u.desc}</p>
+          <div className="grid lg:grid-cols-5 gap-6">
+            {/* Upgrades */}
+            <div className="lg:col-span-2 space-y-6">
+              {OFFER.upgrades.map((u) => (
+                <div key={u.title} className="relative bg-charcoal-800 border border-gold/60 rounded-2xl p-6">
+                  <span className="badge-gold absolute -top-3 right-5">INCLUDED</span>
+                  <h3 className="text-lg font-bold text-white mb-2">{u.title}</h3>
+                  <p className="text-charcoal-300 text-base leading-relaxed">{u.desc}</p>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Base Signature Detail */}
-          <div className="lg:col-span-3 bg-charcoal-900 border border-charcoal-700 rounded-2xl p-6 sm:p-8">
-            <p className="text-accent text-xs font-bold tracking-widest uppercase mb-1">Plus the full</p>
-            <h3 className="text-2xl font-bold text-white mb-5">Signature Detail</h3>
-            <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
-              {OFFER.features.map(f => (
-                <li key={f} className="flex items-start gap-2.5 text-charcoal-200 text-sm">
-                  <Check className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-                  <span>{f}</span>
-                </li>
               ))}
-            </ul>
+            </div>
+
+            {/* Base Signature Detail */}
+            <div className="lg:col-span-3 bg-charcoal-800 rounded-2xl p-6 sm:p-8">
+              <p className="text-charcoal-300 text-base mb-1">Plus the full</p>
+              <h3 className="font-display text-2xl font-bold text-white mb-5">Signature Detail</h3>
+              <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
+                {OFFER.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2 text-sm text-charcoal-300">
+                    <Check className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
       {/* How it works */}
-      <section className="container-custom pb-16 lg:pb-20">
-        <div className="text-center mb-12">
-          <p className="text-accent text-xs font-bold tracking-widest uppercase mb-2">How It Works</p>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold">Booked in 60 seconds. Detailed at your door.</h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {STEPS.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <div key={s.title} className="relative bg-charcoal-900 border border-charcoal-700 rounded-2xl p-6">
-                <span className="absolute -top-3 -left-3 w-9 h-9 rounded-full bg-accent text-charcoal-950 font-bold flex items-center justify-center text-sm">{i + 1}</span>
-                <Icon className="w-8 h-8 text-accent mb-4" />
-                <h3 className="text-lg font-bold text-white mb-1.5">{s.title}</h3>
-                <p className="text-charcoal-400 text-sm leading-relaxed">{s.desc}</p>
+      <section className="section-padding bg-charcoal-900">
+        <div className="container-custom">
+          <h2 data-reveal className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight text-center mb-12">
+            Booked in 60 seconds. Detailed at your door.
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {STEPS.map((s) => (
+              <div key={s.title} className="text-center bg-charcoal-800 rounded-2xl p-8">
+                <h3 className="text-lg font-bold text-white mb-2">{s.title}</h3>
+                <p className="text-charcoal-300 text-base leading-relaxed">{s.desc}</p>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="relative overflow-hidden border-t border-charcoal-800">
-        <div className="absolute inset-0 bg-gradient-to-r from-gold/10 via-accent/5 to-transparent" />
-        <div className="relative container-custom py-16 text-center">
-          <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3">
-            ${OFFER.pricing.sedan} sedans · ${OFFER.pricing.suv} SUVs & trucks
-          </h2>
-          <p className="text-charcoal-300 mb-8 max-w-xl mx-auto">
-            Signature Detail, upgraded windshield sealant and engine bay detail — no payment to book, satisfaction guaranteed.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <button onClick={scrollToQuote} className="btn-primary text-base py-4 px-8 justify-center">
-              Claim the Special <ArrowRight className="w-5 h-5" />
-            </button>
-            <a href={telHref} className="btn-secondary text-base py-4 px-8 justify-center">
-              <Phone className="w-5 h-5" /> {PHONE}
+      {/* Closing offer: same layout as ClosingCta, but the button returns to the wizard so the offer stays loaded */}
+      <section className="bg-charcoal-950 lg:grid lg:grid-cols-2 lg:min-h-[80svh]">
+        <img
+          src="/images/optimized/work/exterior-detail-corvette-grand-sport.webp"
+          alt="Silver Corvette Grand Sport after an exterior detail in Miami"
+          loading="lazy"
+          decoding="async"
+          width={1000}
+          height={1333}
+          className="w-full h-[56svh] lg:h-full object-cover object-[40%_60%]"
+        />
+
+        <div className="container-custom lg:mx-0 lg:max-w-none flex items-center py-16 lg:px-16 xl:px-24">
+          <div className="max-w-md">
+            <h2 data-reveal className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight">
+              ${OFFER.pricing.sedan} sedans · ${OFFER.pricing.suv} SUVs & trucks
+            </h2>
+            <p data-reveal style={{ ['--d' as string]: '80ms' }} className="mt-4 text-lg text-charcoal-200">
+              Signature Detail, upgraded windshield sealant and engine bay detail — no payment to book, satisfaction guaranteed.
+            </p>
+            <div data-reveal style={{ ['--d' as string]: '160ms' }} className="mt-8">
+              <button onClick={scrollToQuote} className="btn-primary text-lg px-8 py-4">
+                Claim the Special <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+            <a href={telHref} className="mt-5 inline-flex items-center gap-2 text-white hover:text-accent font-semibold transition-colors">
+              <Phone className="w-4 h-4 text-accent" /> or call {PHONE}
             </a>
           </div>
         </div>
       </section>
 
       {/* Minimal footer */}
-      <footer className="border-t border-charcoal-800 bg-charcoal-950">
+      <footer className="bg-charcoal-900">
         <div className="container-custom py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-charcoal-500 text-sm">© {new Date().getFullYear()} {BUSINESS_NAME} · Mobile detailing across Miami-Dade</p>
+          <p className="text-charcoal-400 text-sm text-center sm:text-left">© {new Date().getFullYear()} {BUSINESS_NAME} · Mobile detailing across Miami-Dade</p>
           <div className="flex items-center gap-5">
             <a href={telHref} className="flex items-center gap-1.5 text-charcoal-300 hover:text-accent text-sm transition-colors">
               <Phone className="w-4 h-4" /> {PHONE}
             </a>
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="text-charcoal-300 hover:text-accent transition-colors">
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-charcoal-300 hover:text-accent transition-colors">
               <Instagram className="w-5 h-5" />
             </a>
           </div>
