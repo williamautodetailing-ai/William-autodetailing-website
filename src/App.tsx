@@ -22,6 +22,7 @@ import HowItWorks from './components/HowItWorks';
 import Results from './components/home/Results';
 import PriceMenu from './components/home/PriceMenu';
 import ClosingCta from './components/home/ClosingCta';
+import ServiceAreas from './components/home/ServiceAreas';
 
 
 
@@ -185,6 +186,7 @@ function HomePage() {
       <PriceMenu />
       <HowItWorks />
       <Testimonials />
+      <ServiceAreas />
       <ClosingCta />
 
 
