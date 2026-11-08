@@ -44,7 +44,7 @@ export default function ClosingCta({
           </h2>
           <p data-reveal style={{ ['--d' as string]: '80ms' }} className="mt-4 text-lg text-charcoal-200">
             Based in Doral, serving all of{' '}
-            <Link to="/areas/miami-mobile-detailing" className="text-white underline underline-offset-4 hover:text-accent">Miami-Dade</Link>.
+            <Link to="/areas/miami-mobile-detailing/" className="text-white underline underline-offset-4 hover:text-accent">Miami-Dade</Link>.
             Open 7 days, 9am to 6pm.
           </p>
           <div data-reveal style={{ ['--d' as string]: '160ms' }} className="mt-8 flex flex-col sm:flex-row gap-3">
