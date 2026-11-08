@@ -1,36 +1,83 @@
 import { MapPin, Star, Check, Shield, Droplets, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import type { CityData } from '../data/cities';
+import { cityPages, cityMetaTitle, cityMetaDescription, type CityData } from '../data/cities';
 import { packages } from '../data/packages';
 import { ceramicCities } from '../data/ceramicCities';
 import { services } from '../data/services';
 import { BUSINESS_NAME, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, TRAVEL_FEE_MILES, BASE_CITY } from '../constants';
 import { useLeadModal } from '../context/LeadModalContext';
 import SEO from '../components/SEO';
+import { fallbackTestimonials } from '../components/Testimonials';
+
+const SITE_URL = 'https://williamautodetailing.net';
 
 interface CityPageProps {
   city: CityData;
 }
 
-const testimonials = [
-  { name: 'Carlos M.', quote: "William did an amazing job on my car. Came right to my house — zero hassle.", rating: 5 },
-  { name: 'Maria G.', quote: "The Pristine Detail made my SUV look brand new. Outstanding service!", rating: 5 },
-  { name: 'Robert K.', quote: "Best mobile detailing I've found in the area. Professional and thorough.", rating: 5 },
-];
+// Real Google reviews, shortened to the first sentences that fit. Rotated per city so pages don't all repeat the same three.
+const excerpt = (quote: string, max = 220) => {
+  if (quote.length <= max) return quote;
+  const sentences = quote.match(/[^.!?]+[.!?]+/g) ?? [quote];
+  let out = '';
+  for (const s of sentences) {
+    if ((out + s).length > max && out) break;
+    out += s;
+  }
+  return `${out.trim()}…`;
+};
 
 export default function CityPage({ city }: CityPageProps) {
   const { openModal } = useLeadModal();
   const mainPackages = packages.filter(p => p.id !== 'windshield');
   const ceramicCity = ceramicCities.find((c) => c.name === city.name);
+  const cityIndex = Math.max(0, cityPages.findIndex((c) => c.slug === city.slug));
+  const testimonials = [0, 1, 2].map((i) => fallbackTestimonials[(cityIndex + i) % fallbackTestimonials.length]);
+  const pageUrl = `${SITE_URL}/areas/${city.slug}/`;
+
+  const schema = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: `Mobile Car Detailing in ${city.name}, ${city.state}`,
+      serviceType: 'Mobile car detailing',
+      url: pageUrl,
+      description: cityMetaDescription(city),
+      provider: { '@type': 'AutoWash', '@id': `${SITE_URL}/#business`, name: BUSINESS_NAME },
+      areaServed: {
+        '@type': 'City',
+        name: `${city.name}, ${city.state}`,
+        containedInPlace: { '@type': 'AdministrativeArea', name: `${city.county} County, ${city.state}` },
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: city.faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+        { '@type': 'ListItem', position: 2, name: `${city.name} Mobile Detailing`, item: pageUrl },
+      ],
+    },
+  ];
 
   return (
     <div className="bg-charcoal-950 text-white pt-24 md:pt-32">
       <SEO
-        title={`${city.name} Mobile Detailing, ${city.state} | ${BUSINESS_NAME}`}
-        description={`${city.name} mobile detailing by ${BUSINESS_NAME}. We come to your home or office. Ceramic coatings, full details, add-ons. ${GOOGLE_RATING} stars · ${GOOGLE_REVIEW_COUNT}+ reviews. Serving ${city.name} & surrounding areas.`}
+        title={cityMetaTitle(city)}
+        description={cityMetaDescription(city)}
         keywords={`mobile detailing ${city.name}, car detailing ${city.name} FL, ceramic coating ${city.name}, mobile car wash ${city.name}, auto detailing near me`}
-        canonical={`/areas/${city.slug}`}
+        canonical={`/areas/${city.slug}/`}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       {/* Hero */}
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0">
@@ -96,6 +143,9 @@ export default function CityPage({ city }: CityPageProps) {
               </h2>
               <p className="text-charcoal-300 text-lg leading-relaxed mb-6">
                 {city.description}
+              </p>
+              <p className="text-charcoal-300 text-lg leading-relaxed mb-6">
+                {city.localDetail}
               </p>
 
               {city.travelFee === false && (
@@ -206,7 +256,7 @@ export default function CityPage({ city }: CityPageProps) {
             {services.map((s) => (
               <Link
                 key={s.slug}
-                to={`/services/${s.slug}`}
+                to={`/services/${s.slug}/`}
                 className="group flex items-center justify-between gap-3 bg-charcoal-800/50 border border-charcoal-700 rounded-xl px-5 py-4 hover:border-accent/50 transition-colors"
               >
                 <span>
@@ -233,9 +283,12 @@ export default function CityPage({ city }: CityPageProps) {
       {/* Testimonials */}
       <section className="py-16 bg-charcoal-900">
         <div className="container-custom">
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-8 text-center">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-3 text-center">
             What Customers Say
           </h2>
+          <p className="text-charcoal-400 text-center mb-8">
+            From our {GOOGLE_REVIEW_COUNT} Google reviews · {GOOGLE_RATING} stars
+          </p>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {testimonials.map((t) => (
               <div key={t.name} className="bg-charcoal-800/50 border border-charcoal-700 rounded-2xl p-6">
@@ -244,8 +297,25 @@ export default function CityPage({ city }: CityPageProps) {
                     <Star key={i} className="w-4 h-4 text-gold fill-gold" />
                   ))}
                 </div>
-                <p className="text-charcoal-300 text-sm italic mb-4">"{t.quote}"</p>
+                <p className="text-charcoal-300 text-sm italic mb-4">"{excerpt(t.quote)}"</p>
                 <p className="font-semibold text-white text-sm">{t.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* City FAQs */}
+      <section className="py-16 bg-charcoal-950">
+        <div className="container-custom max-w-3xl">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-8 text-center">
+            {city.name} Detailing Questions
+          </h2>
+          <div className="space-y-4">
+            {city.faqs.map((f) => (
+              <div key={f.q} className="bg-charcoal-800/50 border border-charcoal-700 rounded-xl px-6 py-5">
+                <h3 className="font-semibold text-white mb-2">{f.q}</h3>
+                <p className="text-charcoal-300 leading-relaxed">{f.a}</p>
               </div>
             ))}
           </div>
@@ -260,11 +330,22 @@ export default function CityPage({ city }: CityPageProps) {
               Also Serving Nearby Areas
             </h3>
             <div className="flex flex-wrap justify-center gap-3">
-              {city.nearbyAreas.map((area) => (
-                <span key={area} className="px-4 py-2 bg-charcoal-800 border border-charcoal-700 rounded-full text-sm text-charcoal-300">
-                  {area}
-                </span>
-              ))}
+              {city.nearbyAreas.map((area) => {
+                const page = cityPages.find((c) => c.name === area);
+                return page ? (
+                  <Link
+                    key={area}
+                    to={`/areas/${page.slug}/`}
+                    className="px-4 py-2 bg-charcoal-800 border border-charcoal-700 rounded-full text-sm text-charcoal-200 hover:border-accent hover:text-accent transition-colors"
+                  >
+                    {area} mobile detailing
+                  </Link>
+                ) : (
+                  <span key={area} className="px-4 py-2 bg-charcoal-800 border border-charcoal-700 rounded-full text-sm text-charcoal-300">
+                    {area}
+                  </span>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -285,7 +366,7 @@ export default function CityPage({ city }: CityPageProps) {
               Book Now in {city.name}
             </button>
             <Link
-              to={ceramicCity ? `/ceramic-coating/${ceramicCity.citySlug}` : '/ceramic-coating'}
+              to={ceramicCity ? `/ceramic-coating/${ceramicCity.citySlug}/` : '/ceramic-coating/'}
               className="btn-secondary text-lg px-8 py-4"
             >
               {ceramicCity ? `Ceramic Coating in ${city.name}` : 'Ceramic Coating'}
