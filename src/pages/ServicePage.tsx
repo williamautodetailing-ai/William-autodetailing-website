@@ -25,10 +25,14 @@ export default function ServicePage({ service }: { service: ServicePageContent }
       name: service.name,
       serviceType: service.name,
       description: service.metaDescription,
-      url: `${SITE_URL}/services/${service.slug}`,
-      areaServed: { '@type': 'AdministrativeArea', name: 'Miami-Dade County, FL' },
+      url: `${SITE_URL}/services/${service.slug}/`,
+      areaServed: [
+        { '@type': 'AdministrativeArea', name: 'Miami-Dade County, FL' },
+        ...cityPages.map((c) => ({ '@type': 'City', name: `${c.name}, ${c.state}` })),
+      ],
       provider: {
-        '@type': 'AutomotiveBusiness',
+        '@type': 'AutoWash',
+        '@id': `${SITE_URL}/#business`,
         name: BUSINESS_NAME,
         telephone: PHONE,
         url: SITE_URL,
@@ -53,7 +57,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-        { '@type': 'ListItem', position: 2, name: service.name, item: `${SITE_URL}/services/${service.slug}` },
+        { '@type': 'ListItem', position: 2, name: service.name, item: `${SITE_URL}/services/${service.slug}/` },
       ],
     },
   ];
@@ -234,7 +238,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
             {related.map((r) => (
               <Link
                 key={r.slug}
-                to={`/services/${r.slug}`}
+                to={`/services/${r.slug}/`}
                 className="group flex items-center justify-between bg-charcoal-800 rounded-xl px-5 py-4 hover:border-accent/50 transition-colors"
               >
                 <span className="font-semibold text-white">{r.name}</span>
@@ -250,7 +254,7 @@ export default function ServicePage({ service }: { service: ServicePageContent }
             {cityPages.map((city) => (
               <Link
                 key={city.slug}
-                to={`/areas/${city.slug}`}
+                to={`/areas/${city.slug}/`}
                 className="px-3 py-1.5 rounded-full bg-charcoal-800 text-charcoal-300 text-sm hover:border-accent hover:text-accent transition-colors"
               >
                 {city.name}
