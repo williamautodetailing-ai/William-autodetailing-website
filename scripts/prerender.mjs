@@ -5,9 +5,10 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
-const { render, routes, ceramicCities, services, notFoundRoute } = await import(
-  pathToFileURL(join(root, '.ssr-tmp/entry-server.js')).href
-);
+const {
+  render, routes, ceramicCities, services, cityPages, cityMetaTitle, cityMetaDescription,
+  GOOGLE_RATING, GOOGLE_REVIEW_COUNT, notFoundRoute,
+} = await import(pathToFileURL(join(root, '.ssr-tmp/entry-server.js')).href);
 
 // Keep a pristine copy of the built shell, so running this script a second time
 // (e.g. a host that runs both `vite build` and the old build script) still works.
@@ -24,8 +25,8 @@ if (template.includes(EMPTY_ROOT)) {
 
 const SITE_URL = 'https://williamautodetailing.net';
 const BUSINESS = "William's Auto Detailing";
-const RATING = '5.0';
-const REVIEWS = '190';
+const RATING = GOOGLE_RATING;
+const REVIEWS = String(GOOGLE_REVIEW_COUNT);
 
 const pageMeta = {
   '/': {
@@ -70,25 +71,13 @@ const pageMeta = {
   },
 };
 
-const cityNames = {
-  'doral-mobile-detailing': 'Doral', 'miami-mobile-detailing': 'Miami',
-  'medley-mobile-detailing': 'Medley', 'kendall-mobile-detailing': 'Kendall',
-  'tamiami-mobile-detailing': 'Tamiami', 'sweetwater-mobile-detailing': 'Sweetwater',
-  'west-miami-mobile-detailing': 'West Miami', 'miami-beach-mobile-detailing': 'Miami Beach',
-  'south-miami-mobile-detailing': 'South Miami', 'coral-gables-mobile-detailing': 'Coral Gables',
-  'hialeah-gardens-mobile-detailing': 'Hialeah Gardens', 'olympia-heights-mobile-detailing': 'Olympia Heights',
-};
-
 function getMeta(url) {
   if (pageMeta[url]) return pageMeta[url];
 
   const cityMatch = url.match(/^\/areas\/(.+)$/);
-  if (cityMatch && cityNames[cityMatch[1]]) {
-    const name = cityNames[cityMatch[1]];
-    return {
-      title: `${name} Mobile Detailing, FL | ${BUSINESS}`,
-      description: `${name} mobile car detailing by ${BUSINESS}. We come to your home or office. Ceramic coatings, full details, add-ons. ${RATING} stars · ${REVIEWS}+ reviews. Serving ${name} & surrounding areas.`,
-    };
+  const city = cityMatch && cityPages.find((c) => c.slug === cityMatch[1]);
+  if (city) {
+    return { title: cityMetaTitle(city), description: cityMetaDescription(city) };
   }
 
   const serviceMatch = url.match(/^\/services\/(.+)$/);
@@ -116,7 +105,9 @@ function escapeHtml(str) {
 }
 
 function page(url, appHtml, meta) {
-  const canonical = `${SITE_URL}${url === '/' ? '/' : url}`;
+  // Netlify serves each page at its trailing-slash URL (/page 301s to /page/),
+  // so canonical and og:url use the slash form to match the URL that returns 200.
+  const canonical = `${SITE_URL}${url.endsWith('/') ? url : `${url}/`}`;
 
   return template
     .replace(EMPTY_ROOT, `<div id="root">${appHtml}</div>`)
