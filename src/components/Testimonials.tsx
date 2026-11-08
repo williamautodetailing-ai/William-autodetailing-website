@@ -5,7 +5,7 @@ import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT, GOOGLE_REVIEWS_URL } from '../const
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
-type Review = {
+export type Review = {
   name: string;
   role?: string;
   initials: string;
@@ -27,7 +27,7 @@ const getInitials = (name: string) =>
   name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]?.toUpperCase()).join('') || 'G';
 
 // Fallback reviews — shown in the prerendered HTML (good for SEO) and if the live Google fetch fails
-const fallbackTestimonials: Review[] = [
+export const fallbackTestimonials: Review[] = [
   {
     name: 'Jessica Hernandez',
     role: 'Doral, FL',
