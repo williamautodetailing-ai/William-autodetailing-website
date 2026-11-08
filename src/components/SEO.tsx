@@ -42,7 +42,10 @@ export default function SEO({ title, description, keywords, canonical, image }: 
     setMeta('twitter:image', ogImage);
 
     if (canonical) {
-      const href = canonical.startsWith('http') ? canonical : `${SITE_URL}${canonical}`;
+      // Netlify serves every page at its trailing-slash URL (it 301s /page to /page/),
+      // so the canonical must use the slash form or it points at a redirect.
+      const path = canonical.startsWith('http') ? canonical : `${SITE_URL}${canonical}`;
+      const href = path.endsWith('/') ? path : `${path}/`;
 
       let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
       if (!link) {
