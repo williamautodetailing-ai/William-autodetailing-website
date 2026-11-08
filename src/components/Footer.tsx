@@ -80,7 +80,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {services.map((s) => (
                 <li key={s.slug}>
-                  <Link to={`/services/${s.slug}`} className="text-charcoal-400 hover:text-accent transition-colors text-sm">
+                  <Link to={`/services/${s.slug}/`} className="text-charcoal-400 hover:text-accent transition-colors text-sm">
                     {s.name}
                   </Link>
                 </li>
@@ -94,7 +94,7 @@ export default function Footer() {
               {cityPages.map((city) => (
                 <li key={city.slug}>
                   <Link
-                    to={`/areas/${city.slug}`}
+                    to={`/areas/${city.slug}/`}
                     className="text-charcoal-400 hover:text-accent transition-colors text-sm"
                   >
                     {city.name}
