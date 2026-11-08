@@ -20,7 +20,7 @@ export default function ServiceCards() {
           {services.map((s) => (
             <Link
               key={s.slug}
-              to={`/services/${s.slug}`}
+              to={`/services/${s.slug}/`}
               className="group flex flex-col bg-charcoal-800/50 border border-charcoal-700 rounded-2xl p-6 hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10"
             >
               <h3 className="text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors">{s.name}</h3>
