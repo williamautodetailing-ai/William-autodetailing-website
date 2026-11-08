@@ -8,6 +8,7 @@ import HowItWorks from './components/HowItWorks';
 import Results from './components/home/Results';
 import PriceMenu from './components/home/PriceMenu';
 import ClosingCta from './components/home/ClosingCta';
+import ServiceAreas from './components/home/ServiceAreas';
 
 import Testimonials from './components/Testimonials';
 
@@ -41,6 +42,7 @@ function HomePage() {
       <PriceMenu />
       <HowItWorks />
       <Testimonials />
+      <ServiceAreas />
       <ClosingCta />
     </main>
   );
@@ -135,7 +137,9 @@ export const routes: string[] = [
 
 // Re-exported so the prerender script can build per-page meta from a single
 // source of truth (see scripts/prerender.mjs).
-export { ceramicCities, services };
+export { ceramicCities, services, cityPages };
+export { cityMetaTitle, cityMetaDescription } from './data/cities';
+export { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from './constants';
 
 /** Path rendered to dist/404.html; any URL no route matches shows the not-found page. */
 export const notFoundRoute = '/__not-found__';
