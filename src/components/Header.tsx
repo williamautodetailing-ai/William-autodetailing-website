@@ -7,7 +7,7 @@ import { useLeadModal } from '../context/LeadModalContext';
 import { PHONE } from '../constants';
 
 const serviceLinks = [
-  ...services.map((s) => ({ href: `/services/${s.slug}`, label: s.name })),
+  ...services.map((s) => ({ href: `/services/${s.slug}/`, label: s.name })),
   { href: '/detail-packages', label: 'Detail Packages' },
   { href: '/add-ons', label: 'Add-Ons' },
 ];
@@ -49,10 +49,12 @@ export default function Header() {
   }, [location.pathname]);
 
   // Pages that open on a full-bleed photo get a see-through header until you scroll
+  // The live site serves pages at trailing-slash URLs, so compare without the slash
+  const path = location.pathname.replace(/(.)\/$/, '$1');
   const hasPhotoHero =
-    ['/', '/ceramic-coating', '/maintenance-club', '/detail-packages'].includes(location.pathname) ||
-    location.pathname.startsWith('/services/');
-  const isActive = (href: string) => location.pathname === href;
+    ['/', '/ceramic-coating', '/maintenance-club', '/detail-packages'].includes(path) ||
+    path.startsWith('/services/');
+  const isActive = (href: string) => path === href.replace(/(.)\/$/, '$1');
 
   return (
     <>
@@ -128,7 +130,7 @@ export default function Header() {
                       {cityPages.map((city) => (
                         <Link
                           key={city.slug}
-                          to={`/areas/${city.slug}`}
+                          to={`/areas/${city.slug}/`}
                           className="px-3 py-2 rounded-lg text-sm text-charcoal-300 hover:text-accent hover:bg-charcoal-800 transition-colors"
                         >
                           {city.name}
@@ -220,7 +222,7 @@ export default function Header() {
                   {cityPages.map((city) => (
                     <Link
                       key={city.slug}
-                      to={`/areas/${city.slug}`}
+                      to={`/areas/${city.slug}/`}
                       className="text-charcoal-300 hover:text-accent text-sm py-2 px-2 rounded-lg hover:bg-charcoal-800 transition-colors"
                     >
                       {city.name}
