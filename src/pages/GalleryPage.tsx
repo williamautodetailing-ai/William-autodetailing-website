@@ -47,7 +47,7 @@ export default function GalleryPage() {
             {services.map((s) => (
               <Link
                 key={s.slug}
-                to={`/services/${s.slug}`}
+                to={`/services/${s.slug}/`}
                 className="px-4 py-2 rounded-full bg-charcoal-800 border border-charcoal-700 text-charcoal-200 text-sm hover:border-accent hover:text-accent transition-colors"
               >
                 {s.name}
