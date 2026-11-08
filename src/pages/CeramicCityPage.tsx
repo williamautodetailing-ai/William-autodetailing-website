@@ -276,7 +276,7 @@ export default function CeramicCityPage({ content }: CeramicCityPageProps) {
               Get My Ceramic Quote
             </button>
             {city && (
-              <Link to={`/areas/${city.slug}`} className="btn-secondary text-lg px-8 py-4">
+              <Link to={`/areas/${city.slug}/`} className="btn-secondary text-lg px-8 py-4">
                 All {content.name} Detailing
               </Link>
             )}
