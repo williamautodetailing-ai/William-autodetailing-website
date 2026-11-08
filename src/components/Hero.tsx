@@ -29,6 +29,9 @@ export default function Hero() {
           data-reveal
           className="font-display font-bold text-white tracking-tight leading-[0.95] text-[clamp(44px,7.2vw,108px)] max-w-[14ch]"
         >
+          <span className="block mb-4 font-sans font-semibold tracking-normal leading-snug text-lg md:text-xl text-white/85">
+            Mobile car detailing in Miami &amp; Doral
+          </span>
           Showroom finish in your driveway.
         </h1>
 
