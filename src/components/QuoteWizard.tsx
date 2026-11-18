@@ -107,6 +107,9 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [carModel, setCarModel] = useState('');
+  // SMS consent for A2P 10DLC: two separate, optional, unchecked boxes (never a condition of booking)
+  const [smsServiceConsent, setSmsServiceConsent] = useState(false);
+  const [smsMarketingConsent, setSmsMarketingConsent] = useState(false);
   const [state, setState] = useState<WizardState>('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -196,6 +199,8 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
       offer ? `Offer includes: ${offer.upgrades.map(u => u.title).join(', ')}` : '',
       selectedAddons.length ? `Add-ons: ${selectedAddons.join(', ')}` : '',
       carModel ? `Car: ${carModel}` : '',
+      // Record of SMS consent as given on the website form, with the time it was submitted
+      `SMS consent (website quote form, ${new Date().toISOString()}): service ${smsServiceConsent ? 'YES' : 'no'}, marketing ${smsMarketingConsent ? 'YES' : 'no'}`,
     ].filter(Boolean).join(' · ');
 
     try {
@@ -640,6 +645,28 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
                   autoComplete="off"
                   className="w-full bg-charcoal-800 border border-charcoal-700 rounded-lg px-4 py-3 text-white placeholder-charcoal-500 focus:outline-none focus:border-accent transition-colors text-base" />
               </div>
+            </div>
+
+            <div className="space-y-3 mt-5">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" checked={smsServiceConsent} onChange={e => setSmsServiceConsent(e.target.checked)}
+                  className="mt-0.5 w-5 h-5 flex-shrink-0 accent-accent" />
+                <span className="text-charcoal-400 text-xs leading-relaxed">
+                  I agree to receive appointment and service text messages from WILLIAMS AUTO DETAILING LLC at the number provided. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.
+                </span>
+              </label>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" checked={smsMarketingConsent} onChange={e => setSmsMarketingConsent(e.target.checked)}
+                  className="mt-0.5 w-5 h-5 flex-shrink-0 accent-accent" />
+                <span className="text-charcoal-400 text-xs leading-relaxed">
+                  I agree to receive promotional text messages, such as offers and service announcements, from WILLIAMS AUTO DETAILING LLC at the number provided. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.
+                </span>
+              </label>
+              <p className="text-charcoal-500 text-xs leading-relaxed">
+                Consent is not required to get a quote or book. See our{' '}
+                <a href="/privacy-policy/" target="_blank" rel="noopener" className="underline hover:text-accent">Privacy Policy</a>{' '}and{' '}
+                <a href="/terms/" target="_blank" rel="noopener" className="underline hover:text-accent">Terms</a>.
+              </p>
             </div>
 
             {errorMsg && <p className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 mt-4">{errorMsg}</p>}
