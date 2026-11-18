@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { BUSINESS_NAME, EMAIL, PHONE } from '../constants';
 import SEO from '../components/SEO';
 
-const LAST_UPDATED = 'June 17, 2026';
+const LAST_UPDATED = 'November 17, 2026';
 
 const sections = [
   {
@@ -49,6 +49,19 @@ const sections = [
           'Business Transfers: In the event of a merger, acquisition, or sale of our business, your information may be transferred as part of that transaction.',
           'With Your Consent: We may share information for any other purpose with your explicit consent.',
         ],
+      },
+      {
+        subtitle: null,
+        body: `No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Text messaging originator opt-in data and consent are not shared with any third parties. The exceptions above do not include SMS opt-in data or consent.`,
+      },
+    ],
+  },
+  {
+    title: 'Text Messages (SMS)',
+    content: [
+      {
+        subtitle: null,
+        body: `If you check a text message consent box on our website, ${BUSINESS_NAME} may send text messages to the number you provided. Appointment and service messages (confirmations, reminders, scheduling updates and replies to your questions) and promotional messages (offers and service announcements) are opted into separately, and neither is required to get a quote or book a service. Message frequency varies. Message and data rates may apply. Reply STOP to any message to opt out, or HELP for help. See our Terms for the full SMS program terms.`,
       },
     ],
   },
@@ -139,7 +152,7 @@ export default function PrivacyPolicyPage() {
       <SEO
         title={`Privacy Policy | ${BUSINESS_NAME}`}
         description={`Privacy policy for ${BUSINESS_NAME}. Learn how we collect, use, and protect your personal information when you use our mobile detailing services.`}
-        canonical="/privacy-policy"
+        canonical="/privacy-policy/"
       />
       <div className="container-custom max-w-4xl">
         {/* Header */}
