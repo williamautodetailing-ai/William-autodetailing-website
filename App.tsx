@@ -19,15 +19,17 @@ import Hero from './components/Hero';
 
 
 import HowItWorks from './components/HowItWorks';
+import Results from './components/home/Results';
+import PriceMenu from './components/home/PriceMenu';
+import ClosingCta from './components/home/ClosingCta';
+import ServiceAreas from './components/home/ServiceAreas';
 
 
 
-import Services from './components/Services';
 
 
 
 import { services } from './data/services';
-import ServiceCards from './components/ServiceCards';
 
 
 
@@ -35,11 +37,9 @@ import Testimonials from './components/Testimonials';
 
 
 
-import ServiceArea from './components/ServiceArea';
 
 
 
-import About from './components/About';
 
 
 
@@ -60,9 +60,9 @@ import LeadFormModal from './components/LeadFormModal';
 
 
 
-import PromotionModal from './components/PromotionModal';
 
 import SEO from './components/SEO';
+import { useReveal } from './hooks/useReveal';
 
 
 
@@ -83,6 +83,7 @@ const AddOnsPage = lazy(() => import('./pages/AddOnsPage'));
 
 
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const TermsPage = lazy(() => import('./pages/TermsPage'));
 
 
 
@@ -102,6 +103,8 @@ const ReferralPage = lazy(() => import('./pages/ReferralPage'));
 const SpecialOfferPage = lazy(() => import('./pages/SpecialOfferPage'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const ServicePage = lazy(() => import('./pages/ServicePage'));
+const MaintenanceClubPage = lazy(() => import('./pages/MaintenanceClubPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 
 
@@ -166,41 +169,26 @@ function ScrollToTop() {
 
 
 function HomePage() {
+  useReveal();
   return (
 
 
 
     <main>
       <SEO
-        title="William's Auto Detailing | #1 Mobile Car Detailing in Miami, FL"
-        description="William's Auto Detailing — Miami's top-rated mobile car detailing. We come to your home, office, or apartment. Signature detail, deep-clean packages, ceramic coating, and add-ons. 5.0 stars · 180+ Google reviews. Serving all of Miami-Dade County."
+        title="Mobile Auto Detailing Miami & Doral | William's Auto Detailing"
+        description="Professional mobile car detailing in Miami, Doral and surrounding areas. Interior and exterior detailing, ceramic coatings and paint correction. Book today."
         keywords="mobile car detailing Miami, auto detailing Miami FL, ceramic coating Miami, car detailing Doral, mobile detailing near me, car detailing Miami-Dade, best car detailing Miami"
         canonical="/"
       />
 
       <Hero />
-
-
-
+      <Results />
+      <PriceMenu />
       <HowItWorks />
-
-
-
-      <Services />
-
-      <ServiceCards />
-
-
-
       <Testimonials />
-
-
-
-      <ServiceArea />
-
-
-
-      <About />
+      <ServiceAreas />
+      <ClosingCta />
 
 
 
@@ -268,7 +256,8 @@ function AppLayout() {
 
   const location = useLocation();
 
-  const isLanding = location.pathname === '/book' || location.pathname === '/199-special';
+  const path = location.pathname.replace(/\/$/, '');
+  const isLanding = path === '/book' || path === '/199-special';
 
 
 
@@ -315,11 +304,13 @@ function AppLayout() {
 
           <Route path="/add-ons" element={<AddOnsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/maintenance-club" element={<MaintenanceClubPage />} />
           <Route path="/services/:slug" element={<ServiceRoute />} />
 
 
 
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
 
 
 
@@ -336,7 +327,7 @@ function AppLayout() {
 
 
 
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
 
 
 
@@ -353,10 +344,6 @@ function AppLayout() {
 
 
       <LeadFormModal />
-
-
-
-      <PromotionModal />
 
 
 
