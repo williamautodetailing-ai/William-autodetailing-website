@@ -162,8 +162,11 @@ export default function Footer() {
               <p className="text-charcoal-500 text-sm">
                 © {new Date().getFullYear()} {BUSINESS_NAME}. All rights reserved.
               </p>
-              <Link to="/privacy-policy" className="text-charcoal-500 hover:text-accent transition-colors text-sm">
+              <Link to="/privacy-policy/" className="text-charcoal-500 hover:text-accent transition-colors text-sm">
                 Privacy Policy
+              </Link>
+              <Link to="/terms/" className="text-charcoal-500 hover:text-accent transition-colors text-sm">
+                Terms &amp; SMS Terms
               </Link>
             </div>
             <button onClick={() => openModal()} className="btn-primary">
