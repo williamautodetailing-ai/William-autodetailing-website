@@ -168,7 +168,7 @@ export const services: ServicePageContent[] = [
       "Paint correction fixes the paint itself rather than hiding the problem. After a full wash and clay bar and iron decontamination, we use a machine polisher and professional compounds and polishes to carefully level the clear coat and remove swirls, light scratches and oxidation. The result is paint with real depth, sharp reflections and a gloss that wax alone can never give you.",
       "Paint correction is the essential first step before a ceramic coating, because a coating locks in whatever finish is underneath it. Every one of our ceramic coating packages includes a paint enhancement polish, and The Perfect Detail includes it too. For heavier defects, we'll inspect your paint and give you an honest quote and realistic expectations before we start.",
     ],
-    price: 'From $550',
+    price: 'From $575',
     priceNote: 'Paint enhancement polish is included in The Perfect Detail and in every ceramic coating package. Heavier correction is quoted based on paint condition.',
     duration: '4–8 hours',
     bookAs: 'The Perfect Detail',
@@ -397,7 +397,7 @@ export const services: ServicePageContent[] = [
       { q: 'How much does an engine bay detail cost?', a: 'An engine bay detail is $50 and can be added to any detail package.' },
     ],
     images: [
-      { src: '/images/optimized/promotions/engine-bay-before.webp', alt: 'Dirty engine bay before an engine bay detail', caption: 'Before', description: 'Dust, grime and baked-on buildup that makes the engine bay look neglected and hides leaks.' },
+      { src: '/images/optimized/promotions/engine-bay-before.webp', alt: 'Dirty engine bay before an engine bay detail', caption: 'Before', description: 'A film of road dust over the covers, hoses and plastics, which look grey and faded.' },
       { src: '/images/optimized/promotions/engine-bay-after.webp', alt: 'Clean, dressed engine bay after an engine bay detail in Miami', caption: 'After', description: 'Degreased, cleaned and dressed — plastics and rubber protected with a clean, like-new finish.' },
     ],
     related: ['exterior-detailing', 'headlight-restoration', 'paint-correction'],
