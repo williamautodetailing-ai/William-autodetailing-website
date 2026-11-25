@@ -102,7 +102,7 @@ export default function DetailPackagesPage() {
         imageAlt="Mercedes-Benz interior after a full detail in Miami"
         title="Detail packages."
         sub="Three levels of full detail, inside and out, done at your home or office."
-        price="From $174.99"
+        price="From $199.99"
         priceNote="Signature · sedans"
         action={<a href="#packages" className="btn-primary text-lg px-8 py-4">Compare Packages</a>}
       />
