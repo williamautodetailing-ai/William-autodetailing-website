@@ -10,6 +10,7 @@ import { services } from '../data/services';
 import { maintenancePlans, maintenancePlanBookingName } from '../data/maintenanceClub';
 import type { SpecialOffer } from '../data/offers';
 import { useLeadModal } from '../context/LeadModalContext';
+import { SMS_SERVICE_CONSENT, SMS_MARKETING_CONSENT, smsConsentRecord } from '../data/smsConsent';
 
 /**
  * A "direct" booking is anything the visitor already picked on a page that isn't one of
@@ -200,7 +201,7 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
       selectedAddons.length ? `Add-ons: ${selectedAddons.join(', ')}` : '',
       carModel ? `Car: ${carModel}` : '',
       // Record of SMS consent as given on the website form, with the time it was submitted
-      `SMS consent (website quote form, ${new Date().toISOString()}): service ${smsServiceConsent ? 'YES' : 'no'}, marketing ${smsMarketingConsent ? 'YES' : 'no'}`,
+      smsConsentRecord('website quote form', smsServiceConsent, smsMarketingConsent),
     ].filter(Boolean).join(' · ');
 
     try {
@@ -652,14 +653,14 @@ export default function QuoteWizard({ offer }: { offer?: SpecialOffer } = {}) {
                 <input type="checkbox" checked={smsServiceConsent} onChange={e => setSmsServiceConsent(e.target.checked)}
                   className="mt-0.5 w-5 h-5 flex-shrink-0 accent-accent" />
                 <span className="text-charcoal-400 text-xs leading-relaxed">
-                  I agree to receive appointment and service text messages from WILLIAMS AUTO DETAILING LLC at the number provided. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.
+                  {SMS_SERVICE_CONSENT}
                 </span>
               </label>
               <label className="flex items-start gap-3 cursor-pointer">
                 <input type="checkbox" checked={smsMarketingConsent} onChange={e => setSmsMarketingConsent(e.target.checked)}
                   className="mt-0.5 w-5 h-5 flex-shrink-0 accent-accent" />
                 <span className="text-charcoal-400 text-xs leading-relaxed">
-                  I agree to receive promotional text messages, such as offers and service announcements, from WILLIAMS AUTO DETAILING LLC at the number provided. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.
+                  {SMS_MARKETING_CONSENT}
                 </span>
               </label>
               <p className="text-charcoal-500 text-xs leading-relaxed">
