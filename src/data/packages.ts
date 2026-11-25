@@ -42,8 +42,8 @@ export const packages: DetailPackage[] = [
     guidance: 'Perfect for daily drivers who want their car looking clean without going all-in on a full detail. Ideal for busy professionals.',
     duration: '2 hours',
     pricing: {
-      sedan: 174.99,
-      suv: 194.99,
+      sedan: 199.99,
+      suv: 219.99,
     },
     features: [
       'Wheel faces, wells & tires cleaned + dressed',
@@ -67,8 +67,8 @@ export const packages: DetailPackage[] = [
     guidance: 'Inside and out. Our most-booked package. Great for families, commuters, and anyone who wants a real, thorough detail.',
     duration: '3 hours',
     pricing: {
-      sedan: 300.00,
-      suv: 325.00,
+      sedan: 325.00,
+      suv: 350.00,
     },
     features: [
       'Everything in Signature Detail',
@@ -89,8 +89,8 @@ export const packages: DetailPackage[] = [
     guidance: "Selling the car, recovering from a road trip, or the interior has seen some things — this is the one. The most thorough detail we do, start to finish.",
     duration: '4–5 hours',
     pricing: {
-      sedan: 550.00,
-      suv: 650.00,
+      sedan: 575.00,
+      suv: 675.00,
     },
     features: [
       'Paint enhancement polish — removes light swirls, restores gloss & clarity',
