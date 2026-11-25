@@ -168,6 +168,9 @@ export default function Footer() {
               <Link to="/terms/" className="text-charcoal-500 hover:text-accent transition-colors text-sm">
                 Terms &amp; SMS Terms
               </Link>
+              <Link to="/text-updates/" className="text-charcoal-500 hover:text-accent transition-colors text-sm">
+                Text updates
+              </Link>
             </div>
             <button onClick={() => openModal()} className="btn-primary">
               Book Your Detail Now
