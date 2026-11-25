@@ -65,6 +65,14 @@ const pageMeta = {
     title: `Signature Detail Special — Mobile Detailing Miami | ${BUSINESS}`,
     description: `Signature Detail + upgraded windshield sealant + engine bay detail. We come to you anywhere in Miami-Dade. ${RATING}★ · ${REVIEWS}+ reviews.`,
   },
+  '/text-updates': {
+    title: `Text Updates | ${BUSINESS}`,
+    description: `Sign up for appointment, service and promotional text messages from ${BUSINESS}. Msg frequency varies. Msg & data rates may apply. Reply STOP to opt out.`,
+  },
+  '/terms': {
+    title: `Terms & SMS Terms | ${BUSINESS}`,
+    description: `Website terms and text message (SMS) program terms for ${BUSINESS}, including message frequency, opt-out and help instructions.`,
+  },
   '/privacy-policy': {
     title: `Privacy Policy | ${BUSINESS}`,
     description: `Privacy policy for ${BUSINESS}. Learn how we collect, use, and protect your personal information when you use our mobile detailing services.`,
