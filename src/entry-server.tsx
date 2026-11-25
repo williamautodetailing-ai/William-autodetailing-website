@@ -18,6 +18,8 @@ import CeramicCoatingPage from './pages/CeramicCoatingPage';
 import DetailPackagesPage from './pages/DetailPackagesPage';
 import AddOnsPage from './pages/AddOnsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
+import TextUpdatesPage from './pages/TextUpdatesPage';
 import CityPage from './pages/CityPage';
 import CeramicCityPage from './pages/CeramicCityPage';
 import GalleryPage from './pages/GalleryPage';
@@ -90,6 +92,8 @@ function AppLayout() {
             <Route path="/maintenance-club" element={<MaintenanceClubPage />} />
             <Route path="/services/:slug" element={<ServiceRoute />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/text-updates" element={<TextUpdatesPage />} />
             <Route path="/areas/:slug" element={<CityRoute />} />
             <Route path="/book" element={<LandingPage />} />
             <Route path="/refer" element={<ReferralPage />} />
@@ -127,6 +131,8 @@ export const routes: string[] = [
   '/gallery',
   '/maintenance-club',
   '/privacy-policy',
+  '/terms',
+  '/text-updates',
   '/book',
   '/refer',
   '/199-special',
