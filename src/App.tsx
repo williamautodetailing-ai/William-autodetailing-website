@@ -83,6 +83,8 @@ const AddOnsPage = lazy(() => import('./pages/AddOnsPage'));
 
 
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const TermsPage = lazy(() => import('./pages/TermsPage'));
+const TextUpdatesPage = lazy(() => import('./pages/TextUpdatesPage'));
 
 
 
@@ -309,6 +311,8 @@ function AppLayout() {
 
 
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/text-updates" element={<TextUpdatesPage />} />
 
 
 
